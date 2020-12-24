@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.mapper.MemberMapper">
+<resultMap type="java.util.HashMap" id="hashmapVO">
+		<result property="email" column="email" />
+		<result property="pw" column="pw" />
+		<result property="name" column="name" />
+		<result property="nick" column="nick" />
+		<result property="phone" column="phone" />
+		<result property="grade" column="grade" />
+		<result property="local" column="local" />
+		<result property="authkey" column="authkey" />
+		<result property="status" column="status" />
+	</resultMap>
+	
+	
+<select id="getMemberlist" resultType="MemberVO">
+		SELECT * FROM smember order by email
+	</select>
+	<insert id="insertMember" parameterType="MemberVO" >
+		INSERT INTO smember VALUES 
+			(#{email},#{pw},#{name},#{nick},#{phone},#{grade},#{local},#{authKey},#{status})
+	</insert>
+	
+	<select id="selectMember"  parameterType="MemberVO" resultType="MemberVO">
+		SELECT * FROM smember WHERE email=#{email}
+	</select>
+	
+	<select id="userCheck" parameterType="MemberVO" resultType="int">
+		SELECT count(*) FROM smember WHERE email=#{email} and pw =#{pw}
+	</select>
+	
+	<delete id="deleteMember" parameterType="MemberVO">
+		DELETE FROM smember WHERE email=#{email}
+	</delete>
+	
+	<update id="updateAuthKey" parameterType="HashMap">
+		update smember set authKey =#{authKey} where email=#{email}
+	</update>
+	
+	<update id="updateAuthStatus" parameterType="HashMap">
+	update smember set status =#{status} where email=#{email} and authey=#{authKey}
+	</update>
+</mapper>

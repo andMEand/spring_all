@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	
+	<!-- SMTP설정: https://seonhyungjo.github.io/Spring-SMTP/ -->
+	<!-- Gamil 사용 -->
+	<!-- Authentication failed 에러 발생시 구글 계정 -> 보안 -> 보안 수준이 낮은 앱의 액세스에 대해 사용을 허가해주면 된다 -->
+	<!-- 
+	<bean id="mailSender"
+	class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name ="host" value="smtp.gmail.com"/>
+		<property name ="port" value="587" />
+		<property name ="username" value="지메일 이메일 주소"/>
+		<property name ="password" value="지메일 패스워드" />
+		<property name ="javaMailProperties">
+			<props>
+				<prop key="mail.smtp.auth">true</prop>
+				<prop key="mail.smtp.starttls.enable">true</prop>
+				<prop key="mail.smtp.quitwait">false</prop>
+			</props>
+		</property>
+	</bean>
+-->
+	 
+	 <!-- Naver 사용: smtp 사용가능하도록 설정확인 할것 -->
+	 <!-- 네이버 설저이 https://mail.naver.com/option/imap -->
+  <bean id="mailSender"
+	 class="org.springframework.mail.javamail.JavaMailSenderImpl">
+	 	<property name ="host" value="smtp.naver.com"/>
+		<property name ="port" value="465" />
+		<property name ="username" value="081749@naver.com"/>
+		<property name ="password" value="Free3377!" />
+		<property name ="javaMailProperties">
+			<props>
+				<prop key="mail.smtp.starttls.enable">true</prop>
+				<prop key="mail.smtp.auth">true</prop>
+				<prop key="mail.smtps.ssl.checkserveridentity">true</prop>
+				<prop key="mail.smtp.ssl.trust">*</prop>
+				<prop key="mail.dubug">true</prop>
+				<prop key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop>
+			</props>
+		</property>
+	</bean> 
+	<!-- Daum 사용: smtp 사용가능하도록 설정확인 할것 -->
+	<!-- 다음 설정
+	https://mail.daum.net/?nil_profile=mini&nil_src=mail#setting/Pop3IMAP
+	<bean id="mailSender"
+	class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name ="host" value="smtp.daum.net"/>
+		<property name ="port" value="465" />
+		<property name ="username" value="다음 이메일 주소"/>
+		<property name ="password" value="다음 패스워드" />
+		<property name ="javaMailProperties">
+			<props>
+				<prop key="mail.smtp.starttls.enable">true</prop>
+				<prop key="mail.smtp.auth">true</prop>
+				<prop key="mail.smtps.ssl.checkserveridentity">true</prop>
+				<prop key="mail.smtp.ssl.trust">*</prop>
+				<prop key="mail.dubug">true</prop>
+				<prop key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop>
+			</props>
+			</property>
+	</bean>
+	 -->
+	
+		
+</beans>

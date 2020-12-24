@@ -1,0 +1,8 @@
+create table people(
+id varchar2(10) primary key,
+name varchar2(20),
+job varchar2(20),
+address varchar2(40),
+bloodtype varchar2(2)
+);
+select*from people;

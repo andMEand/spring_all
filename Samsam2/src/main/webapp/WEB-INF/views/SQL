@@ -1,0 +1,14 @@
+drop table smember;
+
+create table smember(
+email varchar2(50)not null primary key,
+pw varchar2(20),
+name varchar2(20),
+nick varchar2(50),
+phone number,
+local varchar2(20),
+img varchar2(100),
+grade  varchar2(10)
+);
+
+

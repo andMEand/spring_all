@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.mapper.MemberMapper">
+<select id="getMemberlist" resultType="MemberVO">
+		SELECT * FROM smember order by email
+	</select>
+	<insert id="insertMember" parameterType="MemberVO" >
+		INSERT INTO smember VALUES 
+			(#{email},#{pw},#{name},#{nick},#{phone},#{grade},#{local})
+	</insert>
+	
+	<select id="selectMember"  parameterType="MemberVO" resultType="MemberVO">
+		SELECT * FROM smember WHERE email=#{email}
+	</select>
+	
+	<select id="userCheck" parameterType="MemberVO" resultType="int">
+		SELECT count(*) FROM smember WHERE email=#{email} and pw =#{pw}
+	</select>
+	
+	<delete id="deleteMember" parameterType="MemberVO">
+		DELETE FROM smember WHERE email=#{email}
+	</delete>
+</mapper>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.spring.mapper.PeopleMapper">
+	<!-- ID는 Mapper.java(여기선MemberMapper.java) 에 동일하게 사용해야 된다 -->
+	<select id="getPeoplelist" resultType="PeopleVO">
+		SELECT * FROM PEOPLE ORDER BY ID
+	</select>
+	
+	
+	<insert id="insertPeople" parameterType="PeopleVO" >
+		INSERT INTO people VALUES (#{id },#{name},#{job}, #{address}, #{bloodtype})
+	</insert>
+
+
+	<update id="deletePeople" parameterType="String">
+		DELETE FROM people WHERE id=#{id}
+		
+	</update>
+	</mapper>
+<!--경로가 없는 이유는  루트컨텍스트에서 에리스시스에서 기재했따-->
+<!--/파라메터 받아올때 parameterType --> 
+<!-- 데이터를 보낼때 resultType-->

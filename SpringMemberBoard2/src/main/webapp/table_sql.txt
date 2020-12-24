@@ -1,0 +1,55 @@
+drop table smember;
+
+create table smember(
+id varchar2(15),
+password varchar2(10),
+name varchar2(15),
+age number,
+gender varchar2(5),
+email varchar2(30),
+primary key(id)
+);
+
+create table smemberboard2(
+num number,
+id varchar2(20),
+subject varchar2(50),
+content varchar2(2000),
+org_file varchar2(50),
+up_file varchar2(50),
+re_ref number,
+re_lev number,
+re_seq number,
+readcount number,
+boarddate date,
+primary key(num)
+);
+------------
+drop table smember;
+
+create table smember(
+id varchar2(15),
+password varchar2(10),
+name varchar2(15),
+age number,
+gender varchar2(5),
+email varchar2(30),
+primary key(id)
+);
+
+create table smemberboard2(
+num number,
+id varchar2(20),   :회원아이디
+subject varchar2(50),
+content varchar2(2000),
+//원본 & 업로드된 파일의 이름
+org_file varchar2(50), 
+up_file varchar2(50),
+
+re_ref number, 		: 원글 답글 그룹으로 만들기
+re_lev number, 		: 들여쓰기 위해
+re_seq number,		:원글과 답글에 대한 순서
+readcount number, 	:조회수
+boarddate date,		: 글쓴날짜
+primary key(num)
+);
