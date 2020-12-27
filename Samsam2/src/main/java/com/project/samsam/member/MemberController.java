@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -53,7 +54,7 @@ public class MemberController {
 		return "member/joinForm";
 	}
 
-	@RequestMapping("/loginform.me")
+	@RequestMapping("loginform.me")
 	public String loginForm() throws Exception {
 		return "member/loginForm";
 	}
@@ -75,7 +76,7 @@ public class MemberController {
 //	}
 	
 	@RequestMapping("/signUp.me")
-	public void signUp(@ModelAttribute MemberVO memberVO) {
+	public String signUp(@ModelAttribute MemberVO memberVO) {
 		System.out.println(memberVO.getNick());
 		 // DB에 기본정보 insert
 		memberService.insertMember(memberVO);
@@ -91,16 +92,18 @@ public class MemberController {
 		
 		//DB에 authKey업데이트
 		memberService.updateAuthKey(map);
+		return "member/email_check";
 		
 	}
 	
 	 @GetMapping("/signUpConfirm.me")
 	 public ModelAndView signUpConfirm(@RequestParam HashMap<String, Integer> map, ModelAndView mav){
 	    //email, authKey 가 일치할경우 authStatus 업데이트
+		System.out.println("연결된 email :" + map.get("email"));
 	    memberService.updateAuthStatus(map);
 	    
-	    mav.addObject("display", "/view/member/signUpConfirm.me");
-	    mav.setViewName("/view/index");
+	    mav.addObject("display", "/member/loginForm.jsp");
+	    mav.setViewName("/member/loginForm");
 	    return mav;
 	}
 

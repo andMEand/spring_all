@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.Random;
 
 import javax.mail.MessagingException;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
@@ -46,13 +47,13 @@ public class MailSendService {
             sendMail.setSubject("회원가입 이메일 인증");
             sendMail.setText(new StringBuffer().append("<h1>[이메일 인증]</h1>")
             .append("<p>아래 링크를 클릭하시면 이메일 인증이 완료됩니다.</p>")
-            .append("<a href='http://localhost:8080/member/signUpConfirm?email=")
+            .append("<a href='http://localhost:8080/samsam/signUpConfirm.me?email=")
             .append(email)
             .append("&authKey=")
             .append(authKey)
             .append("' target='_blenk'>이메일 인증 확인</a>")
             .toString());
-            sendMail.setFrom("081749@gmail.com", "관리자");
+            sendMail.setFrom("081749@gmail.com", "삼삼하개admin");
             sendMail.setTo(email);
             sendMail.send();
         } catch (MessagingException e) {

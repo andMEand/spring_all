@@ -71,8 +71,8 @@ a:hover{
 <tr margin="2px 2px"><td colspan="2" align=center >
 <b> <font size=5>로그인 페이지 </font></b></td></tr>
 
-<tr><td>아이디: </td><td><input type="text" name="id"/></td></tr>
-<tr><td>비밀번호: </td><td><input type="password" name="password"/></td></tr>
+<tr><td>아이디: </td><td><input type="text" name="email"/></td></tr>
+<tr><td>비밀번호: </td><td><input type="password" name="pw"/></td></tr>
 
 
 <tr><td colspan="2" align=center>
