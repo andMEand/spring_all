@@ -13,4 +13,6 @@ public interface BoardService {
 		  public BoardVO boardModifyForm(int num);
 		  public int boardModify(BoardVO modifyboard);
 		  public int boardDelete(HashMap<String,String> hashmap);
+		  
+		  
 }

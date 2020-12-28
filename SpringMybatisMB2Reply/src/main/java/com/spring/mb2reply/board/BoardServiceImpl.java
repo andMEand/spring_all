@@ -15,6 +15,8 @@ public class BoardServiceImpl implements BoardService {
 
 	@Autowired //Mybatis(ibatis) 라이브러리가 제공하는 클래스
 	private SqlSession sqlSession;
+	
+	
 
 	@Override
 	public int getListCount() {
