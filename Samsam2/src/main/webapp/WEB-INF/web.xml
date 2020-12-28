@@ -49,6 +49,6 @@
 </filter-mapping>
 <!-- webapp folder에 배치되어야 한다 -->
 <welcome-file-list>
-	<welcome-file>loginform.me</welcome-file>
+	<welcome-file>home.me</welcome-file>
 </welcome-file-list>
 </web-app>

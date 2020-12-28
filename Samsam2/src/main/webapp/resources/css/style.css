@@ -200,29 +200,8 @@ h6 {
     background: url("./img/icon.png");
     margin: 0 3px;
 }
-.header .header-icon a.icon1 {
-    background-position: 0 0;
-}
-.header .header-icon a.icon2 {
-    background-position: 0 -60px;
-}
-.header .header-icon a.icon3 {
-    background-position: 0 -120px;
-}
-.header .header-icon a.icon4 {
-    background-position: 0 -180px;
-}
-.header .header-icon a.icon1:hover {
-    background-position: -60px 0;
-}
-.header .header-icon a.icon2:hover {
-    background-position: -60px -60px;
-}
-.header .header-icon a.icon3:hover {
-    background-position: -60px -120px;
-}
-.header .header-icon a.icon4:hover {
-    background-position: -60px -180px;
+.header .home_search i{
+	padding:0;
 }
 
 /* float: left로 인한 영역깨짐(height:0) 방지법 
@@ -357,7 +336,7 @@ h6 {
     margin: 0 30px 30px 0;
 }
 .cont .col1 {
-    border-botton: 1px solid #c8c8c8;
+    border-bottom: 1px solid #c8c8c8;
 }
 .cont .col2 {}
 .cont .col3 {}

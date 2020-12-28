@@ -1,19 +1,19 @@
 <%@ page language = "java" contentType = "text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page import="java.util.*"%>
+<%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="com.project.samsam.board.*" %>
+<%
+	List<BoardVO2> searchList =(List<BoardVO2>)request.getAttribute("searchList");
+ %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
     
   <link href="resources/css/style.css" rel="stylesheet" />
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
-  <script>
-  	function searchList(){
-  		if(window.event.keycode==13){
-  			
-  		}
-  	}
-  </script>
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
+  
   <title>나의 반려친구, 삼삼하개</title>
 </head>
 <body>
@@ -26,9 +26,7 @@
                     <div class="header-menu">
                     <span id="home_search">
                     	<form action="home_search.me" method="post" name="home_search">
-                    		<input type="text" name="keyword" value="" onkeypress="searchList()">
-                    		
-                    		<button type="submit" class="h_sc"><i class="fas fa-search"></i></button>
+                    		<input type="submit" class="h_search" value="f002">
                     	</form>
                       </span> 
                         <a href="loginform.me">Login</a>
@@ -67,16 +65,33 @@
                 </div>
             </div>
 
-            <div id="cont_ban">
+            <div id="cont_search_list">
                 <div class="container">
-                    <div class="ban">
-                        <a href="#" class="prev"><span class="ir_pm">이전 이미지</span></a>
-                        <ul>
-                            <li class="ban_img1"><a href="#"><img src="img/banner_link1.jpg" alt="웹 표준 지침서 보기"></a></li>
-                            <li class="ban_img2"><a href="#"><img src="img/banner_link2.jpg" alt="CSS 버튼 만들기"></a></li>
-                            <li class="ban_img3"><a href="#"><img src="img/banner_link3.jpg" alt="로그인 폼 만들기"></a></li>
-                        </ul>
-                        <a href="#" class="next"><span class="ir_pm">다음 이미지</span></a>
+                    <div class="search_list">
+                    	<table>
+                    		<tr align="center" valign="middle" bordercolor="#333333">
+                    		<th style="font-family:Tahoma;font-size:8pt;" width="8%" height="26">글번호</th>
+                    		<th style="font-family:Tahoma;font-size:8pt;" width="50%">제목</th>
+                    		<th style="font-family:Tahoma;font-size:8pt;" width="14%">작성자</th>
+                    		<th style="font-family:Tahoma;font-size:8pt;" width="17%">작성일</th>
+                    		</tr>
+                    		<tr>
+                    		<%
+                    	for(BoardVO2 bvo:searchList){
+                    		System.out.println("검색 출력 : "+ bvo.getB_subject());
+							%>
+                    	<td><%=bvo.getB_no() %></td>
+                    	<td overflow="hidden"><%=bvo.getB_subject() %></td>
+                    	<td><%=bvo.getB_nick() %></td>
+                    	<td><%=bvo.getB_date() %></td>
+                    		<%
+                    	}
+                    		%>
+                    			
+                    		</tr>
+                    	</table>
+                    	
+                      	
                     </div>
                 </div>
             </div>
