@@ -3,6 +3,7 @@ package com.project.samsam.board;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -24,43 +25,56 @@ public class BoardController {
 	private BoardService boardService; // BoardService빈객체가 만들어져있어야 한다
 	
 	@RequestMapping("/home_search.me")
-	public String getSearchlist(
-		
-		@RequestParam(defaultValue="1")int page) {
-		@RequestParam(defaultValue="") String keyword //키워드 기본값
-		)throws Exception{
-			
-			
+	public String getSearchlist(@RequestParam(value="keyword", required= true, defaultValue="")String keyword, Model model){
+		try {
+        List<BoardVO2> searchList = boardService.getSearchList(keyword);
+        model.addAttribute("searchList", searchList);
+        System.out.println("searchList" + searchList.get(0));
+
 		}
-		System.out.println("서치 컨트"+page);
-		int count =1000;
-		
-		//페이지 관련 설정, 시작번호와 끝번호를 구해서 각각 변수에 저장한다.
-        Pager pager = new Pager(count, curPage);
-        int start = pager.getPageBegin();
-        int end =  pager.getPageEnd();
-		
-      //map에 저장하기 위해 list를 만들어서 검색옵션과 키워드를 저장한다.
-        List<MemberBoardDTO> list = boardService.getSearchList(keyword, start, end);
-        
-        ModelAndView mav = new ModelAndView();
-        Map<String,Object> map = new HashMap<>();
-        
-        map.put("list", list);                         //map에 list(게시글 목록)을 list라는 이름의 변수로 자료를 저장함.
-        map.put("pager", pager);
-        map.put("count", count);
-        map.put("keyword", keyword);
-        mav.addObject("map", map);                    //modelandview에 map를 저장
-        
-        System.out.println("map : "+map);
-        mav.setViewName("board/home_search");                //자료를 넘길 뷰의 이름
-        
-        return mav;    //게시판 페이지로 이동
+		catch(Exception e) {
+			System.out.println("검색 에러(컨) : " + e.getMessage());
+		}
+  //     System.out.println(searchList.get(0));
+        return "board/ho_search_list";    //게시판 페이지로 이동
         
 	}
 	
-	
+	@RequestMapping("/Sboarddetail.bo")
+	public String getSDetail(@RequestParam(value ="b_no", required = true) int num, Model model) {
+		try {
+		BoardVO2 bvo = boardService.getSDetail(num);
 
+		model.addAttribute("bvo", bvo);
+		System.out.println("글보기"+bvo);
+		}catch(Exception e) {
+			e.getMessage();
+		}
+		return "board/ho_search_view";
+	}
+	
+	@RequestMapping("/myboard.bo")
+	public String getmyBList (@RequestParam(value="nick", required=false, defaultValue="myboard")String nick, Model model){
+		try {
+			List<BoardVO2> myBoardList = boardService.getMyBList(nick);
+			model.addAttribute("myBoardList",myBoardList);
+		}catch(Exception e) {
+			System.out.println("마이페이지 게시글 관리1 에러(컨) : " + e.getMessage());
+		}
+		return "board/my_board_view";
+		
+	}
+	//////////////////////////////////////////////////////////
+	
+//	@RequestMapping("/boarddetail.bo")
+//	public String getSearchLink(@RequestParam(value = "num", required = true) int num, Model model) {
+//		BoardVO vo = boardService.getDetail(num);
+//
+//		model.addAttribute("vo", vo);
+//
+//		return "board/qna_board_view";
+//	}
+	
 	@RequestMapping("/boardlist.bo")
 	public String getBoardlist(Model model,
 			@RequestParam(value = "page", required = false, defaultValue = "1") int page) {
@@ -131,6 +145,8 @@ public class BoardController {
 //		return "redirect:/boardlist.bo";
 //	}
 
+	
+	
 	@RequestMapping("/boarddetail.bo")
 	public String getDetail(@RequestParam(value = "num", required = true) int num, Model model) {
 		BoardVO vo = boardService.getDetail(num);
@@ -145,6 +161,7 @@ public class BoardController {
 		BoardVO vo = boardService.getDetail(num);
 
 		model.addAttribute("vo", vo);
+		
 
 		return "board/qna_board_reply";
 	}

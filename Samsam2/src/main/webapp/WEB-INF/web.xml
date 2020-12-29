@@ -28,6 +28,7 @@
 	<servlet-mapping>
 		<servlet-name>appServlet</servlet-name>
 		<url-pattern>*.me</url-pattern>
+		<url-pattern>*.bo</url-pattern>
 	</servlet-mapping>
 <!-- Korean Filter -->
 <filter>

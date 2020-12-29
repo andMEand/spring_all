@@ -4,31 +4,72 @@
 <mapper namespace="com.project.mapper.BoardMapper">
 	
 	<!-- 홈 검색 리스트 -->
-	<select id="getSearchList" parameterType="String"resultType="BoardVO">
-		<includ refid="search"/>
-		order by 
-	</select>
-	
-	 <sql id="paging_header">
-    <!-- 게시물을 한페이지에 10개씩 볼 수 있게하는 쿼리 윗부분-->
-        select *
-        from (
-            select rownum as rn, A.*
-            from (    
-    </sql>
-    
-    
-    <sql id="paging_footer">
-    <!-- 게시물을 한페이지에 10개씩 볼 수 있게하는 쿼리  아랫 부분-->
-    <!-- 새로 매겨진 일련번호 1~10번 글까지 1페이지 -->
-    <!-- 11~20번 글까지 2페이지.. -->
-            ) A
-        ) where rn between #{start} and #{end}    
-    </sql>
-	
-	<sql id="search">
+
+ <select id="getSearchList" parameterType="String" resultType="BoardVO2">
+   select b_no,b_subject,b_nick,b_date
+		from (
+		select
+		b_no,b_subject,b_nick,b_date
+		from doc_c where b_subject like '%' || #{keyword}|| '%' or b_content like '%' ||#{keyword} || '%'
 		
-	</sql>
+		union all
+		
+		select
+		b_no,b_subject,b_nick,b_date
+		from doc_b where b_subject like '%'||#{keyword}||'%' or b_content like '%'||#{keyword}||'%'
+		
+		union all
+		
+		select
+		b_no,b_subject,b_nick,b_date
+		from doc_bh where b_subject like '%'||#{keyword}||'%' or b_content like '%'||#{keyword}||'%'
+		)order by b_date desc
+
+	</select>
+	<select id="getSDetail"  parameterType="int" resultType="BoardVO2">
+		 select b_no,b_subject,b_content, b_nick,b_date
+		from (
+		select
+		b_no,b_subject,b_content, b_nick,b_date
+		from doc_c where b_no like '%' || #{num}|| '%'
+		
+		union all
+		
+		select
+		b_no,b_subject,b_content, b_nick,b_date
+		from doc_b where b_no like '%' || #{num}|| '%'
+		
+		union all
+		
+		select
+		b_no,b_subject,b_content, b_nick,b_date
+		from doc_bh where b_no like '%' || #{num}|| '%'
+		)
+
+	</select>
+<!--  홈페이지 검색 SQL 끝 -->
+
+	<selet id="getmyBList" parameterType="String" resultType="BoardVO2">
+		 select b_no,b_subject,b_date
+		from (
+		select
+		b_no,b_subject,b_date
+		from doc_c where b_subject like '%' || #{keyword}|| '%' or b_content like '%' ||#{keyword} || '%'
+		
+		union all
+		
+		select
+		b_no,b_subject,b_date
+		from doc_b where b_subject like '%'||#{keyword}||'%' or b_content like '%'||#{keyword}||'%'
+		
+		union all
+		
+		select
+		b_no,b_subject,b_date
+		from doc_bh where b_subject like '%'||#{keyword}||'%' or b_content like '%'||#{keyword}||'%'
+		)order by b_date desc
+		
+	</selet>
 	
 	
 	<select id="getListCount" resultType="int">
@@ -47,7 +88,7 @@
 	</select>
 	
 	<select id="getDetail"  parameterType="int" resultType="BoardVO">
-		select * from smemberboard2 where num = #{num}
+		select * from doc_c where b_no = #{num}
 	</select>
 	
 	<!-- VER 1 -->

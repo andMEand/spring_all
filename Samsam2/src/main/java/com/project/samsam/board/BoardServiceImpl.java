@@ -1,5 +1,6 @@
 package com.project.samsam.board;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -16,17 +17,44 @@ public class BoardServiceImpl implements BoardService {
 	private SqlSession sqlSession;
 
 	@Override
-	public List<BoardVO> getSearchList(String keyword) {
+	public List<BoardVO2> getSearchList(String keyword) {
 		BoardMapper boardMapper =sqlSession.getMapper(BoardMapper.class);
-		List<BoardVO> searchList = boardMapper.getSearchList(keyword);
+		List<BoardVO2> searchList = new ArrayList<BoardVO2>();
+		try {
+//			System.out.println(vo2.getB_subject());
+
+		 searchList = boardMapper.getSearchList(keyword);
+		 System.out.println("searchList ="+searchList.size());
+		for(BoardVO2 vo : searchList) {
+			System.out.println("검색 결과 " + vo.getB_subject());
+		}
+		}
+		catch(Exception e) {
+			System.out.println("검색 에러(서) : " + e.getMessage());
+		}
 		return searchList;
 	}
 
 	@Override
-	public BoardVO getSearchDetaill(int num) {
-
+	public BoardVO2 getSDetail(int num) {
+		BoardMapper boardMapper = sqlSession.getMapper(BoardMapper.class);
+		BoardVO2 board = boardMapper.getSDetail(num);
+		return board;
 	}
+	// 홈페이지 검색 함수
+	//getSDetail 수정할 필요있음 : 해당 원본글로 이동
+	
+	
+	public List<BoardVO2> getMyBList(String nick){
+		BoardMapper boardMapper = sqlSession.getMapper(BoardMapper.class);
+		boardVo2 board = boardMapper.getmyBList(nick);
+		
+	}
+	//마이페이지 게시글 관리 함수
+	
 
+////////////////////
+	
 	@Override
 	public int getListCount() {
 		BoardMapper boardMapper = sqlSession.getMapper(BoardMapper.class);
@@ -41,7 +69,6 @@ public class BoardServiceImpl implements BoardService {
 		return boardlist;
 	}
 
-////////////////////
 	@Override
 	public BoardVO getDetail(int num) {
 		BoardMapper boardMapper = sqlSession.getMapper(BoardMapper.class);
