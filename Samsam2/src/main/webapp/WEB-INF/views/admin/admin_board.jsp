@@ -274,10 +274,10 @@ function selectData(){
                         </ul>
                     </div>
                 </div>
-            </div>
+            </div> 
         </aside>
         <section>
-            <div id="section">
+            <div id="section"><!--  -->
                 <div class="container">
                     <div class="search_bar">
                         <form action="search_input.me" methos="post" name="serarch_input">
