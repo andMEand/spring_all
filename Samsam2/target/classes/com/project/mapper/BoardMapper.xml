@@ -48,7 +48,7 @@
 
 	</select>
 <!--  홈페이지 검색 SQL 끝 -->
-
+<!--  수정필요
 	<selet id="getmyBList" parameterType="String" resultType="BoardVO2">
 		 select b_no,b_subject,b_date
 		from (
@@ -70,6 +70,8 @@
 		)order by b_date desc
 		
 	</selet>
+ -->
+
 	
 	
 	<select id="getListCount" resultType="int">

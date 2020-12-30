@@ -24,7 +24,7 @@ public interface BoardMapper {
 	public BoardVO2 getSDetail (int num);
 	//홈페이지 검색 함수
 	
-	  public List<BoardVO2> getMyBList(String nick);
+	  public List<BoardVO2> getMyBList(String nick); 
 	  
 	//마이페이지 게시글관리 함수
 }

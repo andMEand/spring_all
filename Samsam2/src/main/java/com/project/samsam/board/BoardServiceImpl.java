@@ -45,11 +45,7 @@ public class BoardServiceImpl implements BoardService {
 	//getSDetail 수정할 필요있음 : 해당 원본글로 이동
 	
 	
-	public List<BoardVO2> getMyBList(String nick){
-		BoardMapper boardMapper = sqlSession.getMapper(BoardMapper.class);
-		boardVo2 board = boardMapper.getmyBList(nick);
-		
-	}
+	
 	//마이페이지 게시글 관리 함수
 	
 
@@ -118,5 +114,6 @@ public class BoardServiceImpl implements BoardService {
 			res = boardMapper.boardDelete(num);
 		}
 		return res;
+		
 	}
 }

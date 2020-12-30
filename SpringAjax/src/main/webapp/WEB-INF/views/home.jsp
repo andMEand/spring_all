@@ -54,6 +54,7 @@ function selectData(){
 		url:'/ajax/getPeopleJson.do',   //이동할 문서 주소
 		type:'POST',   //파라미터를 보내는 방식 게 or 포스트
 		//datatype :'json',//서버에서 보내줄 데이터 타입
+		
 		contentType:'application/x-www-form-urlencoded; charset=utf-8',
 		//
 		success:function(data){  //peoplevo 데이터를 가지고 있다
@@ -78,6 +79,7 @@ function selectData(){
 		}
 	});// 여기까지 에이젝스
 }
+
 $(document).ready(function(){  //로딩이 끝나면 함수 호출 /온로드와 비슷한 개념
 	$("#input_data").click(function(event){  //input_data에 대해 클릭이 생기면 이벤트함수 호출
 		var params =$('#insert_form').serialize();  //insert_form 네임과 밸루 를 짝으로 해서 직렬화 (하나의 문자열) 네임콜롬값이 하나의 문자열이 되어 저장한다 

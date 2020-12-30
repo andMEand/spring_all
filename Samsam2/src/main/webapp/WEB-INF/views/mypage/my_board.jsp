@@ -108,7 +108,7 @@
                                     <div class="tableCell"><b>작성일</b></div>
                                 </div>
                                 <% 
-                                for(BoardVO2 bvo: ){
+                                
                                 %>
                                 <div class="row">
                                     <div class="tableCell"><%= %></div>
@@ -116,7 +116,7 @@
                                     <div class="tableCell"><%= %></div>
                                 </div>
                                 <%
-                                }
+                         
                                 %>
                             </div>
                         </div>

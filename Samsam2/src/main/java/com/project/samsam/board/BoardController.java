@@ -35,7 +35,6 @@ public class BoardController {
 		catch(Exception e) {
 			System.out.println("검색 에러(컨) : " + e.getMessage());
 		}
-  //     System.out.println(searchList.get(0));
         return "board/ho_search_list";    //게시판 페이지로 이동
         
 	}
@@ -52,18 +51,14 @@ public class BoardController {
 		}
 		return "board/ho_search_view";
 	}
-	
-	@RequestMapping("/myboard.bo")
-	public String getmyBList (@RequestParam(value="nick", required=false, defaultValue="myboard")String nick, Model model){
-		try {
-			List<BoardVO2> myBoardList = boardService.getMyBList(nick);
-			model.addAttribute("myBoardList",myBoardList);
-		}catch(Exception e) {
-			System.out.println("마이페이지 게시글 관리1 에러(컨) : " + e.getMessage());
+	//홈페이지 검색 끝
+	@RequestMapping("/admin_board.do")
+	public String adminBoard() throws Exception {
+			return "admin/admin_board";
 		}
-		return "board/my_board_view";
-		
-	}
+	
+
+
 	//////////////////////////////////////////////////////////
 	
 //	@RequestMapping("/boarddetail.bo")
