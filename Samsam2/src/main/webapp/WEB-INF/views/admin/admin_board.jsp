@@ -173,33 +173,28 @@ menu {
 <!-- 검색 리스트 함수-->
 <script type="text/javascript">
 $(document).ready(function(){
-    $("input_data")/click(function(event){
-        var params = $('insert_form').serialize();
-        alert(params);
+    $("#find_data").click(function(event){
+        var params = $('#find_form').serialize();     //단순 확인용
+        alert(params);								//단순 확인용
         $.ajax({
-            url: '/ajacx/insertWord.do',
+            url: '/samsam/boardFind.do',
             type: 'POST',
-            data:params,
+            data: params,
             contentType:  'application/x-www-form-urlencoded;charset=utf-8',
             dataType: 'json',
             
-            success: function(retVal){
-                if(retVal.res =="OK"){
-                    selectData();
-
-                    $('#startdata').val('');
-                    $('#enddata').val('');
-                    $('#writing').val('');
-                    $('#warning').val('');
-                    $('#adopt_list').val('');
-                    $('#community').val('');
-                    $('#keyword').val('');
-                }
-                else{
-                    <% 
-                    System.out.println("Insert Fail");
-                    %>
-                }
+            success: function(Data){
+            	 $.each(Data,function(index,item){
+            		 $('output').empty(); 
+                     var output='';
+                     output += '<tr>';
+                     output += '<td>' + item.b_no + '</td>';
+                     output += '<td><a href="/samsam/text_view.do?b_no='+'<%=b_no %>' +' ">' + item.b_subject +'</td>';
+                     output += '<td>' + item.b_date + '</td>';
+                     output += '</tr>';
+                     console.log("output:" + output);
+     				$('#output').append(output);
+                 });
             },
             error: function(){
                 <% 
@@ -212,33 +207,6 @@ $(document).ready(function(){
     });
 });
 
-
-function selectData(){
-    $('output').empty(); 
-    $.ajax({
-        url: '/ajax/getAd_boardList.do',
-        type:'POST',
-        contentType:'application/x-www-form-urlencoded; charset=utf-8',
-        success:function(data){
-            $.each(data,function(index,item){
-                var output='';
-                output += '<tr>';
-                output += '<td>' + item.b_no + '</td>';
-                output += '<td><a href="/ajax/text_view.do?b_no='+'<%= b_no %>' +' ">' + item.b_subject +'</td>';
-                output += '<td>' + item.b_date + '</td>';
-                output += '</tr>';
-                console.log("output:" + output);
-				$('#output').append(output);
-            });
-
-        },
-        error:function(){
-            <% 
-                System.out.println("ajax 통신실패!!!!2");
-                %>
-        }
-    });// 여기까지 에이젝스
-}
 
 </script>
 
@@ -280,7 +248,7 @@ function selectData(){
             <div id="section"><!--  -->
                 <div class="container">
                     <div class="search_bar">
-                        <form action="search_input.me" methos="post" name="serarch_input">
+                        <form  method="post" id="find_form">
                             <div class="search_area1">
                                 <div class="search_item1">
                                     <label for="date">기간 :</label> 
@@ -303,7 +271,7 @@ function selectData(){
                                 </div>
                             </div>
                             <div class="search_are2">
-                                <input type="button" value="조회">
+                                <input type="button" id="find_data"value="조회">
                             </div>
                         </form>
                     </div>

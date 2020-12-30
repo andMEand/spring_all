@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	 
+	<mapper namespace="com.samsam.mapper.AdminBoardMapper">
+		<select id="findList" resultType="ABoardVO">
+			select b_no, b_subject,  b_subject, b_subject
+			from ${} where b_date between ${#startdate} and ${#enddate}
+			order by b_date desc;
+		</select>
+		<!--  -->
+	
+	</mapper>

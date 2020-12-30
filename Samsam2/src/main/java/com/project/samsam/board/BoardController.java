@@ -3,7 +3,6 @@ package com.project.samsam.board;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -16,13 +15,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class BoardController {
 
 	@Autowired
 	private BoardService boardService; // BoardService빈객체가 만들어져있어야 한다
+	@Autowired
+	private AdminService adminService;
 	
 	@RequestMapping("/home_search.me")
 	public String getSearchlist(@RequestParam(value="keyword", required= true, defaultValue="")String keyword, Model model){
@@ -52,11 +55,17 @@ public class BoardController {
 		return "board/ho_search_view";
 	}
 	//홈페이지 검색 끝
-	@RequestMapping("/admin_board.do")
-	public String adminBoard() throws Exception {
-			return "admin/admin_board";
-		}
 	
+	
+	@RequestMapping(value="/boardFind.do",
+			method = RequestMethod.POST,
+			produces= "application/json;charset=utf-8")
+	@ResponseBody
+	public List<ABoardVO> getADBList() throws Exception {
+		List<ABoardVO> list = adminService.FindList();
+		return list;
+		}
+	//어드민 게시글 관리 끝
 
 
 	//////////////////////////////////////////////////////////
