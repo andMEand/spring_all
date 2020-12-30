@@ -4,12 +4,13 @@
 <mapper namespace="com.project.mapper.BoardMapper">
 	
 	<!-- 홈 검색 리스트 -->
+
  <select id="getSearchList" parameterType="String" resultType="BoardVO2">
-		select b_no,b_subject,b_nick,b_date
+   select b_no,b_subject,b_nick,b_date
 		from (
 		select
 		b_no,b_subject,b_nick,b_date
-		from doc_c where b_subject like '%'||#{keyword}||'%' or b_content like '%'||#{keyword}||'%'
+		from doc_c where b_subject like '%' || #{keyword}|| '%' or b_content like '%' ||#{keyword} || '%'
 		
 		union all
 		
@@ -23,9 +24,53 @@
 		b_no,b_subject,b_nick,b_date
 		from doc_bh where b_subject like '%'||#{keyword}||'%' or b_content like '%'||#{keyword}||'%'
 		)order by b_date desc
-		
+
 	</select>
-	
+	<select id="getSDetail"  parameterType="int" resultType="BoardVO2">
+		 select b_no,b_subject,b_content, b_nick,b_date
+		from (
+		select
+		b_no,b_subject,b_content, b_nick,b_date
+		from doc_c where b_no like '%' || #{num}|| '%'
+		
+		union all
+		
+		select
+		b_no,b_subject,b_content, b_nick,b_date
+		from doc_b where b_no like '%' || #{num}|| '%'
+		
+		union all
+		
+		select
+		b_no,b_subject,b_content, b_nick,b_date
+		from doc_bh where b_no like '%' || #{num}|| '%'
+		)
+
+	</select>
+<!--  홈페이지 검색 SQL 끝 -->
+<!--  수정필요
+	<selet id="getmyBList" parameterType="String" resultType="BoardVO2">
+		 select b_no,b_subject,b_date
+		from (
+		select
+		b_no,b_subject,b_date
+		from doc_c where b_subject like '%' || #{keyword}|| '%' or b_content like '%' ||#{keyword} || '%'
+		
+		union all
+		
+		select
+		b_no,b_subject,b_date
+		from doc_b where b_subject like '%'||#{keyword}||'%' or b_content like '%'||#{keyword}||'%'
+		
+		union all
+		
+		select
+		b_no,b_subject,b_date
+		from doc_bh where b_subject like '%'||#{keyword}||'%' or b_content like '%'||#{keyword}||'%'
+		)order by b_date desc
+		
+	</selet>
+ -->
 
 	
 	
@@ -45,7 +90,7 @@
 	</select>
 	
 	<select id="getDetail"  parameterType="int" resultType="BoardVO">
-		select * from smemberboard2 where num = #{num}
+		select * from doc_c where b_no = #{num}
 	</select>
 	
 	<!-- VER 1 -->

@@ -8,14 +8,17 @@ public class MemberVO {
 	int phone;
 	String local;
 	String grade;  //일반/ 사업자 구분
-	String authKey;
-	String status;
+	String authKey;  //인증키
+	String status;	//인증상태
+	String signdate;  //가입일
+	
+	
 	public String getEmail() {
 		return email;
 	}
 	public void setEmail(String email) {
 		this.email = email;
-	}
+	} 
 	public String getPw() {
 		return pw;
 	}
@@ -63,6 +66,12 @@ public class MemberVO {
 	}
 	public void setStatus(String status) {
 		this.status = status;
+	}
+	public String getSigndate() {
+		return signdate;
+	}
+	public void setSigndate(String signdate) {
+		this.signdate = signdate;
 	}
 }
 	

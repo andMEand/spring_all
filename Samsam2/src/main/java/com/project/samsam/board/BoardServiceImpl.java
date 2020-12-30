@@ -21,7 +21,10 @@ public class BoardServiceImpl implements BoardService {
 		BoardMapper boardMapper =sqlSession.getMapper(BoardMapper.class);
 		List<BoardVO2> searchList = new ArrayList<BoardVO2>();
 		try {
+//			System.out.println(vo2.getB_subject());
+
 		 searchList = boardMapper.getSearchList(keyword);
+		 System.out.println("searchList ="+searchList.size());
 		for(BoardVO2 vo : searchList) {
 			System.out.println("검색 결과 " + vo.getB_subject());
 		}
@@ -32,6 +35,22 @@ public class BoardServiceImpl implements BoardService {
 		return searchList;
 	}
 
+	@Override
+	public BoardVO2 getSDetail(int num) {
+		BoardMapper boardMapper = sqlSession.getMapper(BoardMapper.class);
+		BoardVO2 board = boardMapper.getSDetail(num);
+		return board;
+	}
+	// 홈페이지 검색 함수
+	//getSDetail 수정할 필요있음 : 해당 원본글로 이동
+	
+	
+	
+	//마이페이지 게시글 관리 함수
+	
+
+////////////////////
+	
 	@Override
 	public int getListCount() {
 		BoardMapper boardMapper = sqlSession.getMapper(BoardMapper.class);
@@ -46,7 +65,6 @@ public class BoardServiceImpl implements BoardService {
 		return boardlist;
 	}
 
-////////////////////
 	@Override
 	public BoardVO getDetail(int num) {
 		BoardMapper boardMapper = sqlSession.getMapper(BoardMapper.class);
@@ -96,5 +114,6 @@ public class BoardServiceImpl implements BoardService {
 			res = boardMapper.boardDelete(num);
 		}
 		return res;
+		
 	}
 }

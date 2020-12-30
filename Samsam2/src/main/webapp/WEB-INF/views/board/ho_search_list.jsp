@@ -5,6 +5,7 @@
 <%@ page import="com.project.samsam.board.*" %>
 <%
 	List<BoardVO2> searchList =(List<BoardVO2>)request.getAttribute("searchList");
+
  %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -24,9 +25,11 @@
                 <div class="header">
                     <div class="header-beaner">My Alien, 나와 함께할 친구</div>
                     <div class="header-menu">
-                    <span id="home_search">
+                     <span id="home_search">
                     	<form action="home_search.me" method="post" name="home_search">
-                    		<input type="submit" class="h_search" value="f002">
+                    		<input type="text" name="b_subject" value="" onkeypress="searchList()">
+                    		
+                    		<button type="submit" class="h_sc"><i class="fas fa-search fa-lg"></i></button>
                     	</form>
                       </span> 
                         <a href="loginform.me">Login</a>
@@ -75,20 +78,22 @@
                     		<th style="font-family:Tahoma;font-size:8pt;" width="14%">작성자</th>
                     		<th style="font-family:Tahoma;font-size:8pt;" width="17%">작성일</th>
                     		</tr>
-                    		<tr>
+                    		
                     		<%
                     	for(BoardVO2 bvo:searchList){
                     		System.out.println("검색 출력 : "+ bvo.getB_subject());
 							%>
+							<tr>
                     	<td><%=bvo.getB_no() %></td>
-                    	<td overflow="hidden"><%=bvo.getB_subject() %></td>
+                    	<td overflow="hidden"><a href="./Sboarddetail.bo?b_no=<%=bvo.getB_no()%>"><%=bvo.getB_subject() %></a></td>
                     	<td><%=bvo.getB_nick() %></td>
                     	<td><%=bvo.getB_date() %></td>
+                    	</tr>
                     		<%
                     	}
                     		%>
                     			
-                    		</tr>
+                    		
                     	</table>
                     	
                       	

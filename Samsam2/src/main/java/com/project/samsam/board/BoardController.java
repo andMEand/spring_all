@@ -25,8 +25,7 @@ public class BoardController {
 	private BoardService boardService; // BoardService빈객체가 만들어져있어야 한다
 	
 	@RequestMapping("/home_search.me")
-	public String getSearchlist(Model model,@RequestParam(value="keyword", required= true)String keyword) {
-		System.out.println(keyword);
+	public String getSearchlist(@RequestParam(value="keyword", required= true, defaultValue="")String keyword, Model model){
 		try {
         List<BoardVO2> searchList = boardService.getSearchList(keyword);
         model.addAttribute("searchList", searchList);
@@ -36,10 +35,40 @@ public class BoardController {
 		catch(Exception e) {
 			System.out.println("검색 에러(컨) : " + e.getMessage());
 		}
-  //     System.out.println(searchList.get(0));
-        return "board/home_search";    //게시판 페이지로 이동
+        return "board/ho_search_list";    //게시판 페이지로 이동
         
 	}
+	
+	@RequestMapping("/Sboarddetail.bo")
+	public String getSDetail(@RequestParam(value ="b_no", required = true) int num, Model model) {
+		try {
+		BoardVO2 bvo = boardService.getSDetail(num);
+
+		model.addAttribute("bvo", bvo);
+		System.out.println("글보기"+bvo);
+		}catch(Exception e) {
+			e.getMessage();
+		}
+		return "board/ho_search_view";
+	}
+	//홈페이지 검색 끝
+	@RequestMapping("/admin_board.do")
+	public String adminBoard() throws Exception {
+			return "admin/admin_board";
+		}
+	
+
+
+	//////////////////////////////////////////////////////////
+	
+//	@RequestMapping("/boarddetail.bo")
+//	public String getSearchLink(@RequestParam(value = "num", required = true) int num, Model model) {
+//		BoardVO vo = boardService.getDetail(num);
+//
+//		model.addAttribute("vo", vo);
+//
+//		return "board/qna_board_view";
+//	}
 	
 	@RequestMapping("/boardlist.bo")
 	public String getBoardlist(Model model,
@@ -111,6 +140,8 @@ public class BoardController {
 //		return "redirect:/boardlist.bo";
 //	}
 
+	
+	
 	@RequestMapping("/boarddetail.bo")
 	public String getDetail(@RequestParam(value = "num", required = true) int num, Model model) {
 		BoardVO vo = boardService.getDetail(num);
@@ -125,6 +156,7 @@ public class BoardController {
 		BoardVO vo = boardService.getDetail(num);
 
 		model.addAttribute("vo", vo);
+		
 
 		return "board/qna_board_reply";
 	}

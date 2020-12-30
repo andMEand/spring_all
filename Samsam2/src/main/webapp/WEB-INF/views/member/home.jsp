@@ -7,12 +7,18 @@
     
   <link href="resources/css/style.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
+ <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
   <script>
-  	function searchList(){
-  		if(window.event.keycode==13){
-  			
+  	$('.h_sc').click(function(){
+  		
+  	});
+  	$('#keyword').keypress(function(event){
+  		if(event.which == 13){
+  			$('.h_sc').click();
+  			return false;
   		}
-  	}
+  	});
+  		
   </script>
   <title>나의 반려친구, 삼삼하개</title>
 </head>
@@ -26,9 +32,9 @@
                     <div class="header-menu">
                     <span id="home_search">
                     	<form action="home_search.me" method="post" name="home_search">
-                    		<input type="text" name="keyword" value="" onkeypress="searchList()">
+                    		<input type="text" id="keyword" name="keyword" value="" onkeypress="searchList()">
                     		
-                    		<button type="submit" class="h_sc"><i class="fas fa-search"></i></button>
+                    		<button type="submit" class="h_sc"><i class="fas fa-search fa-lg"></i></button>
                     	</form>
                       </span> 
                         <a href="loginform.me">Login</a>

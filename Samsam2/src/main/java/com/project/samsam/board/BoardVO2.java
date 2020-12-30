@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class BoardVO2 {
 	private int b_no;
 	private String b_subject;
+	private String b_content;
 	private String b_nick;
 	private String b_date;
 	
@@ -34,6 +35,13 @@ public class BoardVO2 {
 	public void setB_date(String b_date) {
 		this.b_date = b_date;
 	}
+	public String getB_content() {
+		return b_content;
+	}
+	public void setB_content(String b_content) {
+		this.b_content = b_content;
+	}
+	
 	
 	
 }

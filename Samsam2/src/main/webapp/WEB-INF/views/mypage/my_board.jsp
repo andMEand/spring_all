@@ -1,14 +1,28 @@
 <%@ page language = "java" contentType = "text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ 
+	
+ %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
     
-  <link href="resources/css/style.css" rel="stylesheet" />
+  <link href="resource/css/style.css" rel="stylesheet" />
+  <link href="resource/css/reset.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
+ <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
   <script>
-  	
+  	$('.h_sc').clik(function(){
+  		
+  	});
+  	$('#keyword').keypress(function(event){
+  		if(event.which == 13){
+  			$('.h_sc').click();
+  			return false;
+  		}
+  	});
+  		
   </script>
   <title>나의 반려친구, 삼삼하개</title>
 </head>
@@ -22,9 +36,9 @@
                     <div class="header-menu">
                     <span id="home_search">
                     	<form action="home_search.me" method="post" name="home_search">
-                    		<input type="text" name="keyword" value="${map.keyword}">
+                    		<input type="text" id="keyword" name="keyword" value="" onkeypress="searchList()">
                     		
-                    		<button type="submit" class="h_sc"><i class="fas fa-search"></i></button>
+                    		<button type="submit" class="h_sc"><i class="fas fa-search fa-lg"></i></button>
                     	</form>
                       </span> 
                         <a href="loginform.me">Login</a>
@@ -63,19 +77,54 @@
                 </div>
             </div>
 
-            <div id="cont_ban">
+        </div>
+        <div id="contetns">
+            <div id="con_side">
                 <div class="container">
-                    <div class="ban">
-                        <a href="#" class="prev"><span class="ir_pm">이전 이미지</span></a>
-                        <ul>
-                            <li class="ban_img1"><a href="#"><img src="img/banner_link1.jpg" alt="웹 표준 지침서 보기"></a></li>
-                            <li class="ban_img2"><a href="#"><img src="img/banner_link2.jpg" alt="CSS 버튼 만들기"></a></li>
-                            <li class="ban_img3"><a href="#"><img src="img/banner_link3.jpg" alt="로그인 폼 만들기"></a></li>
-                        </ul>
-                        <a href="#" class="next"><span class="ir_pm">다음 이미지</span></a>
+                    <div class="my_side">
+                        <div>프로필 이미지</div>
+                        <div>아이디</div>
+                        <div>닉네임</div>
+                        <div class="my_nav">
+                            <ul>
+                                <li class="nav_item"> <a href=""></a>책임분양관리</li>
+                                <li class="nav_item"> <a href=""></a>회원정보</li>
+                                <li class="nav_item"> <a href=""></a>작성글 관리</li>
+                                <li class="nav_item"> <a href=""></a>판매허가번호 인증</li>
+                            </ul>
+                        </div>
                     </div>
+                    <!-- //마이페이지 메뉴-->
+                    <div class="my_board">
+                        <div class="m_b_redio">
+                            <div class="m_b_radio_item" type="radio"><button type="radio"></button>작성글 관리</div>
+                            <div class="m_b_radio_item" type="radio">작성댓글 관리</div>
+                        </div>
+                        <div class="m_b_table">
+                            <div class="tablebody">
+                                <div class="row">
+                                    <div class="tableCell"><b>글번호</b></div>
+                                    <div class="tableCell"><b>제목</b></div>
+                                    <div class="tableCell"><b>작성일</b></div>
+                                </div>
+                                <% 
+                                
+                                %>
+                                <div class="row">
+                                    <div class="tableCell"><%= %></div>
+                                    <div class="tableCell"><%= %></div>
+                                    <div class="tableCell"><%= %></div>
+                                </div>
+                                <%
+                         
+                                %>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- //마이페이지 게시글관리-->
                 </div>
             </div>
+
         </div>
         <!-- //cont_nav -->
        
