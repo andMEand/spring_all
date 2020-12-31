@@ -24,7 +24,7 @@ public class PeopleServiceImpl implements PeopleService {
 
 	@Override
 	public void insertPeople(PeopleVO vo) {
-		PeopleMapper memberMapper = sqlSession.getMapper(PeopleMapper.class);
+		PeopleMapper memberMapper = sqlSession.getMapper(PeopleMapper.class); 
 		memberMapper.insertPeople(vo);
 		return;
 	}
