@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	 
+	<mapper namespace="com.project.mapper.AdminBoardMapper">
+		<select id="findList" resultType="ABoardVOto">
+			select doc_no,doc_nick, doc_subject, doc_content, doc_date,doc_readcount
+			from community 
+			where doc_date between  ${#startdate} and ${#enddate} and 
+			doc_subject like "%#{#keyword}%" or doc_content like '%#{#keyword}%'
+			order by doc_date desc;
+		</select>
+		<!--  -->
+	
+	</mapper>	

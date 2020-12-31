@@ -4,7 +4,21 @@
 <%@ page import="java.util.*"%>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="com.project.samsam.board.*" %>
+<%@ page import="com.project.samsam.member.MemberVO"%>
+<%@ page import="com.project.samsam.board.ABoardVOto"%>
+<%@ page import="com.project.samsam.board.ABoardVO"%>
 <%
+
+String email = (String) session.getAttribute("email");
+
+if (session.getAttribute("email") == null){
+	out.println("<script>");
+	out.println("location.href='loginForm.me'");
+	out.println("</script>");
+}
+
+ArrayList<ABoardVOto> list =(ArrayList<ABoardVOto>)request.getAttribute("list");
+
 
 //	클래스 변수이름 = (클래스)request.getAttribute("모델로 저장한 이름");
 //	int b_no = 변수이름.getB_no();
@@ -14,115 +28,10 @@
 <head>
     <meta charset="UTF-8">
     <title>layout2</title>
-    <style>
-        body,
-div,
-ul,
-li,
-dl,
-dt,
-ol,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-input,
-fieldset,
-legend,
-p,
-select,
-table,
-th,
-td,
-tr,
-textarea,
-button,
-form {
-  margin: 0;
-  padding: 0;
-}
-/* a 링크 초기화 */
-a {
-  color: #222;
-  text-decoration: none;
-}
-a:hover {
-  color: #390;
-}
-
-dl,
-ul,
-li,
-ol,
-menu {
-  list-style: none;
-}
-
-/* IR 효과 */
-.ir_pm {
-  display: block;
-  overflow: hidden;
-  font-size: 0;
-  line-height: 0;
-  text-indent: -9999px;
-} /* 의미있는 이미지의 대체 텍스트를 제공하는 경우 */
-.ir_wa {
-  display: block;
-  overflow: hidden;
-  position: relative;
-  z-index: -1;
-  width: 100%;
-  height: 100%;
-} /* 의미있는 이미지의 대체 텍스트로 이미지가 없어도 대체 텍스트를 보여주고자 할 때 */
-.ir_su {
-  overflow: hidden;
-  position: absolute;
-  width: 0;
-  height: 0;
-  line-height: 0;
-  text-indent: -9999px;
-} /* 대체 텍스트가 아닌 접근성을 위한 숨김 텍스트를 제공할 때 */
-
-
-/* 초기화 끝 */
-/* 스타일 시작 */
-
-        * {margin: 0; padding: 0;}
-        #wrap {width: 100%;}   
-        header {width: 100%; height: 150px; background: #85af87;}
-        aside {float: left; width: 20%; height: 700px; background: #a4c2a5;}
-        section {float: left; width: 60%; height: 700px; background: #8ebe90;}
-        article {float: left; width: 20%; height: 700px; background: #829683;}
-        footer {clear: both; width: 100%; height: 150px; background: #509954;}
-
-        /* 화면 너비 0 ~ 1200px */
-        @media (max-width: 1220px){
-            aside {width: 40%;}
-            section {width: 60%;}
-            article {width: 100%; height: 300px;}
-        }
-        /* 화면 너비 0 ~ 768px */
-        @media (max-width: 768px){
-            aside {width: 100%; height: 300px;}
-            section {width: 100%; height: 300px;}
-        }
-        /* 화면 너비 0 ~ 480px */
-        @media (max-width: 480px){
-            header {height: 300px;}
-            aside {height: 200px;}
-            section {height: 200px;}
-        }
-    .search_bar .search_area1 {
-        float: left;
-    }
-    .search_bar .search_area2 {
-    }
-    
-    </style>
+  
 
 <!-- 검색 달력 설정-->
+ <link href="resources/css/admin_style.css" rel="stylesheet" />
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" />  
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>  
 <script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
@@ -173,38 +82,34 @@ menu {
 <!-- 검색 리스트 함수-->
 <script type="text/javascript">
 $(document).ready(function(){
-    $("input_data")/click(function(event){
-        var params = $('insert_form').serialize();
-        alert(params);
+    $("#find_data").click(function(event){
+        var params = $('#find_form').serialize();     //단순 확인용
+        alert(params);								//단순 확인용
         $.ajax({
-            url: '/ajacx/insertWord.do',
+            url: '/boardFind.do',
             type: 'POST',
-            data:params,
+            data: params,
             contentType:  'application/x-www-form-urlencoded;charset=utf-8',
             dataType: 'json',
             
-            success: function(retVal){
-                if(retVal.res =="OK"){
-                    selectData();
-
-                    $('#startdata').val('');
-                    $('#enddata').val('');
-                    $('#writing').val('');
-                    $('#warning').val('');
-                    $('#adopt_list').val('');
-                    $('#community').val('');
-                    $('#keyword').val('');
-                }
-                else{
-                    <% 
-                    System.out.println("Insert Fail");
-                    %>
-                }
+            success: function(list){
+            	 $.each(list,function(index,item){
+            		 $('output').empty(); 
+                     var output='';
+                     output += '<tr>';
+                     output += '<td>' + item.b_no + '</td>';
+                     output += '<td><a href="/admin/text_view.do?b_no=' +'<%=b_no %>' +' ">' + item.b_subject +'</td>';
+                     output += '<td>' + item.b_nick + '</td>';
+                     output += '<td>' + item.b_date + '</td>';
+                     output += '<td>' + item.b_readcount + '</td>';
+                     output += '</tr>';
+                     console.log("output:" + output);
+     				$('#output').append(output);
+                 });
             },
             error: function(){
-                <% 
-                System.out.println("ajax 통신실패!!!!2");
-                %>
+               alert("통신실패");
+             
             }
         });
         //기본 이벤트 제거
@@ -212,33 +117,6 @@ $(document).ready(function(){
     });
 });
 
-
-function selectData(){
-    $('output').empty(); 
-    $.ajax({
-        url: '/ajax/getAd_boardList.do',
-        type:'POST',
-        contentType:'application/x-www-form-urlencoded; charset=utf-8',
-        success:function(data){
-            $.each(data,function(index,item){
-                var output='';
-                output += '<tr>';
-                output += '<td>' + item.b_no + '</td>';
-                output += '<td><a href="/ajax/text_view.do?b_no='+'<%= b_no %>' +' ">' + item.b_subject +'</td>';
-                output += '<td>' + item.b_date + '</td>';
-                output += '</tr>';
-                console.log("output:" + output);
-				$('#output').append(output);
-            });
-
-        },
-        error:function(){
-            <% 
-                System.out.println("ajax 통신실패!!!!2");
-                %>
-        }
-    });// 여기까지 에이젝스
-}
 
 </script>
 
@@ -280,7 +158,7 @@ function selectData(){
             <div id="section"><!--  -->
                 <div class="container">
                     <div class="search_bar">
-                        <form action="search_input.me" methos="post" name="serarch_input">
+                        <form  method="post" id="find_form">
                             <div class="search_area1">
                                 <div class="search_item1">
                                     <label for="date">기간 :</label> 
@@ -303,7 +181,7 @@ function selectData(){
                                 </div>
                             </div>
                             <div class="search_are2">
-                                <input type="button" value="조회">
+                                <input type="button" id="find_data"value="조회">
                             </div>
                         </form>
                     </div>

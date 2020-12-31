@@ -21,7 +21,7 @@ public class PeopleController {
 	return "home";
 	}
 	
-	//produces 속성을 이용해 Response의 Context-Type을 제어할 수 있다
+	//produces 속성을 이용해 Response의 Context-Type을 제어할 수 있다	
 	@RequestMapping(value="/getPeopleJson.do", 
 			method=RequestMethod.POST ,
 			produces="application/json;charset=utf-8")

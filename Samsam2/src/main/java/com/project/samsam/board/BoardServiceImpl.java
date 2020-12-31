@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.project.mapper.AdminBoardMapper;
 import com.project.mapper.BoardMapper;
 
 @Service("boardService")
@@ -47,7 +48,12 @@ public class BoardServiceImpl implements BoardService {
 	
 	
 	//마이페이지 게시글 관리 함수
-	
+	@Override
+	public List<ABoardVOto> findList(){
+		AdminBoardMapper adminMapper =sqlSession.getMapper(AdminBoardMapper.class);
+		List<ABoardVOto> list =adminMapper.findList();
+		return list;
+	}
 
 ////////////////////
 	

@@ -3,7 +3,6 @@ package com.project.samsam.board;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -16,7 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class BoardController {
@@ -52,11 +53,21 @@ public class BoardController {
 		return "board/ho_search_view";
 	}
 	//홈페이지 검색 끝
-	@RequestMapping("/admin_board.do")
-	public String adminBoard() throws Exception {
-			return "admin/admin_board";
-		}
+	@RequestMapping("adminboard.do")
+	public String adminboard() throws Exception {
+		return "admin/admin_board";
+	}
 	
+	@RequestMapping(value="/boardFind.do",
+			method = RequestMethod.POST,
+			produces= "application/json;charset=utf-8")
+	@ResponseBody
+	public List<ABoardVOto> getABoardList(Model model) throws Exception {
+		List<ABoardVOto> list = boardService.findList();
+		model.addAttribute("list",list);
+		return list;
+		}
+	//어드민 게시글 관리 끝
 
 
 	//////////////////////////////////////////////////////////

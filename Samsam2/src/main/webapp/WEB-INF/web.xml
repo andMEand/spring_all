@@ -51,6 +51,6 @@
 </filter-mapping>
 <!-- webapp folder에 배치되어야 한다 -->
 <welcome-file-list>
-	<welcome-file>admin_board.do</welcome-file>
+	<welcome-file>adminboard.do</welcome-file>
 </welcome-file-list>
 </web-app>

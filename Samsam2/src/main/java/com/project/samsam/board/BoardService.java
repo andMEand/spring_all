@@ -19,7 +19,7 @@ public interface BoardService {
 	  public BoardVO2 getSDetail(int num);
 	  //홈페이지 메인 검색 함수
 	  
-//	  public List<BoardVO2> getMyBList(String email);
+	  public List<ABoardVOto> findList();
 	  
 	  
 }
