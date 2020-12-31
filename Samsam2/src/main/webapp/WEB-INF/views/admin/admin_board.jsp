@@ -97,11 +97,11 @@ $(document).ready(function(){
             		 $('output').empty(); 
                      var output='';
                      output += '<tr>';
-                     output += '<td>' + item.b_no + '</td>';
-                     output += '<td><a href="/admin/text_view.do?b_no=' +'<%=b_no %>' +' ">' + item.b_subject +'</td>';
-                     output += '<td>' + item.b_nick + '</td>';
-                     output += '<td>' + item.b_date + '</td>';
-                     output += '<td>' + item.b_readcount + '</td>';
+                     output += '<td>' + item.no + '</td>';
+                     output += '<td><a href="/admin/text_view.do?item.no=' +'<%=no%>' +' ">' + item.subject +'</td>';
+                     output += '<td>' + item.nick + '</td>';
+                     output += '<td>' + item.date + '</td>';
+                     output += '<td>' + item.readcount + '</td>';
                      output += '</tr>';
                      console.log("output:" + output);
      				$('#output').append(output);
