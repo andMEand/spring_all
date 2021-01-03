@@ -2,12 +2,25 @@
 <!DOCTYPE mapper
 	 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 	 
-	<mapper namespace="com.samsam.mapper.AdminBoardMapper">
-		<select id="findList" resultType="ABoardVO">
-			select b_no, b_subject,  b_subject, b_subject
-			from ${} where b_date between ${#startdate} and ${#enddate}
-			order by b_date desc;
+	<mapper namespace="com.project.mapper.AdminBoardMapper">
+		<select id="findList" parameterType = "ABoardVO" resultType="ABoardVOto">
+			select num,email,nick, subject, c_content, c_date,readcount
+			from ${kategorie}
+			where 
+			c_date between  #{startDate} and #{endDate} and
+			subject like '%' || #{keyword}|| '%' or c_content like '%' || #{keyword} || '%'
+			order by c_date desc
 		</select>
-		<!--  -->
+		<!-- 어드민 게시글 관리 끝 -->
+		
+		<select id="find_w_List" parameterType = "ABoardVO" resultType="ABoardVOto">
+			select c.num,c.email,c.nick, c.subject, c.c_content, c.c_date,c.readcount,w.*
+			from ${kategorie}  c, warning w where  
+			c.num =w.w_doc_no and
+			c.c_date between #{startDate} and #{endDate} and
+			c.subject like '%' || #{keyword}|| '%' or c.c_content like '%' || #{keyword}|| '%'
+			order by w.w_status asc ,c.c_date desc
+		</select>
+		<!-- 어드민 게시글 관리 끝 -->
 	
-	</mapper>
+	</mapper>	

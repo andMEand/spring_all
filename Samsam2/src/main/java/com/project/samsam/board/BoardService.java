@@ -1,6 +1,5 @@
 package com.project.samsam.board;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -19,7 +18,9 @@ public interface BoardService {
 	  public BoardVO2 getSDetail(int num);
 	  //홈페이지 메인 검색 함수
 	  
-//	  public List<BoardVO2> getMyBList(String email);
+      public List<ABoardVOto> findList(ABoardVO abvo);
+      public List<ABoardVOto> find_w_List(ABoardVO abvo);
+      //어드민 게시글관리 검색 함수
 	  
 	  
 }

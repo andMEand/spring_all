@@ -84,26 +84,21 @@ ArrayList<ABoardVOto> list =(ArrayList<ABoardVOto>)request.getAttribute("list");
                  }    
  
             }); 
-            
-            //date picker 끝
-            
+ 
 
-			$("#find_data").click(function(event){
-				console.log($('#kategorie').val())
-	            var params = $('#find_form').serialize();     //단순 확인용
-	            var data = {
-	                        "startDate" : $('#startDate').val(),
-	            			"endDate" : $('#endDate').val(),
-	            			"keyword" : $('#keyword').val(),
-	            			"kategorie" : $('#kategorie').val(),
-	            			"kind": $('#kind').val()
-	            		
-	            }
-	            console.log(params)
-				
-			
-            	if($('kind').val() == ''){
-  				
+            $("#find_data").click(function(event){
+            	
+  				console.log($('#kategorie').val())
+                var params = $('#find_form').serialize();     //단순 확인용
+                var data = {
+                            "startDate" : $('#startDate').val(),
+                			"endDate" : $('#endDate').val(),
+                			"keyword" : $('#keyword').val(),
+                			"kategorie" : $('#kategorie').val(),
+                			"kind": $('#kind').val()
+                		
+                }
+                console.log(params)
                 
                 
                 $.ajax({
@@ -134,39 +129,8 @@ ArrayList<ABoardVOto> list =(ArrayList<ABoardVOto>)request.getAttribute("list");
                      
                     }
                 });
-                event.preventDefault();
-            	}else{
-            		 $.ajax({
-                         url: '/samsam/boardWFind.do',
-                         type: 'POST',
-                         data: JSON.stringify(data),
-                         contentType: 'application/json;charset=utf-8',
-                         dataType: 'json',
-                         
-                         success: function(list){
-                         	console.log("장정원")	
-                                	 $.each(list,function(index,item){
-                         		 $('output').empty(); 
-                                  var output='';
-                                  output += '<tr>';
-                                  output += '<td>' + item.num + '</td>';
-                                  output += '<td><a href=""' + item.subject +'</a></td>';
-                                  output += '<td>' + item.nick + '</td>';
-                                  output += '<td>' + item.c_date + '</td>';
-                                  output += '<td>' + item.readcount + '</td>';
-                                  output += '</tr>';
-                                  console.log("output:" + output);
-                  				$('#output').append(output);
-                              });
-                         },
-                         error: function(error){
-                            alert("통신실패" + error);
-                          
-                         }
-                     });
-            		 event.preventDefault();
-            	}//else
-        	
+                //기본 이벤트 제거
+        	event.preventDefault();
             });
         
 

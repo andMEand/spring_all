@@ -54,7 +54,7 @@ public class MemberController {
 		return "member/joinForm";
 	}
 
-	@RequestMapping("loginform.me")
+	@RequestMapping("/loginform.me")
 	public String loginForm() throws Exception {
 		return "member/loginForm";
 	}

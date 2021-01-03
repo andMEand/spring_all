@@ -1,24 +1,28 @@
 package com.project.samsam.board;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class ABoardVO {
-	private int startdate;
-	private int enddate;
+	private Date startDate;
+	private Date endDate;
 	private String writing;
 	private String warning;
-	private String adopt_list;
-	private String community;
+	private String kategorie;
 	private String keyword;
-	public int getStartdate() {
-		return startdate;
+	
+	public Date getStartDate() {
+		return startDate;
 	}
-	public void setStartdate(int startdate) {
-		this.startdate = startdate;
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
 	}
-	public int getEnddate() {
-		return enddate;
+	public Date getEndDate() {
+		return endDate;
 	}
-	public void setEnddate(int enddate) {
-		this.enddate = enddate;
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
 	}
 	public String getWriting() {
 		return writing;
@@ -32,17 +36,11 @@ public class ABoardVO {
 	public void setWarning(String warning) {
 		this.warning = warning;
 	}
-	public String getAdopt_list() {
-		return adopt_list;
+	public String getKategorie() {
+		return kategorie;
 	}
-	public void setAdopt_list(String adopt_list) {
-		this.adopt_list = adopt_list;
-	}
-	public String getCommunity() {
-		return community;
-	}
-	public void setCommunity(String community) {
-		this.community = community;
+	public void setKategorie(String kategorie) {
+		this.kategorie = kategorie;
 	}
 	public String getKeyword() {
 		return keyword;
@@ -50,6 +48,7 @@ public class ABoardVO {
 	public void setKeyword(String keyword) {
 		this.keyword = keyword;
 	}
+
 	
 	
 	

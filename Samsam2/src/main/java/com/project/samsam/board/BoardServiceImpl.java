@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.project.mapper.AdminBoardMapper;
 import com.project.mapper.BoardMapper;
 
 @Service("boardService")
@@ -34,6 +35,7 @@ public class BoardServiceImpl implements BoardService {
 		}
 		return searchList;
 	}
+	//홈페이지 검색리스트 끝
 
 	@Override
 	public BoardVO2 getSDetail(int num) {
@@ -41,13 +43,32 @@ public class BoardServiceImpl implements BoardService {
 		BoardVO2 board = boardMapper.getSDetail(num);
 		return board;
 	}
-	// 홈페이지 검색 함수
+	// 홈페이지 검색 뷰 끝
 	//getSDetail 수정할 필요있음 : 해당 원본글로 이동
 	
 	
 	
-	//마이페이지 게시글 관리 함수
 	
+	@Override
+	public List<ABoardVOto> findList(ABoardVO abvo){
+		AdminBoardMapper adminMapper =sqlSession.getMapper(AdminBoardMapper.class);
+		List<ABoardVOto> list =adminMapper.findList(abvo);
+		for(ABoardVOto vo :list) {
+			System.out.println("서비스임플"+vo.getNick());
+		}
+		return list;
+	}
+	@Override
+    public List<ABoardVOto> find_w_List(ABoardVO abvo){
+		AdminBoardMapper adminMapper =sqlSession.getMapper(AdminBoardMapper.class);
+		List<ABoardVOto> Wlist =adminMapper.find_w_List(abvo);
+		for(ABoardVOto vo :Wlist) {
+			System.out.println("서비스임플"+vo.getW_doc_no());
+		}
+		return Wlist;
+    }
+
+	//어드민 게시글 관리 
 
 ////////////////////
 	
@@ -114,6 +135,5 @@ public class BoardServiceImpl implements BoardService {
 			res = boardMapper.boardDelete(num);
 		}
 		return res;
-		
 	}
 }

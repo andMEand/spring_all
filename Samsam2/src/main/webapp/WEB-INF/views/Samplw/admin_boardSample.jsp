@@ -29,7 +29,7 @@ ArrayList<ABoardVOto> list =(ArrayList<ABoardVOto>)request.getAttribute("list");
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>admin board page</title>
+    <title>layout2</title>
 
 
 <!-- 검색 달력 설정-->
@@ -55,7 +55,7 @@ ArrayList<ABoardVOto> list =(ArrayList<ABoardVOto>)request.getAttribute("list");
                  dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'], 
                  monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
                  monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
-                 dateFormat: "yy-mm-dd",
+                 dateFormat: "yymmdd",
                  maxDate: 0,                       // 선택할수있는 최소날짜, ( 0 : 오늘 이후 날짜 선택 불가)
                  onClose: function( selectedDate ) {    
                       //시작일(startDate) datepicker가 닫힐때
@@ -74,7 +74,7 @@ ArrayList<ABoardVOto> list =(ArrayList<ABoardVOto>)request.getAttribute("list");
                  dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'], 
                  monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
                  monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
-                 dateFormat: "yy-mm-dd",
+                 dateFormat: "yymmdd",
                  maxDate: 0,                       // 선택할수있는 최대날짜, ( 0 : 오늘 이후 날짜 선택 불가)
                  onClose: function( selectedDate ) {    
                      // 종료일(endDate) datepicker가 닫힐때
@@ -84,91 +84,44 @@ ArrayList<ABoardVOto> list =(ArrayList<ABoardVOto>)request.getAttribute("list");
                  }    
  
             }); 
-            
-            //date picker 끝
-            
 
-			$("#find_data").click(function(event){
-				console.log($('#kategorie').val())
-	            var params = $('#find_form').serialize();     //단순 확인용
-	            var data = {
-	                        "startDate" : $('#startDate').val(),
-	            			"endDate" : $('#endDate').val(),
-	            			"keyword" : $('#keyword').val(),
-	            			"kategorie" : $('#kategorie').val(),
-	            			"kind": $('#kind').val()
-	            		
-	            }
-	            console.log(params)
-				
-			
-            	if($('kind').val() == ''){
-  				
-                
-                
+            <!-- 검색 리스트 함수--> 
+
+            $("#find_data").click(function(event){
+            	
+  				console.log($('#startDate').val())
+                var params = $('#find_form').serialize();     //단순 확인용
                 $.ajax({
                     url: '/samsam/boardFind.do',
                     type: 'POST',
-                    data: JSON.stringify(data),
-                    contentType: 'application/json;charset=utf-8',
+                    data: params,
+                    contentType: 'application/x-www-form-urlencoded;charset=utf-8',
                     dataType: 'json',
                     
                     success: function(list){
-                    	console.log("장정원")	
-                           	 $.each(list,function(index,item){
+                    	 $.each(list,function(index,item){
                     		 $('output').empty(); 
                              var output='';
                              output += '<tr>';
-                             output += '<td>' + item.num + '</td>';
+                             output += '<td>' + item.no + '</td>';
                              output += '<td><a href=""' + item.subject +'</a></td>';
                              output += '<td>' + item.nick + '</td>';
-                             output += '<td>' + item.c_date + '</td>';
+                             output += '<td>' + item.date + '</td>';
                              output += '<td>' + item.readcount + '</td>';
                              output += '</tr>';
                              console.log("output:" + output);
              				$('#output').append(output);
                          });
                     },
-                    error: function(error){
-                       alert("통신실패" + error);
+                    error: function(){
+                       alert("통신실패");
                      
                     }
                 });
-                event.preventDefault();
-            	}else{
-            		 $.ajax({
-                         url: '/samsam/boardWFind.do',
-                         type: 'POST',
-                         data: JSON.stringify(data),
-                         contentType: 'application/json;charset=utf-8',
-                         dataType: 'json',
-                         
-                         success: function(list){
-                         	console.log("장정원")	
-                                	 $.each(list,function(index,item){
-                         		 $('output').empty(); 
-                                  var output='';
-                                  output += '<tr>';
-                                  output += '<td>' + item.num + '</td>';
-                                  output += '<td><a href=""' + item.subject +'</a></td>';
-                                  output += '<td>' + item.nick + '</td>';
-                                  output += '<td>' + item.c_date + '</td>';
-                                  output += '<td>' + item.readcount + '</td>';
-                                  output += '</tr>';
-                                  console.log("output:" + output);
-                  				$('#output').append(output);
-                              });
-                         },
-                         error: function(error){
-                            alert("통신실패" + error);
-                          
-                         }
-                     });
-            		 event.preventDefault();
-            	}//else
-        	
+                //기본 이벤트 제거
+        	event.preventDefault();
             });
-        
+            <!-- 검색 리스트 함수 END--> 
 
     });
 </script>
@@ -204,7 +157,6 @@ ArrayList<ABoardVOto> list =(ArrayList<ABoardVOto>)request.getAttribute("list");
                 </div>
             </div> 
         </aside>
-      
         <section>
             <div id="section"><!--  -->
                 <div class="container">
@@ -216,14 +168,14 @@ ArrayList<ABoardVOto> list =(ArrayList<ABoardVOto>)request.getAttribute("list");
                                     <input type="text" id="startDate" name="datepicker1"> - <input type="text" id="endDate" name="datepicker2"></div>
                                     <div class="search_item2">
                                         <div class="search_item2 1">
-                                            분류 :  	<input type="radio"  id="kind" value="" > 게시글
-                             	<input type="radio"  id="kind" value="warning"checked> 신고
+                                            분류 :  <input type="radio" name="kind" id="writing" value=""> 게시글
+                                                    <input type="radio" name="kind" id="warning" value=""> 신고
                                         </div>
                                     <div class="search_item2 2">
-                                            카테고리 : <select id="kategorie">
+                                            카테고리 : <select name="category">
                                                 <option value="">선택하세요</option>
                                                 <option value="adopt_list">분양게시판</option>
-                                                <option value="community" checked>커뮤니티</option>
+                                                <option value="community">커뮤니티</option>
                                                 </select>
                                         </div>
                                     </div>
@@ -236,7 +188,7 @@ ArrayList<ABoardVOto> list =(ArrayList<ABoardVOto>)request.getAttribute("list");
                             </div>
                         </form>
                     </div>
-                    <div class="search_lists" >
+                    <div class="search_lists">
                         <table id="output"></table>
 
                     </div>

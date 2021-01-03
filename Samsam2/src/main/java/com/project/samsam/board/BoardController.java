@@ -14,8 +14,8 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -24,8 +24,6 @@ public class BoardController {
 
 	@Autowired
 	private BoardService boardService; // BoardService빈객체가 만들어져있어야 한다
-	@Autowired
-	private AdminService adminService;
 	
 	@RequestMapping("/home_search.me")
 	public String getSearchlist(@RequestParam(value="keyword", required= true, defaultValue="")String keyword, Model model){
@@ -57,15 +55,44 @@ public class BoardController {
 	//홈페이지 검색 끝
 	
 	
+	@RequestMapping("/adminboard.do")
+	public String adminboard() throws Exception {
+		return "admin/admin_board";
+	}
+	//어드민 게시글 관리 뷰 끝
+	
 	@RequestMapping(value="/boardFind.do",
-			method = RequestMethod.POST,
-			produces= "application/json;charset=utf-8")
+						produces= "application/json;charset=utf-8")
 	@ResponseBody
-	public List<ABoardVO> getADBList() throws Exception {
-		List<ABoardVO> list = adminService.FindList();
+	public List<ABoardVOto> getAFindList(@RequestBody ABoardVO abvo) throws Exception {
+		System.out.println("startDate : " + abvo.getStartDate());
+		System.out.println("startDate : " + abvo.getEndDate());
+		System.out.println("startDate : " + abvo.getKeyword());
+		System.out.println("startDate : " + abvo.getKategorie());
+		List<ABoardVOto> list = boardService.findList(abvo);
+		System.out.println(3);
+
+		System.out.println(2);
 		return list;
 		}
-	//어드민 게시글 관리 끝
+	//어드민 게시글관리 일반리스트 함수
+	
+	@RequestMapping(value="/boardWFind.do",
+			produces= "application/json;charset=utf-8")
+	@ResponseBody
+	public List<ABoardVOto> getFindWList(@RequestBody ABoardVO abvo) throws Exception {
+		System.out.println("startDate : " + abvo.getStartDate());
+		System.out.println("startDate : " + abvo.getEndDate());
+		System.out.println("startDate : " + abvo.getKeyword());
+		System.out.println("startDate : " + abvo.getKategorie());
+		List<ABoardVOto> list = boardService.find_w_List(abvo);
+		System.out.println(3);
+
+		System.out.println(2);
+		return list;
+		}
+	//어드민 게시글관리 신고리스트 함수
+	
 
 
 	//////////////////////////////////////////////////////////
