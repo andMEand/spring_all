@@ -4,7 +4,7 @@
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="com.project.samsam.board.*" %>
 <%
-	BoardVO2 board = (BoardVO2)request.getAttribute("bvo");
+	BoardVO board = (BoardVO)request.getAttribute("bvo");
 %>
 <style>
 	.searchView {
@@ -31,7 +31,7 @@
 		</td>
 		
 		<td style="font-size:12">
-		<%=board.getB_subject()%>
+		<%=board.getSubject()%>
 		</td>
 	</tr>
 	
@@ -48,7 +48,7 @@
 			<table border=0 width=490 height=250 style="table-layout:fixed">
 				<tr>
 					<td valign=top style="font-size:12">
-					<%=board.getB_content() %>
+					<%=board.getC_content() %>
 					</td>
 				</tr>
 			</table>
@@ -68,10 +68,10 @@
 	<tr align="center" valign="middle">
 		<td colspan="5">
 			<font size=2>
-			<a href="./boardreplyform.bo?num=<%=board.getB_no() %>">
+			<a href="./boardreplyform.bo?num=<%=board.getNum() %>">
 			[답변]
 			</a>&nbsp;&nbsp;
-			<a href="./boardmodifyform.bo?num=<%=board.getB_no() %>">
+			<a href="./boardmodifyform.bo?num=<%=board.getNum() %>">
 			[수정]
 			</a>&nbsp;&nbsp;
 			

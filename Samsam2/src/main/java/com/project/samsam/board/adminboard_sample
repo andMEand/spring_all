@@ -20,8 +20,8 @@
 
 	ArrayList<ABoardVOto> list = (ArrayList<ABoardVOto>) request.getAttribute("list");
 
-	//	í´ë˜ìŠ¤ ë³€ìˆ˜ì´ë¦„ = (í´ë˜ìŠ¤)request.getAttribute("ëª¨ë¸ë¡œ ì €ì¥í•œ ì´ë¦„");
-	//	int b_no = ë³€ìˆ˜ì´ë¦„.getB_no();
+	//	Å¬·¡½º º¯¼öÀÌ¸§ = (Å¬·¡½º)request.getAttribute("¸ğµ¨·Î ÀúÀåÇÑ ÀÌ¸§");
+	//	int b_no = º¯¼öÀÌ¸§.getB_no();
 %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -30,7 +30,7 @@
 <title>admin board page</title>
 
 
-<!-- ê²€ìƒ‰ ë‹¬ë ¥ ì„¤ì •-->
+<!-- °Ë»ö ´Ş·Â ¼³Á¤-->
 <link href="resources/css/adminstyle.css" rel="stylesheet" />
 <link rel="stylesheet"
 	href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css"
@@ -42,41 +42,41 @@
 	crossorigin="anonymous"></script>
 
 <!-- 
-ëª¨ë‹¬ /ì œì´ì¿¼ë¦¬ í•„ìˆ˜ 
+¸ğ´Ş /Á¦ÀÌÄõ¸® ÇÊ¼ö 
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
  -->
 	
-<!-- ëª¨ë‹¬ í”ŒëŸ¬ê·¸ì¸ -->
+<!-- ¸ğ´Ş ÇÃ·¯±×ÀÎ -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
 
-<!-- ê²€ìƒ‰ ë‹¬ë ¥ í•¨ìˆ˜-->
+<!-- °Ë»ö ´Ş·Â ÇÔ¼ö-->
 <script type="text/javascript">
 	$(document).ready(function() {
 						$.datepicker.setDefaults($.datepicker.regional['ko']);
 						$("#startDate").datepicker({
 									changeMonth : true,
 									changeYear : true,
-									nextText : 'ë‹¤ìŒ ë‹¬',
-									prevText : 'ì´ì „ ë‹¬',
-									dayNames : [ 'ì¼ìš”ì¼', 'ì›”ìš”ì¼', 'í™”ìš”ì¼', 'ìˆ˜ìš”ì¼',
-											'ëª©ìš”ì¼', 'ê¸ˆìš”ì¼', 'í† ìš”ì¼' ],
-									dayNamesMin : [ 'ì¼', 'ì›”', 'í™”', 'ìˆ˜', 'ëª©',
-											'ê¸ˆ', 'í† ' ],
-									monthNamesShort : [ '1ì›”', '2ì›”', '3ì›”', '4ì›”',
-											'5ì›”', '6ì›”', '7ì›”', '8ì›”', '9ì›”',
-											'10ì›”', '11ì›”', '12ì›”' ],
-									monthNames : [ '1ì›”', '2ì›”', '3ì›”', '4ì›”',
-											'5ì›”', '6ì›”', '7ì›”', '8ì›”', '9ì›”',
-											'10ì›”', '11ì›”', '12ì›”' ],
+									nextText : '´ÙÀ½ ´Ş',
+									prevText : 'ÀÌÀü ´Ş',
+									dayNames : [ 'ÀÏ¿äÀÏ', '¿ù¿äÀÏ', 'È­¿äÀÏ', '¼ö¿äÀÏ',
+											'¸ñ¿äÀÏ', '±İ¿äÀÏ', 'Åä¿äÀÏ' ],
+									dayNamesMin : [ 'ÀÏ', '¿ù', 'È­', '¼ö', '¸ñ',
+											'±İ', 'Åä' ],
+									monthNamesShort : [ '1¿ù', '2¿ù', '3¿ù', '4¿ù',
+											'5¿ù', '6¿ù', '7¿ù', '8¿ù', '9¿ù',
+											'10¿ù', '11¿ù', '12¿ù' ],
+									monthNames : [ '1¿ù', '2¿ù', '3¿ù', '4¿ù',
+											'5¿ù', '6¿ù', '7¿ù', '8¿ù', '9¿ù',
+											'10¿ù', '11¿ù', '12¿ù' ],
 									dateFormat : "yy-mm-dd",
-									maxDate : 0, // ì„ íƒí• ìˆ˜ìˆëŠ” ìµœì†Œë‚ ì§œ, ( 0 : ì˜¤ëŠ˜ ì´í›„ ë‚ ì§œ ì„ íƒ ë¶ˆê°€)
+									maxDate : 0, // ¼±ÅÃÇÒ¼öÀÖ´Â ÃÖ¼Ò³¯Â¥, ( 0 : ¿À´Ã ÀÌÈÄ ³¯Â¥ ¼±ÅÃ ºÒ°¡)
 									onClose : function(selectedDate) {
-										//ì‹œì‘ì¼(startDate) datepickerê°€ ë‹«íë•Œ
-										//ì¢…ë£Œì¼(endDate)ì˜ ì„ íƒí• ìˆ˜ìˆëŠ” ìµœì†Œ ë‚ ì§œ(minDate)ë¥¼ ì„ íƒí•œ ì‹œì‘ì¼ë¡œ ì§€ì •
+										//½ÃÀÛÀÏ(startDate) datepicker°¡ ´İÈú¶§
+										//Á¾·áÀÏ(endDate)ÀÇ ¼±ÅÃÇÒ¼öÀÖ´Â ÃÖ¼Ò ³¯Â¥(minDate)¸¦ ¼±ÅÃÇÑ ½ÃÀÛÀÏ·Î ÁöÁ¤
 										$("#endDate").datepicker("option","minDate", selectedDate);
 
 									}
@@ -86,38 +86,38 @@
 								{
 									changeMonth : true,
 									changeYear : true,
-									nextText : 'ë‹¤ìŒ ë‹¬',
-									prevText : 'ì´ì „ ë‹¬',
-									dayNames : [ 'ì¼ìš”ì¼', 'ì›”ìš”ì¼', 'í™”ìš”ì¼', 'ìˆ˜ìš”ì¼',
-											'ëª©ìš”ì¼', 'ê¸ˆìš”ì¼', 'í† ìš”ì¼' ],
-									dayNamesMin : [ 'ì¼', 'ì›”', 'í™”', 'ìˆ˜', 'ëª©',
-											'ê¸ˆ', 'í† ' ],
-									monthNamesShort : [ '1ì›”', '2ì›”', '3ì›”', '4ì›”',
-											'5ì›”', '6ì›”', '7ì›”', '8ì›”', '9ì›”',
-											'10ì›”', '11ì›”', '12ì›”' ],
-									monthNames : [ '1ì›”', '2ì›”', '3ì›”', '4ì›”',
-											'5ì›”', '6ì›”', '7ì›”', '8ì›”', '9ì›”',
-											'10ì›”', '11ì›”', '12ì›”' ],
+									nextText : '´ÙÀ½ ´Ş',
+									prevText : 'ÀÌÀü ´Ş',
+									dayNames : [ 'ÀÏ¿äÀÏ', '¿ù¿äÀÏ', 'È­¿äÀÏ', '¼ö¿äÀÏ',
+											'¸ñ¿äÀÏ', '±İ¿äÀÏ', 'Åä¿äÀÏ' ],
+									dayNamesMin : [ 'ÀÏ', '¿ù', 'È­', '¼ö', '¸ñ',
+											'±İ', 'Åä' ],
+									monthNamesShort : [ '1¿ù', '2¿ù', '3¿ù', '4¿ù',
+											'5¿ù', '6¿ù', '7¿ù', '8¿ù', '9¿ù',
+											'10¿ù', '11¿ù', '12¿ù' ],
+									monthNames : [ '1¿ù', '2¿ù', '3¿ù', '4¿ù',
+											'5¿ù', '6¿ù', '7¿ù', '8¿ù', '9¿ù',
+											'10¿ù', '11¿ù', '12¿ù' ],
 									dateFormat : "yy-mm-dd",
-									maxDate : 0, // ì„ íƒí• ìˆ˜ìˆëŠ” ìµœëŒ€ë‚ ì§œ, ( 0 : ì˜¤ëŠ˜ ì´í›„ ë‚ ì§œ ì„ íƒ ë¶ˆê°€)
+									maxDate : 0, // ¼±ÅÃÇÒ¼öÀÖ´Â ÃÖ´ë³¯Â¥, ( 0 : ¿À´Ã ÀÌÈÄ ³¯Â¥ ¼±ÅÃ ºÒ°¡)
 									onClose : function(selectedDate) {
-										// ì¢…ë£Œì¼(endDate) datepickerê°€ ë‹«íë•Œ
-										// ì‹œì‘ì¼(startDate)ì˜ ì„ íƒí• ìˆ˜ìˆëŠ” ìµœëŒ€ ë‚ ì§œ(maxDate)ë¥¼ ì„ íƒí•œ ì‹œì‘ì¼ë¡œ ì§€ì •
+										// Á¾·áÀÏ(endDate) datepicker°¡ ´İÈú¶§
+										// ½ÃÀÛÀÏ(startDate)ÀÇ ¼±ÅÃÇÒ¼öÀÖ´Â ÃÖ´ë ³¯Â¥(maxDate)¸¦ ¼±ÅÃÇÑ ½ÃÀÛÀÏ·Î ÁöÁ¤
 										$("#startDate").datepicker("option","maxDate", selectedDate);
 
 									}
 
 								});
 
-						//date picker ë
+						//date picker ³¡
 						
 						
-						//ê²€ìƒ‰ ì‹œì‘
+						//°Ë»ö ½ÃÀÛ
 						$("#find_data")
 								.click(
 										function(event) {
 											console.log($('#kategorie').val())
-											var params = $('#find_form').serialize(); //ë‹¨ìˆœ í™•ì¸ìš©
+											var params = $('#find_form').serialize(); //´Ü¼ø È®ÀÎ¿ë
 											var data = {
 												"startDate" : $('#startDate').val(),
 												"endDate" : $('#endDate').val(),
@@ -130,7 +130,7 @@
 											console.log(params)
 											console.log("date" + data)
 
-											if ($('#kind').val() == "writing") {  //ê²Œì‹œê¸€
+											if ($('#kind').val() == "writing") {  //°Ô½Ã±Û
 
 												$.ajax({
 															url : '/samsam/boardFind.do',
@@ -141,7 +141,7 @@
 															dataType : 'json',
 
 															success : function(list) {
-																console.log("ê²Œì‹œê¸€")
+																console.log("°Ô½Ã±Û")
 																$('#output').empty();
 															$.each(list,function(index, item){
 																	var output = '';
@@ -155,11 +155,11 @@
 																	console.log("output:"+ output);
 																	$('#output').append(output);
 															});
-														}, //ì„±ê³µ
+														}, //¼º°ø
 															error : function(error) {
-																alert("í†µì‹ ì‹¤íŒ¨"+ error);
+																alert("Åë½Å½ÇÆĞ"+ error);
 															}
-														});// if ì—ì´ì ìŠ¤
+														});// if ¿¡ÀÌÁ§½º
 												event.preventDefault();
 											} else {
 												$.ajax({url : '/samsam/boardWFind.do',
@@ -169,13 +169,13 @@
 															dataType : 'json',
 
 															success : function(list) {
-																console.log("ì‹ ê³ ")
+																console.log("½Å°í")
 																$('#output').empty();
 																$.each(list,function(index,item) {
 																	var output = '';
 																	output += '<tr>';
 																	output += '<td>'+ item.num+ '</td>';
-																	output += '<td><a href='javascript:void(0);' onclick="b_modal('item.num')">'+ item.subject+ '</a></td>';
+																	output += '<td><a href="">'+ item.subject+ '</a></td>';
 																	output += '<td>'+ item.nick+ '</td>';
 																	output += '<td>'+ item.c_date+ '</td>';
 																	output += '<td>'+ item.readcount+ '</td>';
@@ -185,7 +185,7 @@
 																});
 															},
 															error : function(error) {
-																alert("í†µì‹ ì‹¤íŒ¨"+ error);
+																alert("Åë½Å½ÇÆĞ"+ error);
 
 															}
 
@@ -197,7 +197,7 @@
 										});
 
 					});
-	//í™ˆí˜ì´ì§€ Datepicker & ë¦¬ìŠ¤íŠ¸ ì—ì´ì ìŠ¤ í•¨ìˆ˜ ë
+	//È¨ÆäÀÌÁö Datepicker & ¸®½ºÆ® ¿¡ÀÌÁ§½º ÇÔ¼ö ³¡
 
 	function checkOnlyOne(element) {
 		  
@@ -209,13 +209,12 @@
 		  
 		  element.checked = true;
 		}
-	//ë¶„ë¥˜ ì²´í¬ë°•ìŠ¤ ì„ íƒê°’ radio í•¨ìˆ˜
-	
+	//ºĞ·ù Ã¼Å©¹Ú½º ¼±ÅÃ°ª radio ÇÔ¼ö
 	
 	
 	
 	</script>
-<!-- ê²€ìƒ‰ ë‹¬ë ¥ í•¨ìˆ˜ END-->
+<!-- °Ë»ö ´Ş·Â ÇÔ¼ö END-->
 
 </head>
 <body>
@@ -223,8 +222,8 @@
 		<header>
 			<div id="header">
 				<div class="container">
-					<div class="con_banner">ë°°ë„ˆ</div>
-					<div class="con_account">ê´€ë¦¬ì ê³„ì •</div>
+					<div class="con_banner">¹è³Ê</div>
+					<div class="con_account">°ü¸®ÀÚ °èÁ¤</div>
 				</div>
 
 			</div>
@@ -234,10 +233,10 @@
 				<div class="container">
 					<div class="con_nav">
 						<ul>
-							<li class="nav"><a href="">ê²Œì‹œê¸€ê´€ë¦¬</a></li>
-							<li class="nav"><a href="">íšŒì›ê´€ë¦¬</a></li>
-							<li class="nav"><a href="">ì´ìš©ê¶Œê´€ë¦¬</a></li>
-							<li class="nav"><a href="">ì±…ì„ë¶„ì–‘</a></li>
+							<li class="nav"><a href="">°Ô½Ã±Û°ü¸®</a></li>
+							<li class="nav"><a href="">È¸¿ø°ü¸®</a></li>
+							<li class="nav"><a href="">ÀÌ¿ë±Ç°ü¸®</a></li>
+							<li class="nav"><a href="">Ã¥ÀÓºĞ¾ç</a></li>
 						</ul>
 					</div>
 				</div>
@@ -252,34 +251,34 @@
 						<form method="post" id="find_form">
 							<div class="search_area1">
 								<div class="search_item1">
-									<label for="date">ê¸°ê°„ :</label> <input type="text"
+									<label for="date">±â°£ :</label> <input type="text"
 										id="startDate" name="datepicker1"> - <input
 										type="text" id="endDate" name="datepicker2">
 								</div>
 								<div class="search_item2">
 									<div class="search_item2 1">
 										
-										ë¶„ë¥˜ <input type='checkbox' name='kind' id='kind' value='writing'
-											onclick='checkOnlyOne(this)' /> ê²Œì‹œê¸€ 
+										ºĞ·ù <input type='checkbox' name='kind' id='kind' value='writing'
+											onclick='checkOnlyOne(this)' /> °Ô½Ã±Û 
 										 <input	type='checkbox' name='kind'id='kind' value='warning''
-											onclick='checkOnlyOne(this)' /> ì‹ ê³ 
+											onclick='checkOnlyOne(this)' /> ½Å°í
 									</div>
 									
 
 									<div class="search_item2 2">
-										ì¹´í…Œê³ ë¦¬ : <select id="kategorie">
-											<option value="">ì„ íƒí•˜ì„¸ìš”</option>
-											<option value="adopt_list">ë¶„ì–‘ê²Œì‹œíŒ</option>
-											<option value="community" checked>ì»¤ë®¤ë‹ˆí‹°</option>
+										Ä«Å×°í¸® : <select id="kategorie">
+											<option value="">¼±ÅÃÇÏ¼¼¿ä</option>
+											<option value="adopt_list">ºĞ¾ç°Ô½ÃÆÇ</option>
+											<option value="community" checked>Ä¿¹Â´ÏÆ¼</option>
 										</select>
 									</div>
 								</div>
 								<div class="search_item3">
-									ê²€ìƒ‰ì–´ : <input type="text" id="keyword" name="keyword" value="">
+									°Ë»ö¾î : <input type="text" id="keyword" name="keyword" value="">
 								</div>
 							</div>
 							<div class="search_are2">
-								<input type="button" id="find_data" value="ì¡°íšŒ">
+								<input type="button" id="find_data" value="Á¶È¸">
 							</div>
 						</form>
 					</div>
@@ -294,8 +293,8 @@
 			<div id="article">
 				<div class="container">
 					<div class="con_art">
-						<div class="art_item">ë‹¬ë ¥</div>
-						<div class="art_item">íˆ¬ë‘ ë¦¬ìŠ¤íŠ¸</div>
+						<div class="art_item">´Ş·Â</div>
+						<div class="art_item">ÅõµÎ ¸®½ºÆ®</div>
 						<div class="art_item">visitor</div>
 					</div>
 				</div>
@@ -303,28 +302,5 @@
 		</article>
 		<footer></footer>
 	</div>
-	
-	
-	<form id="detail_form" class="modal">
-	<div class="admin">
-	<h3>page detail</h3>
-	<div class="admin_nav">
-	<label>ê¸€ë²ˆí˜¸</label><input type="text" id = "num" readonly>
-	<label>ì•„ì´ë””</label><input type="text" id = "email" readonly>
-	<label>ë‹‰ë„¤ì„</label><input type="text" id = "nick" readonly>
-	<label>ì‘ì„±ì¼</label><input type="text" id = "c_date" readonly>
-	<label>ë‚´ ìš©</label><input type="text" id = "c_content" readonly>
-	</div> <!--admin_nav  -->
-
-	<div class ="commentlist">
-		<h3>ëŒ“ê¸€</h3>
-		<div class="c-table">
-	
-	</div>
-	</div>
-	
-	</div>
-	</div><!--ëŒ€ë¶„ë¥˜ admin -->
-	</form><!-- ëª¨ë‹¬ ë””í…Œì¼ ë·° -->
 </body>
 </html>

@@ -8,6 +8,7 @@
 <meta name ="viewport" content = "user-scalable=no, inital-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width">
   <title>Login page</title>
   <script type="text/javascript" src="https://developers.kakao.com/sdk/js/kakao.min.js"></script> <!-- 카카오톡 자바스크립트 라이브러리 -->
+ 
   <script type="text/javascript">
     document.addEventListener("DOMContentLoaded", function(){
       //카카오톡 디벨로퍼 api 사이트에서 발급받은 자바스크립트 키

@@ -1,17 +1,39 @@
 package com.project.samsam.board;
 
+import java.util.Date;
+
 public class ABoardVOto {
-	private int no;
+	private int num; 
+	private String email;
 	private String nick;
 	private String subject;
-	private String date;
+	private String c_content;
+	private Date c_date;
 	private int readcount;
+	//어드민 게시글 리스트로 보내는 VO
 	
-	public int getNo() {
-		return no;
+	private int w_no;
+	private String w_email;
+	private int w_co_no;
+	private int w_doc_no;
+	private Date w_date;
+	private String w_a_reason;
+	private String w_status;
+	private String w_reason;
+	//어드민 신고 리스트 보내는 VO
+	
+	
+	public int getNum() {
+		return num;
 	}
-	public void setNo(int no) {
-		this.no = no;
+	public void setNum(int num) {
+		this.num = num;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
 	}
 	public String getNick() {
 		return nick;
@@ -25,11 +47,17 @@ public class ABoardVOto {
 	public void setSubject(String subject) {
 		this.subject = subject;
 	}
-	public String getDate() {
-		return date;
+	public String getC_content() {
+		return c_content;
 	}
-	public void setDate(String date) {
-		this.date = date;
+	public void setC_content(String c_content) {
+		this.c_content = c_content;
+	}
+	public Date getC_date() {
+		return c_date;
+	}
+	public void setC_date(Date c_date) {
+		this.c_date = c_date;
 	}
 	public int getReadcount() {
 		return readcount;
@@ -37,6 +65,56 @@ public class ABoardVOto {
 	public void setReadcount(int readcount) {
 		this.readcount = readcount;
 	}
+	public int getW_no() {
+		return w_no;
+	}
+	public void setW_no(int w_no) {
+		this.w_no = w_no;
+	}
+	public String getW_email() {
+		return w_email;
+	}
+	public void setW_email(String w_email) {
+		this.w_email = w_email;
+	}
+	public int getW_co_no() {
+		return w_co_no;
+	}
+	public void setW_co_no(int w_co_no) {
+		this.w_co_no = w_co_no;
+	}
+	public int getW_doc_no() {
+		return w_doc_no;
+	}
+	public void setW_doc_no(int w_doc_no) {
+		this.w_doc_no = w_doc_no;
+	}
+	public Date getW_date() {
+		return w_date;
+	}
+	public void setW_date(Date w_date) {
+		this.w_date = w_date;
+	}
+	public String getW_a_reason() {
+		return w_a_reason;
+	}
+	public void setW_a_reason(String w_a_reason) {
+		this.w_a_reason = w_a_reason;
+	}
+	public String getW_status() {
+		return w_status;
+	}
+	public void setW_status(String w_status) {
+		this.w_status = w_status;
+	}
+	public String getW_reason() {
+		return w_reason;
+	}
+	public void setW_reason(String w_reason) {
+		this.w_reason = w_reason;
+	}
+	
+	
 	
 	
 	

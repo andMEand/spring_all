@@ -4,7 +4,7 @@
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="com.project.samsam.board.*" %>
 <%
-	List<BoardVO2> searchList =(List<BoardVO2>)request.getAttribute("searchList");
+	List<BoardVO> searchList =(List<BoardVO>)request.getAttribute("searchList");
 
  %>
 <!DOCTYPE html>
@@ -80,14 +80,14 @@
                     		</tr>
                     		
                     		<%
-                    	for(BoardVO2 bvo:searchList){
-                    		System.out.println("검색 출력 : "+ bvo.getB_subject());
+                    	for(BoardVO bvo:searchList){
+                    		System.out.println("검색 출력 : "+ bvo.getSubject());
 							%>
 							<tr>
-                    	<td><%=bvo.getB_no() %></td>
-                    	<td overflow="hidden"><a href="./Sboarddetail.bo?b_no=<%=bvo.getB_no()%>"><%=bvo.getB_subject() %></a></td>
-                    	<td><%=bvo.getB_nick() %></td>
-                    	<td><%=bvo.getB_date() %></td>
+                    	<td><%=bvo.getNum() %></td>
+                    	<td overflow="hidden"><a href="./Sboarddetail.bo?b_no=<%=bvo.getNum()%>"><%=bvo.getSubject() %></a></td>
+                    	<td><%=bvo.getNick() %></td>
+                    	<td><%=bvo.getC_date() %></td>
                     	</tr>
                     		<%
                     	}
