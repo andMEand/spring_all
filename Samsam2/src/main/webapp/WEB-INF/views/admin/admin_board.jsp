@@ -211,7 +211,10 @@
 		}
 	//분류 체크박스 선택값 radio 함수
 	
-	
+	function b_modal('item.num'){
+		
+		
+	}
 	
 	
 	</script>
