@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.project.mapper.AdminBoardMapper;
 import com.project.mapper.BoardMapper;
+import com.project.samsam.member.MemberVO;
 
 @Service("boardService")
 public class BoardServiceImpl implements BoardService {
@@ -52,10 +53,14 @@ public class BoardServiceImpl implements BoardService {
 	public List<ABoardVOto> findList(ABoardVO abvo){
 		AdminBoardMapper adminMapper =sqlSession.getMapper(AdminBoardMapper.class);
 		List<ABoardVOto> list =adminMapper.findList(abvo);
+		List<ABoardVOto> newlist = new ArrayList<ABoardVOto>();
+		
 		for(ABoardVOto vo :list) {
-			System.out.println("서비스임플"+vo.getNick());
+			vo.setCategory(abvo.getKategorie());
+			newlist.add(vo);
+			System.out.println("서비스임플"+vo.getNick() + "카테고리 : " + vo.getCategory());
 		}
-		return list;
+		return newlist;
 	}
 	@Override
     public List<ABoardVOto> find_w_List(ABoardVO abvo){
@@ -66,9 +71,18 @@ public class BoardServiceImpl implements BoardService {
 		}
 		return Wlist;
     }
-
-
 	//어드민 게시글 관리 
+	
+	public MemberVO adModalView_m (Object obj){
+		AdminBoardMapper adminMapper = sqlSession.getMapper(AdminBoardMapper.class);
+		List<MemberVO> mList =(List<MemberVO>) adminMapper.ad_view_m(obj);
+		return mList;
+		
+	}
+     public ABoardVOto adModalView_b (Object obj);
+     public List<WarningVO adModalView_w (Object obj);
+     public List<CommentVO> adModalView_c (Object obj);
+	  //어드민 게시글 뷰 Modal
 
 
 }

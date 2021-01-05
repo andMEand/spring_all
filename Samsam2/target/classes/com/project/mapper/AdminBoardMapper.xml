@@ -18,13 +18,37 @@
 			from ${kategorie}  c, ${kind} w  
 			on c.num =w.w_doc_no 
 			where
-			(w.w_date between #{startDate} and #{endDate} )and
-			c.subject like '%' || #{keyword}|| '%' or c.c_content like '%' || #{keyword}|| '%'
+			c.subject like '%' || #{keyword}|| '%' or c.c_content like '%' || #{keyword}|| '%' 
+			and
+			(w.w_date between #{startDate} and #{endDate} )
 			order by w.w_status asc,w.w_date desc
 			
 		</select>
 		<!-- 어드민 게시글 신고 리스트 -->
 		
+		<select id="ad_view_m" parameterType="obj" resultType="MemberVO">
+		select email, nick, local, grade from smember as m where m.email 
+		in(select b.email from ${category} as o where b.num= #{number})
+		</select>
+		<select id="ad_view_b" parameterType="obj" resultType="ABoardVOto">
+			select  subject,c_content,c_date,readcount from ${category} where  num =#{number}
+		</select>
+		<select id="ad_view_c" parameterType="obj" resultType="ABoardVOto">
+			select co_no,co_email,co_content,co_date,co_secret from c_comment where co_doc_no 
+			in(select num from ${category} where num=#{number})
+		</select>
+
+		<select id="ad_view_w" parameterType="obj" resultType="ABoardVOto">
+			select w_no,w_email,w_co_no, w_doc_no,w_date,w_a_reason,w_status,w_reason
+			from warning where w_doc_no 
+			in (select num from ${category} where num #{number})
+		</select>
+		<select id="ad_view_wcount" parameterType="obj" resultType="ABoardVOto">
+			select count(*) from warning where w_doc_no 
+			in(select num from ${category} where num= #{number})
+		</select>
+	
+		<!-- 어드민 게시글  Modal 뷰 -->
 		
 	
 	</mapper>	

@@ -8,15 +8,23 @@ public class ABoardVOto {
 	private String nick;
 	private String subject;
 	private String c_content;
-	private Date c_date;
+	private String c_date;
 	private int readcount;
+	private String category;
+	private int c_count;
 	//어드민 게시글 리스트로 보내는 VO
 	
+	public String getCategory() {
+		return category;
+	}
+	public void setCategory(String category) {
+		this.category = category;
+	}
 	private int w_no;
 	private String w_email;
 	private int w_co_no;
 	private int w_doc_no;
-	private Date w_date;
+	private String w_date;
 	private String w_a_reason;
 	private String w_status;
 	private String w_reason;
@@ -53,10 +61,10 @@ public class ABoardVOto {
 	public void setC_content(String c_content) {
 		this.c_content = c_content;
 	}
-	public Date getC_date() {
+	public String getC_date() {
 		return c_date;
 	}
-	public void setC_date(Date c_date) {
+	public void setC_date(String c_date) {
 		this.c_date = c_date;
 	}
 	public int getReadcount() {
@@ -89,10 +97,10 @@ public class ABoardVOto {
 	public void setW_doc_no(int w_doc_no) {
 		this.w_doc_no = w_doc_no;
 	}
-	public Date getW_date() {
+	public String getW_date() {
 		return w_date;
 	}
-	public void setW_date(Date w_date) {
+	public void setW_date(String w_date) {
 		this.w_date = w_date;
 	}
 	public String getW_a_reason() {
@@ -112,6 +120,12 @@ public class ABoardVOto {
 	}
 	public void setW_reason(String w_reason) {
 		this.w_reason = w_reason;
+	}
+	public int getC_count() {
+		return c_count;
+	}
+	public void setC_count(int c_count) {
+		this.c_count = c_count;
 	}
 	
 	

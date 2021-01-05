@@ -51,6 +51,7 @@ public class BoardController {
 		return "admin/admin_board";
 	}
 	//어드민 게시글 관리 뷰 끝
+////////////////////////////
 	
 	@RequestMapping(value="/boardFind.do",
 						produces= "application/json;charset=utf-8")
@@ -85,6 +86,8 @@ public class BoardController {
 		}
 	
 	//어드민 게시글관리 신고리스트 함수
+	
+	
 	
 
 }
