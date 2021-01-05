@@ -1,44 +1,44 @@
 package com.project.samsam.board;
 
-import java.sql.Date;
-
-import org.springframework.web.multipart.MultipartFile;
-
 public class BoardVO {
-	private int bhdoc_no;
-	private String bhdoc_nick;
-	private String bhdoc_subject;
-	private String bhdoc_content;
-	private Date bhdoc_date;
-	public int getBhdoc_no() {
-		return bhdoc_no;
+	private int num;
+	private String subject;
+	private String c_content;
+	private String nick;
+	private String c_date;
+	public int getNum() {
+		return num;
 	}
-	public void setBhdoc_no(int bhdoc_no) {
-		this.bhdoc_no = bhdoc_no;
+	public void setNum(int num) {
+		this.num = num;
 	}
-	public String getBhdoc_nick() {
-		return bhdoc_nick;
+	public String getSubject() {
+		return subject;
 	}
-	public void setBhdoc_nick(String bhdoc_nick) {
-		this.bhdoc_nick = bhdoc_nick;
+	public void setSubject(String subject) {
+		this.subject = subject;
 	}
-	public String getBhdoc_subject() {
-		return bhdoc_subject;
+	public String getC_content() {
+		return c_content;
 	}
-	public void setBhdoc_subject(String bhdoc_subject) {
-		this.bhdoc_subject = bhdoc_subject;
+	public void setC_content(String c_content) {
+		this.c_content = c_content;
 	}
-	public String getBhdoc_content() {
-		return bhdoc_content;
+	public String getNick() {
+		return nick;
 	}
-	public void setBhdoc_content(String bhdoc_content) {
-		this.bhdoc_content = bhdoc_content;
+	public void setNick(String nick) {
+		this.nick = nick;
 	}
-	public Date getBhdoc_date() {
-		return bhdoc_date;
+	public String getC_date() {
+		return c_date;
 	}
-	public void setBhdoc_date(Date bhdoc_date) {
-		this.bhdoc_date = bhdoc_date;
+	public void setC_date(String c_date) {
+		this.c_date = c_date;
 	}
+	
+
+	
+	
 	
 }

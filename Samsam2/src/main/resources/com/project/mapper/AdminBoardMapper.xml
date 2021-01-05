@@ -11,16 +11,48 @@
 			subject like '%' || #{keyword}|| '%' or c_content like '%' || #{keyword} || '%'
 			order by c_date desc
 		</select>
-		<!-- 어드민 게시글 관리 끝 -->
+		<!-- 어드민 게시글 관리 리스트 -->
 		
 		<select id="find_w_List" parameterType = "ABoardVO" resultType="ABoardVOto">
 			select c.num,c.email,c.nick, c.subject, c.c_content, c.c_date,c.readcount,w.*
-			from ${kategorie}  c, warning w where  
-			c.num =w.w_doc_no and
-			c.c_date between #{startDate} and #{endDate} and
-			c.subject like '%' || #{keyword}|| '%' or c.c_content like '%' || #{keyword}|| '%'
-			order by w.w_status asc ,c.c_date desc
+			from ${kategorie}  c, ${kind} w  
+			on c.num =w.w_doc_no 
+			where
+			c.subject like '%' || #{keyword}|| '%' or c.c_content like '%' || #{keyword}|| '%' 
+			and
+			(w.w_date between #{startDate} and #{endDate} )
+			order by w.w_status asc,w.w_date desc
+			
 		</select>
-		<!-- 어드민 게시글 관리 끝 -->
+		<!-- 어드민 게시글 신고 리스트 -->
+		
+		<select id="ad_view_m" parameterType="ADModalVO" resultType="MemberVO">
+		select m.email, m.nick, m.local, m.grade from smember as m where m.email 
+		in (select o.email from ${category} as o where o.num= #{number})	
+		</select>
+		<select id="ad_view_b" parameterType="ADModalVO" resultType="ABoardVOto">
+			select  subject, c_content, c_date, readcount from ${category} where num =#{number}
+		</select>
+		<select id="ad_view_c" parameterType="ADModalVO" resultType="CommentVO">
+			select co_no,co_email,co_content,co_date,co_secret from c_comment where co_doc_no 
+			in(select num from ${category} where num=#{number})
+		</select>
+		<select id="ad_view_ccount" parameterType="ADModalVO" resultType="WarningVO">
+			select count(co_no) as ccount from c_comment where c_doc_no 
+			in(select num from ${category} where num= #{number})
+		</select>
+
+		<select id="ad_view_w" parameterType="ADModalVO" resultType="WarningVO">
+			select w_no,w_email,w_co_no, w_doc_no,w_date,w_a_reason,w_status,w_reason
+			from warning where w_doc_no 
+			in (select num from ${category} where num #{number})
+		</select>
+		<select id="ad_view_wcount" parameterType="ADModalVO" resultType="WarningVO">
+			select count(w_no) as wcount from warning where w_doc_no 
+			in(select num from ${category} where num= #{number})
+		</select>
+	
+		<!-- 어드민 게시글  Modal 뷰 -->
+		
 	
 	</mapper>	

@@ -2,13 +2,12 @@ package com.project.samsam.board;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.sql.Date;
 
 public class ABoardVO {
 	private Date startDate;
 	private Date endDate;
-	private String writing;
-	private String warning;
+	private String kind;
 	private String kategorie;
 	private String keyword;
 	
@@ -24,18 +23,8 @@ public class ABoardVO {
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
-	public String getWriting() {
-		return writing;
-	}
-	public void setWriting(String writing) {
-		this.writing = writing;
-	}
-	public String getWarning() {
-		return warning;
-	}
-	public void setWarning(String warning) {
-		this.warning = warning;
-	}
+
+	
 	public String getKategorie() {
 		return kategorie;
 	}
@@ -47,6 +36,12 @@ public class ABoardVO {
 	}
 	public void setKeyword(String keyword) {
 		this.keyword = keyword;
+	}
+	public String getKind() {
+		return kind;
+	}
+	public void setKind(String kind) {
+		this.kind = kind;
 	}
 
 	

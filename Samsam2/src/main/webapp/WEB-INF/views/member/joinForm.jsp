@@ -59,23 +59,7 @@ function isSame(){
 
 
     function check_input() {
-      var str, i, ch, chk, chk_list = "";
-      //아이디 체크 ---->
-      if ($('[name="email"]') == "") {
-        alert("아이디를 입력하세요");
-        document.input_form.id.focus();
-        return false;
-      }
-      else {
-        str = document.input_form.email.value;
-        if (str.length < 6 || str.length > 22) {
-          alert("아이디 길이 확인(6~22자리)!!!");
-          document.input_form.email.focus();
-          return false;
-        }
-
-      } // 아이디 체크 <---
-      chk_list = "id =" + str + "\n";
+     
 
       // 패스워드 체크 ---->
       if (document.input_form.pw.value == "") {
@@ -97,8 +81,6 @@ function isSame(){
         document.input_form.pw2.focus();
         return false;
       }//패스워드 체크 <----
-      chk_list += "pw=" + str + "\n"
-
 
       // 전화번호 체크 --->
       if (document.input_form.phone.value.length == 11) {
@@ -203,7 +185,7 @@ table {
 				value=" 다시작성"> 
 				<input type="button" value="홈으로"
 				src="home.me"> 
-				<a href="home.me">홈으로 돌아가기</a></td>
+			
 
 		</table>
 

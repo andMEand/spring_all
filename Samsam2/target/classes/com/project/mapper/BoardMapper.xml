@@ -4,46 +4,45 @@
 <mapper namespace="com.project.mapper.BoardMapper">
 	
 	<!-- 홈 검색 리스트 -->
-
- <select id="getSearchList" parameterType="String" resultType="BoardVO2">
-   select b_no,b_subject,b_nick,b_date
+ <select id="getSearchList" parameterType="String" resultType="BoardVO">
+   select num,subject,nick,c_date
 		from (
 		select
-		b_no,b_subject,b_nick,b_date
-		from doc_c where b_subject like '%' || #{keyword}|| '%' or b_content like '%' ||#{keyword} || '%'
+		num,subject,nick,c_date
+		from community where subject like '%' || #{keyword}|| '%' or c_content like '%' ||#{keyword} || '%'
 		
 		union all
 		
 		select
-		b_no,b_subject,b_nick,b_date
-		from doc_b where b_subject like '%'||#{keyword}||'%' or b_content like '%'||#{keyword}||'%'
+		num,subject,nick,c_date
+		from adopt_list where subject like '%'||#{keyword}||'%' or c_content like '%'||#{keyword}||'%'
 		
 		union all
 		
 		select
-		b_no,b_subject,b_nick,b_date
-		from doc_bh where b_subject like '%'||#{keyword}||'%' or b_content like '%'||#{keyword}||'%'
-		)order by b_date desc
+		care_no as num,care_kind as subject,care_comp as nick,care_date as c_date
+		from care_pet where care_kind like '%'||#{keyword}||'%' or care_etc like '%'||#{keyword}||'%'
+		)order by c_date desc
 
 	</select>
-	<select id="getSDetail"  parameterType="int" resultType="BoardVO2">
-		 select b_no,b_subject,b_content, b_nick,b_date
+	<select id="getSDetail"  parameterType="int" resultType="BoardVO">
+		 select num,subject,c_content, nick,c_date
 		from (
 		select
-		b_no,b_subject,b_content, b_nick,b_date
-		from doc_c where b_no like '%' || #{num}|| '%'
+		num,subject,c_content, nick,c_date
+		from doc_c where num like '%' || #{b_no}|| '%'
 		
 		union all
 		
 		select
-		b_no,b_subject,b_content, b_nick,b_date
-		from doc_b where b_no like '%' || #{num}|| '%'
+		num,subject,c_content, nick,c_date
+		from adopt_list where num like '%' || #{b_no}|| '%'
 		
 		union all
 		
 		select
-		b_no,b_subject,b_content, b_nick,b_date
-		from doc_bh where b_no like '%' || #{num}|| '%'
+		care_no as num,care_kind as subject,care_comp as nick,care_date as c_date,care_etc as c_date
+		from care_pet where care_no like '%' || #{b_no}|| '%'
 		)
 
 	</select>

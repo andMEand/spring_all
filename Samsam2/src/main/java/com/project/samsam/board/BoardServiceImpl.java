@@ -1,7 +1,6 @@
 package com.project.samsam.board;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -10,24 +9,25 @@ import org.springframework.stereotype.Service;
 
 import com.project.mapper.AdminBoardMapper;
 import com.project.mapper.BoardMapper;
+import com.project.samsam.member.MemberVO;
 
 @Service("boardService")
 public class BoardServiceImpl implements BoardService {
 
-	@Autowired // Mybatis(ibatis) 라이브러리가 제공하는 클래스
+	@Autowired // Myb atis(ibatis) 라이브러리가 제공하는 클래스
 	private SqlSession sqlSession;
 
 	@Override
-	public List<BoardVO2> getSearchList(String keyword) {
+	public List<BoardVO> getSearchList(String keyword) {
 		BoardMapper boardMapper =sqlSession.getMapper(BoardMapper.class);
-		List<BoardVO2> searchList = new ArrayList<BoardVO2>();
+		List<BoardVO> searchList = new ArrayList<BoardVO>();
 		try {
 //			System.out.println(vo2.getB_subject());
 
 		 searchList = boardMapper.getSearchList(keyword);
 		 System.out.println("searchList ="+searchList.size());
-		for(BoardVO2 vo : searchList) {
-			System.out.println("검색 결과 " + vo.getB_subject());
+		for(BoardVO vo : searchList) {
+			System.out.println("검색 결과 " + vo.getSubject());
 		}
 		}
 		catch(Exception e) {
@@ -38,9 +38,9 @@ public class BoardServiceImpl implements BoardService {
 	//홈페이지 검색리스트 끝
 
 	@Override
-	public BoardVO2 getSDetail(int num) {
+	public BoardVO getSDetail(int num) {
 		BoardMapper boardMapper = sqlSession.getMapper(BoardMapper.class);
-		BoardVO2 board = boardMapper.getSDetail(num);
+		BoardVO board = boardMapper.getSDetail(num);
 		return board;
 	}
 	// 홈페이지 검색 뷰 끝
@@ -53,10 +53,14 @@ public class BoardServiceImpl implements BoardService {
 	public List<ABoardVOto> findList(ABoardVO abvo){
 		AdminBoardMapper adminMapper =sqlSession.getMapper(AdminBoardMapper.class);
 		List<ABoardVOto> list =adminMapper.findList(abvo);
+		List<ABoardVOto> newlist = new ArrayList<ABoardVOto>();
+		
 		for(ABoardVOto vo :list) {
-			System.out.println("서비스임플"+vo.getNick());
+			vo.setCategory(abvo.getKategorie());
+			newlist.add(vo);
+			System.out.println("서비스임플"+vo.getNick() + "카테고리 : " + vo.getCategory());
 		}
-		return list;
+		return newlist;
 	}
 	@Override
     public List<ABoardVOto> find_w_List(ABoardVO abvo){
@@ -67,73 +71,42 @@ public class BoardServiceImpl implements BoardService {
 		}
 		return Wlist;
     }
-
 	//어드민 게시글 관리 
-
-////////////////////
 	
-	@Override
-	public int getListCount() {
-		BoardMapper boardMapper = sqlSession.getMapper(BoardMapper.class);
-		int res = boardMapper.getListCount();
-		return res;
+	public MemberVO adModalView_m (ADModalVO movo){
+		AdminBoardMapper adminMapper = sqlSession.getMapper(AdminBoardMapper.class);
+		MemberVO mvo = adminMapper.ad_view_m(movo);
+		return mvo;
+		
 	}
+     public ABoardVOto adModalView_b (ADModalVO movo) {
+    	 AdminBoardMapper adminMapper = sqlSession.getMapper(AdminBoardMapper.class);
+    	 ABoardVOto bvo = adminMapper.ad_view_b(movo);
+ 		return  bvo;
+     }
+     
+     public List<CommentVO> adModalView_c (ADModalVO movo){
+    	 AdminBoardMapper adminMapper = sqlSession.getMapper(AdminBoardMapper.class);
+    	 List<CommentVO> cList =(List<CommentVO>) adminMapper.ad_view_b(movo);
+    	 return  cList;
+     }
+     public CommentVO adModalView_ccount(ADModalVO movo){
+    	 AdminBoardMapper adminMapper = sqlSession.getMapper(AdminBoardMapper.class);
+    	 CommentVO ccount = adminMapper.ad_view_ccount(movo);
+ 		return  ccount;
+     }
+     
+     public List<WarningVO> adModalView_w (ADModalVO movo){
+    	 AdminBoardMapper adminMapper = sqlSession.getMapper(AdminBoardMapper.class);
+    	 List<WarningVO> wList =(List<WarningVO>) adminMapper.ad_view_w(movo);
+ 		return  wList;
+     }
+     public WarningVO adModalView_wcount(ADModalVO movo){
+    	 AdminBoardMapper adminMapper = sqlSession.getMapper(AdminBoardMapper.class);
+    	 WarningVO wcount = adminMapper.ad_view_wcount(movo);
+ 		return  wcount;
+     }
+	  //어드민 게시글 뷰 Modal
 
-	@Override
-	public List<BoardVO> getBoardList(HashMap<String, Integer> hashmap) {
-		BoardMapper boardMapper = sqlSession.getMapper(BoardMapper.class);
-		List<BoardVO> boardlist = boardMapper.getBoardList(hashmap);
-		return boardlist;
-	}
 
-	@Override
-	public BoardVO getDetail(int num) {
-		BoardMapper boardMapper = sqlSession.getMapper(BoardMapper.class);
-		boardMapper.setReadCountUpdate(num);
-		BoardVO board = boardMapper.getDetail(num);
-		return board;
-	}
-
-	@Override
-	public int boardInsert(BoardVO board) {
-		BoardMapper boardMapper = sqlSession.getMapper(BoardMapper.class);
-		int res = boardMapper.boardInsert(board);
-		return res;
-	}
-
-	@Override
-	public int boardReply(BoardVO board) {
-		BoardMapper boardMapper = sqlSession.getMapper(BoardMapper.class);
-		boardMapper.boardReplyupdate(board);
-//		board.setRe_seq(board.getRe_seq()+1);
-//		board.setRe_lev(board.getRe_lev()+1);
-		int res = boardMapper.boardInsert(board);
-		return res;
-	}
-
-	@Override
-	public BoardVO boardModifyForm(int num) {
-		BoardMapper boardMapper = sqlSession.getMapper(BoardMapper.class);
-		BoardVO board = boardMapper.getDetail(num);
-		return board;
-	}
-
-	@Override
-	public int boardModify(BoardVO modifyboard) {
-		BoardMapper boardMapper = sqlSession.getMapper(BoardMapper.class);
-		int res = boardMapper.boardModify(modifyboard);
-		return res;
-	}
-
-	@Override
-	public int boardDelete(HashMap<String, String> hashmap) {
-		BoardMapper boardMapper = sqlSession.getMapper(BoardMapper.class);
-		int res = boardMapper.isBoardWriter(hashmap);
-		int num = Integer.parseInt(hashmap.get("num"));
-
-		if (res == 1) {
-			res = boardMapper.boardDelete(num);
-		}
-		return res;
-	}
 }
