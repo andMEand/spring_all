@@ -5,6 +5,7 @@
 <%@ page import="com.project.samsam.board.*" %>
 <%
 	List<BoardVO> searchList =(List<BoardVO>)request.getAttribute("searchList");
+HashMap<Object, Object> map =(HashMap<Object, Object>)request.getAttribute("map");
 
  %>
 <!DOCTYPE html>
@@ -16,6 +17,8 @@
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
   
   <title>나의 반려친구, 삼삼하개</title>
+  
+  
 </head>
 <body>
 
@@ -85,7 +88,7 @@
 							%>
 							<tr>
                     	<td><%=bvo.getNum() %></td>
-                    	<td overflow="hidden"><a href="./Sboarddetail.bo?b_no=<%=bvo.getNum()%>"><%=bvo.getSubject() %></a></td>
+                    	<td overflow="hidden"><a href="/s_board_detail.bo?b_no=<%=bvo.getNum()%>"><%=bvo.getSubject() %></a></td>
                     	<td><%=bvo.getNick() %></td>
                     	<td><%=bvo.getC_date() %></td>
                     	</tr>

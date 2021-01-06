@@ -13,11 +13,32 @@ public class MemberServiceImpl implements MemberService {
 	
 	@Autowired
 	private SqlSession sqlSession;
-	
 	@Override
-	public int insertMember(MemberVO memberVO) {
+	public int k_joinMember (MemberVO mvo) {
+		MemberMapper memberMapper = sqlSession.getMapper(MemberMapper.class);
+		int res =memberMapper.k_joinMember(mvo);
+		return res;
+		//카카오 회원가입
+	}
+	@Override
+	public MemberVO selectMember (String email) {
+		MemberMapper memberMapper = sqlSession.getMapper(MemberMapper.class);
+		MemberVO mvo = memberMapper.selectMember(email);
+		return mvo;
+	}
+	@Override
+	public Biz_memberVO selectBizMember (String biz_email) {
+		MemberMapper memberMapper = sqlSession.getMapper(MemberMapper.class);
+		Biz_memberVO bmvo =memberMapper.selectBizMember(biz_email);
+		return bmvo;
+	}
+	
+	
+	//
+	@Override
+	public int joinMember(MemberVO memberVO) {
 		MemberMapper memberMapper =sqlSession.getMapper(MemberMapper.class);
-		int res = memberMapper.insertMember(memberVO);
+		int res = memberMapper.JinsertMember(memberVO);
 		return res;
 	}
 
@@ -36,13 +57,13 @@ public class MemberServiceImpl implements MemberService {
 		return member_list;
 	}
 
-	@Override
-	public MemberVO selectMember(MemberVO memberVO) {
-		MemberMapper memberMapper = sqlSession.getMapper(MemberMapper.class);
-		MemberVO member  = memberMapper.selectMember(memberVO);
-			
-		return member;
-	}
+//	@Override
+//	public MemberVO selectMember(MemberVO memberVO) {
+//		MemberMapper memberMapper = sqlSession.getMapper(MemberMapper.class);
+//		MemberVO member  = memberMapper.selectMember(memberVO);
+//			
+//		return member;
+//	}
 
 	@Override
 	public int deleteMember(MemberVO memberVO) {

@@ -6,10 +6,10 @@ public class WarningVO {
 	private int w_co_no;
 	private int w_doc_no;
 	private String w_date;
-	private String w_a_reason;
 	private String w_status;
 	private String w_reason;
-	private String wcount;
+	
+	private String w_count;
 	
 	public int getW_no() {
 		return w_no;
@@ -41,12 +41,7 @@ public class WarningVO {
 	public void setW_date(String w_date) {
 		this.w_date = w_date;
 	}
-	public String getW_a_reason() {
-		return w_a_reason;
-	}
-	public void setW_a_reason(String w_a_reason) {
-		this.w_a_reason = w_a_reason;
-	}
+
 	public String getW_status() {
 		return w_status;
 	}
@@ -60,10 +55,10 @@ public class WarningVO {
 		this.w_reason = w_reason;
 	}
 	public String getWcount() {
-		return wcount;
+		return w_count;
 	}
-	public void setWcount(String wcount) {
-		this.wcount = wcount;
+	public void setWcount(String w_count) {
+		this.w_count = w_count;
 	}
 
 }

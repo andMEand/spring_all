@@ -1,11 +1,9 @@
 package com.project.samsam.member;
 
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class MemberController {
@@ -24,61 +23,107 @@ public class MemberController {
 	@Autowired
 	private MailSendService mss;
 
-	@RequestMapping("/login.me")
-	public String userCheck(MemberVO memberVO, HttpSession session, HttpServletResponse response) throws Exception {
-		int res = memberService.userCheck(memberVO);
-
-		response.setCharacterEncoding("utf-8");
-		response.setContentType("text/html; charset=utf-8");
-		PrintWriter writer = response.getWriter();
-		if (res == 1) {
-			session.setAttribute("id", memberVO.getEmail()); // 세션객체에 아이디 저장 로그인 유지를 유해
-			writer.write("<script>alert('로그인 성공!!');" + "location.href='./boardlist.bo';</script>");
-
-			// return "redirect:/main.me";
-		} else {
-			writer.write("<script>alert('로그인 실패!!');location.href='./loginform.me';</script>");
-			// return "redirect:/loginform.me";
-		}
-		return null;
-	}
-
+	
 	@RequestMapping("/home.me")
 	public String mainPage() throws Exception {
 		return "member/home";
 	}
+	
+	@RequestMapping(value = "/loginform.me")
+	public String login_Form() {
+
+		return "member/loginForm";
+	}
+	
+	//카카오로그인
+	@RequestMapping(value = "/kkoLogin.me")
+	public String kko_Join(MemberVO mvo, Model model, RedirectAttributes redi_attr) {
+		System.out.println("이메일: " + mvo.getEmail() + "닉네임 : " + mvo.getNick());
+		
+		if(memberService.selectMember(mvo.getEmail()) == null) {
+			mvo.setGrade("카카오");
+			model.addAttribute("MemberVO", mvo);
+			return "member/k_joinForm";
+		}
+		else {
+			redi_attr.addAttribute("email", mvo.getEmail());
+			return "redirect:/login.me";
+			}
+	}
+	
+	//카카오계정 회원가입
+	@RequestMapping(value = "/kkoJoin.me")
+	public String kko_joinProcess(MemberVO mvo) {
+		System.out.println("카카오회원가입" + mvo.getGrade());
+		int res = memberService.k_joinMember(mvo);
+		if(res == 1) {
+			return "member/loginForm";
+		}
+		else {
+			return "member/k_joinform";
+		}
+	}
+	
+	@RequestMapping(value = "/login.me")
+	public String userCheck(@RequestParam("email") String email, MemberVO vo, HttpSession session) throws Exception {
+		System.out.println("로그인 이메일 "+vo.getEmail());
+		System.out.println("로그인 비밀번호 "+vo.getPw());
+		
+		
+		if(vo.getEmail().equals("admin")) {
+			session.setAttribute("id", vo.getEmail());
+			session.setAttribute("email", vo.getEmail());
+			
+			return "redirect:/home.me";  //어드민 페이지로 변경 필요
+		}
+		
+		MemberVO res = memberService.selectMember(vo.getEmail());
+		if(res.getGrade().equals("카카오")) {
+			session.setAttribute("email", res.getEmail());
+			Biz_memberVO bo = memberService.selectBizMember(vo.getEmail());
+			if(bo != null) {
+				if(bo.getStatus() == 0) {
+					return "redirect:/cominfo_main.do";//사업자 마이페이지로 변경 필요
+				}
+			}
+			return "redirect:/home.me";//마이페이지로 변경 필요
+		}
+		
+		if(res.getPw().equals(vo.getPw())) {
+			session.setAttribute("id", res.getEmail());
+			session.setAttribute("email", res.getEmail());
+			System.out.println("session id :" +session.getAttribute("id"));
+			System.out.println("session email :" +session.getAttribute("email"));
+			
+			//사업자회원인지 확인
+			Biz_memberVO bo = memberService.selectBizMember(vo.getEmail());
+			if(bo != null) {
+				if(bo.getStatus() == 0) {
+					return "redirect:/cominfo_main.do"; //사업자 마이페이지로 변경 필요
+				}
+			}
+			return "redirect:/home.me";  //마이페이지로 변경 필요
+		}else {
+			return "redirect:/loginForm.me";
+		}
+	}
+	
+	
+	/////
 	
 	@RequestMapping("/joinform.me")
 	public String joinForm() throws Exception {
 		return "member/joinForm";
 	}
 
-	@RequestMapping("/loginform.me")
-	public String loginForm() throws Exception {
-		return "member/loginForm";
-	}
 
-//	@RequestMapping("/joinprocess.me")
-//	public String insertMember(MemberVO memberVO, HttpServletResponse response) throws Exception {
-//		System.out.println(1);
-//		int res = memberService.insertMember(memberVO);
-//		System.out.println(2);
-//		response.setCharacterEncoding("utf-8");
-//		response.setContentType("text/html; charset=utf-8");
-//		PrintWriter writer = response.getWriter();
-//		if (res != 0) {
-//			writer.write("<script>alert('회원 가입 성공!!');" + "location.href='./loginform.me';</script>");
-//		} else {
-//			writer.write("<script>alert('회원 가입 실패!!');" + "location.href='./joinform.me';</script>");
-//		}
-//		return null;
-//	}
+///////////////////////////////////
 	
 	@RequestMapping("/signUp.me")
 	public String signUp(@ModelAttribute MemberVO memberVO) {
 		System.out.println(memberVO.getNick());
 		 // DB에 기본정보 insert
-		memberService.insertMember(memberVO);
+		memberService.joinMember(memberVO);
 		System.out.println("인서트완료");
 		//임의의 authKey생성 & 이메일 발송
 		String authKey = mss.sendAuthMail(memberVO.getEmail());
@@ -114,13 +159,13 @@ public class MemberController {
 		return "member/member_list";
 	}
 
-	@RequestMapping("/memberinfo.me")
-	public String selectMember(MemberVO memberVO, Model model) throws Exception {
-		MemberVO vo = memberService.selectMember(memberVO);
-		model.addAttribute("memberVO", vo);
-
-		return "member/member_info";
-	}
+//	@RequestMapping("/memberinfo.me")
+//	public String selectMember(MemberVO memberVO, Model model) throws Exception {
+//		MemberVO vo = memberService.selectMember(memberVO);
+//		model.addAttribute("memberVO", vo);
+//
+//		return "member/member_info";
+//	}
 
 	@RequestMapping("/memberdelete.me")
 	public String deleteMember(MemberVO memberVO, Model model) throws Exception {

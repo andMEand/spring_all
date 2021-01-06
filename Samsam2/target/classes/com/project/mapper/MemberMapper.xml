@@ -15,17 +15,16 @@
 	</resultMap>
 	
 	
-<select id="getMemberlist" resultType="MemberVO">
+	<select id="getMemberlist" resultType="MemberVO">
 		SELECT * FROM smember order by email
 	</select>
-	<insert id="insertMember" parameterType="MemberVO" >
-		INSERT INTO smember VALUES 
-			(#{email},#{pw},#{name},#{nick},#{phone},#{grade},#{local},#{authKey},#{status})
-	</insert>
 	
-	<select id="selectMember"  parameterType="MemberVO" resultType="MemberVO">
-		SELECT * FROM smember WHERE email=#{email}
-	</select>
+
+	
+	<!-- 
+	 Mapped Statements collection already contains value for com.project.mapper.MemberMapper.selectMember
+	 -->
+
 	
 	<select id="userCheck" parameterType="MemberVO" resultType="int">
 	SELECT count(*) FROM sMEMBER WHERE EMAIL = #{email} AND PW = #{pw} AND STATUS = 1
@@ -42,4 +41,24 @@
 	<update id="updateAuthStatus" parameterType="HashMap">
 	update smember set status =1 where email=#{email} and authKey=#{authKey}
 	</update>
+	
+<!-- 회원가입 -->
+<insert id = "joinMember" parameterType="MemberVO">
+	insert into smember(email, pw, name,nick,phone,local, grade, authkey,status,signdate)
+	values (#{email}, #{pw}, #{name}, #{nick}, #{phone}, #{local}, #{grade},#{authkey},#{status}, sysdate)
+</insert>
+<insert id = "k_joinMember" parameterType="MemberVO">
+	insert into smember(email, pw, name,nick,phone,local, grade, authkey,status,signdate)
+	values (#{email}, #{pw}, #{name}, #{nick}, #{phone}, #{local}, #{grade},null,null, sysdate)
+</insert>
+
+<!-- 회원정보조회 -->
+<select id="selectMember" parameterType="String" resultType="MemberVO">
+	select * from smember where email = #{email}
+</select>
+
+<!-- 사업자회원 조회(이메일) -->
+<select id="selectBizMember" parameterType="String" resultType="Biz_memberVO">
+	select * from biz_member where biz_email = #{biz_email}
+</select>
 </mapper>

@@ -1,6 +1,8 @@
 package com.project.samsam.board;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.project.samsam.member.MemberVO;
+
 @Controller
 public class BoardController {
 
@@ -17,21 +21,53 @@ public class BoardController {
 	private BoardService boardService; // BoardService빈객체가 만들어져있어야 한다
 	
 	@RequestMapping("/home_search.me")
-	public String getSearchlist(@RequestParam(value="keyword", required= true, defaultValue="")String keyword, Model model){
+	public HashMap<Object, Object> getSearchlist(@RequestParam(value="keyword", required= true, defaultValue="")String keyword, Model model){
+			HashMap<Object, Object> map = new HashMap<Object, Object>();
+			//커뮤니티
+			List<BoardVO> c_list = boardService.getSearch_commu_List(keyword);
 		try {
-        List<BoardVO> searchList = boardService.getSearchList(keyword);
-        model.addAttribute("searchList", searchList);
-        System.out.println("searchList" + searchList.get(0));
-
+			if(c_list != null) {
+				map.put("community", c_list);
+			}
+			else{
+				System.out.println(map);
+			}
 		}
 		catch(Exception e) {
-			System.out.println("검색 에러(컨) : " + e.getMessage());
+			System.out.println("검색 에러(커뮤니티) : " + e.getMessage());
 		}
-        return "board/ho_search_list";    //게시판 페이지로 이동
+		//분양
+		List<BoardVO> a_list = boardService.getSearch_adopt_List(keyword);
+		try {
+			if(a_list != null) {
+				map.put("adoc_list", a_list);
+			}
+			else{
+				System.out.println(map);
+			}
+		}
+		catch(Exception e) {
+			System.out.println("검색 에러(커뮤니티) : " + e.getMessage());
+		}
+		//책임분양
+		List<BoardVO> f_list = boardService.getSearch_free_List(keyword);
+		try {
+			if(f_list != null) {
+				map.put("free_doc", f_list);
+			}
+			else{
+				System.out.println(map);
+			}
+		}
+		catch(Exception e) {
+			System.out.println("검색 에러(커뮤니티) : " + e.getMessage());
+		}
+
+           return map;
         
 	}
 	
-	@RequestMapping("/Sboarddetail.bo")
+	@RequestMapping("/s_board_detail.bo")
 	public String getSDetail(@RequestParam(value ="b_no", required = true) int b_no, Model model) {
 		try {
 		BoardVO bvo = boardService.getSDetail(b_no);
@@ -43,15 +79,17 @@ public class BoardController {
 		}
 		return "board/ho_search_view";
 	}
-	//홈페이지 검색 끝
+	//홈페이지 원본 글이동   >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>a href 이동을 위한 메소드 수정필요
 	
+////////////////////////////	
+	//관리자 페이지 컨트롤러
 	
 	@RequestMapping("/adminboard.do")
 	public String adminboard() throws Exception {
 		return "admin/admin_board";
 	}
-	//어드민 게시글 관리 뷰 끝
-////////////////////////////
+	
+
 	
 	@RequestMapping(value="/boardFind.do",
 						produces= "application/json;charset=utf-8")
@@ -84,8 +122,66 @@ public class BoardController {
 		System.out.println(2);
 		return list;
 		}
+	//어드민 게시글관리 신고리스트 함수 
+	////////////////////
+	//어드민 게시글 view  함수
 	
-	//어드민 게시글관리 신고리스트 함수
+	@RequestMapping(value="/admin_b_detail.do",
+			produces="application/json;charset=utf-8")
+	@ResponseBody
+	public Map<String,Object> map (@RequestBody ADModalVO mvo) throws Exception{
+		System.out.println("컨트롤러 board_detail.do");
+		Map<String,Object> map = new HashMap<String, Object>(); 
+		System.out.println("카테고리 : "+ mvo.getCategory());
+		MemberVO vo = boardService.adModalView_m(mvo);
+		if(vo != null) {
+			System.out.println("vo.grade : " +vo.getGrade());
+			map.put("MemberVO", vo);
+		}
+		else {
+			System.out.println("modal MemberVO null");
+		}
+		ABoardVOto bvo = boardService.adModalView_b(mvo);
+		if(bvo != null) {
+			map.put("ABoardVOto", bvo);
+		}
+		else {
+			System.out.println("modal ABoardVOto null");
+		}
+		
+		List<CommentVO> cList = boardService.adModalView_c(mvo);
+		if(cList != null) {
+			map.put("cList", cList);
+		}
+		else {
+			System.out.println("modal cList null");
+		}
+		CommentVO co_count = boardService.adModalView_ccount(mvo);
+		if(co_count != null) {
+			map.put("CommentVO", co_count);
+		}
+		else {
+			System.out.println("modal ccount null");
+		}
+		
+		List<WarningVO> wList = boardService.adModalView_w(mvo);
+		if(wList != null) {
+			map.put("wList", wList);
+		}
+		else {
+			System.out.println("modal cList null");
+		}
+		WarningVO wcount = boardService.adModalView_wcount(mvo);
+		if(wcount != null) {
+			map.put("WarningVO", wcount);
+		}
+		else {
+			System.out.println("modal wcount null");
+		}
+		
+		System.out.println(map);
+		return map;
+	}
 	
 	
 	

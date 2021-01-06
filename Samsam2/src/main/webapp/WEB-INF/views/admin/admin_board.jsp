@@ -17,8 +17,8 @@
 		out.println("</script>");
 	s
 	*/
-
-	ArrayList<ABoardVOto> list = (ArrayList<ABoardVOto>) request.getAttribute("list");
+	HashMap<Object, Object> map = (HashMap<Object, Object>)request.getAttribute("map");
+	
 
 	//	클래스 변수이름 = (클래스)request.getAttribute("모델로 저장한 이름");
 	//	int b_no = 변수이름.getB_no();
@@ -124,8 +124,7 @@
 												$.ajax({
 															url : '/samsam/boardFind.do',
 															type : 'POST',
-															data : JSON
-																	.stringify(data),
+															data : JSON.stringify(data),
 															contentType : 'application/json;charset=utf-8',
 															dataType : 'json',
 
@@ -145,12 +144,12 @@
 																	output += '</tr>';
 																	console.log("output:"+ output);
 																	$('#output').append(output);
-															});
+															});	
 														}, //성공
 															error : function(error) {
 																alert("통신실패"+ error);
 															}
-														});// if 에이젝스
+														}); // if 에이젝스
 												event.preventDefault();
 											} else {
 												$.ajax({url : '/samsam/boardWFind.do',
@@ -210,52 +209,55 @@
 		}
 		console.log(setData);
 
-		$ajax({
-			url: '/samsam/board_detail.do',
+		$.ajax({
+			url: '/samsam/admin_b_detail.do',
 			type : 'POST',
 			data : JSON.stringify(setData),
 			dataType :'json',
 			contentType : 'application/json;charset=utf-8',
 			success : function(map) {
 				console.log("map : " + map)
-				$('#modal').empty();
+				
+				$('.modal').empty();
 
-				$('#email').val(map.MemberVO.email);		//회원정보
+				$('#email').val(map.MemberVO.email);		   //회원정보
 				$('#nick').val(map.MemberVO.nick);
-			//	$('#phone').val(map.MemberVO.phone);
 				$('#local').val(map.MemberVO.local);
 				$('#grade').val(map.MemberVO.grade);
+				//
 				
-				$('#num').val(map.BoardVOto.num); 
-				$('#category').val(map.BoardVOto.num); 
-				$('#c_date').val(map.BoardVOto.c_date); 
-				$('#readcount').val(map.BoardVOto.readcount); 
-				$('#subject').val(map.BoardVOto.subject); 
-				$('#c_content').val(map.BoardVOto.c_content); //게시글
-				
-				$('#co_content').val(map.CommentVO.co_content);
-				$('#co_no').val(map.CommentVO.co_no); 			//댓글
-			//	$('#co_doc_no').val(map.MemberVO.co_doc_no);
-				$('#co_nick').val(map.CommentVO.co_nick);
-				$('#co_date').val(map.CommentVO.co_date);
-				$('#co_secret').val(map.CommentVO.co_secret);
+				$('#num').val(map.ABoardVOto.num); 
+				$('#category').val(map.ABoardVOto.num); 
+				$('#c_date').val(map.ABoardVOto.c_date); 
+				$('#readcount').val(map.ABoardVOto.readcount); 
+				$('#subject').val(map.ABoardVOto.subject);
+				$('#c_content').val(map.ABoardVOto.c_content);  //게시글
+				console.log($('#grade').val());
+
+//				$('#w_count').val(map.WarningVO.wcount);		   
+				//
+				if(map.wList != null){					//신고리스트
+					$.each(map.wList, function(index,item){
+						if(map.wList.w_reason = null){
+							$('.w-table').html($('.w-table').html()+'<div class="result-table-row"><div class-table-cell">'+item.w_email +'</div><div class="result-table-cell">'+ item.w_reason+'</div><div class="result-table-cell">' + item.w-date +'</div>')
+							console.log("w-table : "+ $('.w-table').html)
+						}
+						})
+						
+					}else{
+						$('.w-table').html($('.w-table').html()+'<div class="result-table-row"><div class="result-table-cell">신고글이 없습니다</div></div>')	
+					}
 					
-				$('#wcount').val(map.Warning.wcount);		//신고 해당글에 대한 신고횟수
-				$('#w_no').val(map.Warning.w_no);
-				$('#w_nick').val(map.Warning.w_nick);		//회원정보의 닉네임
-				$('#w_date').val(map.Warning.w_date);
-				$('#w_reason').val(map.Warning.w_reason);
-				$('#w_a_reason').val(map.Warning.w_a_reason);
-				$('#w_status').val(map.Warning.w_status);
-				
-				
-				if(map.Commentlist != null){                  //댓글리스트
-					$.each(map.Commentlist, function(index, item){
-						$('.c-table').html($('.c-table').html()+'<div class="result-table-row"><div class="result-table-cell"><a href="#">'+ item.co_content+'</a></div><div class="result-table-cell">' + item.co_date+'</div>')
-					}); //map.Commentlist each
+				if(map.cList != null){                  //댓글리스트
+					$.each(map.cList, function(index, item){
+						$('.c-table').html($('.c-table').html()+'<div class="result-table-row"><div class="result-table-cell">'+ item.co_content+'</div><div class="result-table-cell">'+ item.co_nick+'</div><div class="result-table-cell">' + item.co_date+'</div>')
+					}); 
 					}else{
 						$('.c-table').html($('.c-table').html()+'<div class="result-table-row"><div class="result-table-cell">작성댓글이 없습니다</div></div>')	
 					}
+					
+				
+				
 				$('#detail_form').modal('show');
 			},//success
 			error : function() {
@@ -376,7 +378,7 @@
 	<form id="detail_form" class="modal">
 	<div class="admin_b_view">
 	<h3>page detail</h3>
-	<div class=" modal_view thin">
+	<div class=" modal_view side">
 	<div class="admin_nav">
 	<label>아이디</label><input type="text" id = "email" readonly>
 	<label>닉네임</label><input type="text" id = "nick" readonly>
@@ -408,35 +410,24 @@
 	<!--admin_nav  -->
 
 	<div class ="commentlist">
-		<h3>댓글</h3>
+		<h3> comment</h3>
 		<div class="c-table">
 	
 	</div> 
 	<!-- commentlist -->
-	
-
-	</div>
-	
-	</div>
-	<!-- modal_view thin 글&댓글 -->
-	<div class="modal_view thin2">
-		<div class="warning">
-			<h3>신고내역 : </h3>            <!-- 카운트 필요 -->
-			<div class="row">
-				<div class="cell col1">신고일</div>
-				<div class="cell col1">신고 사유</div>
-				<div class="cell col1">신고자</div>
-			</div>
-			<div class="row">
-				<div class="cell col1"></div>
-				<div class="cell col1"></div>
-				<div class="cell col1"></div>
-			</div>
+		
+	<div class=" modal_view side">
+	<div class ="warninglist">
+		<h3>신고목록</h3>
+		<div class="w-table">
 		
 		</div>
+	</div>
+	<!-- warninglist -->
 	
 	</div>
-	<!-- modal_view thin2 / 신고-->
+	</div>
+	</div>
 	</div>
 	</form>
 	
