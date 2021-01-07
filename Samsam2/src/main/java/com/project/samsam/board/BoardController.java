@@ -21,16 +21,15 @@ public class BoardController {
 	private BoardService boardService; // BoardService빈객체가 만들어져있어야 한다
 	
 	@RequestMapping("/home_search.me")
-	public HashMap<Object, Object> getSearchlist(@RequestParam(value="keyword", required= true, defaultValue="")String keyword, Model model){
-			HashMap<Object, Object> map = new HashMap<Object, Object>();
+	public String getSearchlist(@RequestParam(value="keyword", required= true, defaultValue="")String keyword, Model model){
 			//커뮤니티
 			List<BoardVO> c_list = boardService.getSearch_commu_List(keyword);
 		try {
 			if(c_list != null) {
-				map.put("community", c_list);
+				model.addAttribute("community",c_list); 
 			}
 			else{
-				System.out.println(map);
+				System.out.println("community");
 			}
 		}
 		catch(Exception e) {
@@ -40,30 +39,30 @@ public class BoardController {
 		List<BoardVO> a_list = boardService.getSearch_adopt_List(keyword);
 		try {
 			if(a_list != null) {
-				map.put("adoc_list", a_list);
+				model.addAttribute("adopt_list",a_list); 
 			}
 			else{
-				System.out.println(map);
+				System.out.println("adopt_list");
 			}
 		}
 		catch(Exception e) {
-			System.out.println("검색 에러(커뮤니티) : " + e.getMessage());
+			System.out.println("검색 에러(분양) : " + e.getMessage());
 		}
 		//책임분양
 		List<BoardVO> f_list = boardService.getSearch_free_List(keyword);
 		try {
 			if(f_list != null) {
-				map.put("free_doc", f_list);
+				model.addAttribute("free_doc",f_list); 
 			}
 			else{
-				System.out.println(map);
+				System.out.println("free_doc");
 			}
 		}
 		catch(Exception e) {
-			System.out.println("검색 에러(커뮤니티) : " + e.getMessage());
+			System.out.println("검색 에러(책임분양) : " + e.getMessage());
 		}
-
-           return map;
+		
+           return "board/ho_search_list";
         
 	}
 	
@@ -143,7 +142,15 @@ public class BoardController {
 		}
 		ABoardVOto bvo = boardService.adModalView_b(mvo);
 		if(bvo != null) {
-			map.put("ABoardVOto", bvo);
+			String category=mvo.getCategory();
+			if(category.equals("community")) {
+				bvo.setCategory("커뮤니티");
+				map.put("ABoardVOto", bvo);
+			}
+			else{
+				bvo.setCategory("분양게시판");
+				map.put("ABoardVOto", bvo);
+			}
 		}
 		else {
 			System.out.println("modal ABoardVOto null");

@@ -4,22 +4,23 @@
 <mapper namespace="com.project.mapper.BoardMapper">
 	
 	<!-- 홈 검색 리스트 -->
- 		<select id="getSearch_cList" parameterType="String" resultType="BoardVO">
-  		select num,nick,subject,c_date, readcount
-		from community where subject like '%' || #{keyword}|| '%' or c_content like '%' ||#{keyword} || '%'
-		</select>
-		
-		<select id="getSearch_aList" parameterType="String" resultType="BoardVO">	
-		select num,subject,nick,c_date,readcount
-		from adopt_list where subject like '%'||#{keyword}||'%' or c_content like '%'||#{keyword}||'%'
-		</select>
-		
-		<select id="getSearch_fList" parameterType="String" resultType="BoardVO">
-		select num,subject,nick,c_date,readcount
+		<select id="getSearch_free_List" parameterType="String" resultType="BoardVO">
+		select fdoc_no as num ,nick,subject,c_date,readcount
 		from free_doc where subject like '%'||#{keyword}||'%' or c_content like '%'||#{keyword}||'%'
 		
 		</select>
 	
+ 		<select id="getSearch_commu_List" parameterType="String" resultType="BoardVO">
+  		select num,nick,subject,c_date,readcount
+		from community where subject like '%' || #{keyword}|| '%' or c_content like '%' ||#{keyword} || '%'
+		order by c_date desc
+		</select>
+		
+		<select id="getSearch_adopt_List" parameterType="String" resultType="BoardVO">	
+		select num,nick,subject,c_date,readcount
+		from adopt_list where subject like '%'||#{keyword}||'%' or c_content like '%'||#{keyword}||'%'
+		</select>
+		
 	
 		
 

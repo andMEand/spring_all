@@ -31,10 +31,10 @@
 		in (select o.email from ${category} o where o.num= #{number})	
 		</select>
 		<select id="ad_view_b" parameterType="ADModalVO" resultType="ABoardVOto">
-			select  subject, c_content, c_date, readcount from ${category} where num =#{number}
+			select  num, subject, c_content, c_date, readcount from ${category} where num =#{number}
 		</select>
-		<select id="ad_view_cList" parameterType="ADModalVO" resultType="CommentVO">
-			select co_no,co_email,co_content,co_date,co_secret from c_comment where co_doc_no 
+		<select id="ad_view_cList" parameterType="ADModalVO" resultType="CommentVO"> 
+			select co_no,co_nick,co_content,co_date,co_secret from c_comment where co_doc_no 
 			in(select co_doc_no from c_comment where co_doc_no=#{number})
 		</select>
 		<select id="ad_view_ccount" parameterType="ADModalVO" resultType="WarningVO">

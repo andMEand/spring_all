@@ -1,11 +1,13 @@
 package com.project.samsam.board;
 
+import java.util.Date;
+
 public class BoardVO {
 	private int num;
 	private String subject;
 	private String c_content;
 	private String nick;
-	private String c_date;
+	private Date c_date;
 	public int getNum() {
 		return num;
 	}
@@ -30,10 +32,10 @@ public class BoardVO {
 	public void setNick(String nick) {
 		this.nick = nick;
 	}
-	public String getC_date() {
+	public Date getC_date() {
 		return c_date;
 	}
-	public void setC_date(String c_date) {
+	public void setC_date(Date c_date) {
 		this.c_date = c_date;
 	}
 	
