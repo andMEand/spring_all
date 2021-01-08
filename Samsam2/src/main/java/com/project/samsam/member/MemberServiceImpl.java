@@ -21,6 +21,13 @@ public class MemberServiceImpl implements MemberService {
 		//카카오 회원가입
 	}
 	@Override
+	public int joinMember(MemberVO memberVO) {
+		MemberMapper memberMapper =sqlSession.getMapper(MemberMapper.class);
+		int res = memberMapper.joinMember(memberVO);
+		return res;
+	} //회원가입
+	
+	@Override
 	public MemberVO selectMember (String email) {
 		MemberMapper memberMapper = sqlSession.getMapper(MemberMapper.class);
 		MemberVO mvo = memberMapper.selectMember(email);
@@ -35,12 +42,6 @@ public class MemberServiceImpl implements MemberService {
 	
 	
 	//
-	@Override
-	public int joinMember(MemberVO memberVO) {
-		MemberMapper memberMapper =sqlSession.getMapper(MemberMapper.class);
-		int res = memberMapper.JinsertMember(memberVO);
-		return res;
-	}
 
 	@Override
 	public int userCheck(MemberVO memberVO) {
@@ -75,9 +76,9 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	@Override
-	public void updateAuthKey ( Map<String, String> map){
+	public void updateAuthkey ( Map<String, String> map){
 		MemberMapper memberMapper =sqlSession.getMapper(MemberMapper.class);
-		memberMapper.updateAuthKey(map);
+		memberMapper.updateAuthkey(map);
 		
 	}
 	@Override

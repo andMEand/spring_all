@@ -176,7 +176,8 @@ table {
 						<option value="충북">충북
 				</select></td>
 			</tr>
-			<input type="hidden" name="authKey"value="">
+			<input type="hidden" name="grade"value="일반">
+			<input type="hidden" name="authkey"value="">
 			<input type="hidden" name="status"value="">
 			약관동의
 			<td colspan="2" align="center" width="500">

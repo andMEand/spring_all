@@ -8,7 +8,7 @@ public class MemberVO {
 	int phone;
 	String local;
 	String grade;  //일반/ 사업자 구분
-	String authKey;  //인증키
+	String authkey;  //인증키
 	String status;	//인증상태
 	String signdate;  //가입일
 	
@@ -55,11 +55,11 @@ public class MemberVO {
 	public void setGrade(String grade) {
 		this.grade = grade;
 	}
-	public String getAuthKey() {
-		return authKey;
+	public String getAuthkey() {
+		return authkey;
 	}
-	public void setAuthKey(String authKey) {
-		this.authKey = authKey;
+	public void setAuthkey(String authkey) {
+		this.authkey = authkey;
 	}
 	public String getStatus() {
 		return status;

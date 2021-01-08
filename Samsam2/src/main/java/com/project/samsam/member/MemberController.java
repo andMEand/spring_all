@@ -69,14 +69,14 @@ public class MemberController {
 		System.out.println("로그인 이메일 "+vo.getEmail());
 		System.out.println("로그인 비밀번호 "+vo.getPw());
 		
-		
+		//어드민
 		if(vo.getEmail().equals("admin")) {
 			session.setAttribute("id", vo.getEmail());
 			session.setAttribute("email", vo.getEmail());
 			
 			return "redirect:/home.me";  //어드민 페이지로 변경 필요
 		}
-		
+		//카카오
 		MemberVO res = memberService.selectMember(vo.getEmail());
 		if(res.getGrade().equals("카카오")) {
 			session.setAttribute("email", res.getEmail());
@@ -90,6 +90,7 @@ public class MemberController {
 		}
 		
 		if(res.getPw().equals(vo.getPw())) {
+			
 			session.setAttribute("id", res.getEmail());
 			session.setAttribute("email", res.getEmail());
 			System.out.println("session id :" +session.getAttribute("id"));
@@ -123,19 +124,19 @@ public class MemberController {
 	public String signUp(@ModelAttribute MemberVO memberVO) {
 		System.out.println(memberVO.getNick());
 		 // DB에 기본정보 insert
-		memberService.joinMember(memberVO);
-		System.out.println("인서트완료");
+		int res= memberService.joinMember(memberVO);
+		System.out.println("인서트완료"+res);
 		//임의의 authKey생성 & 이메일 발송
-		String authKey = mss.sendAuthMail(memberVO.getEmail());
-		memberVO.setAuthKey(authKey);
+		String authkey = mss.sendAuthMail(memberVO.getEmail());
+		memberVO.setAuthkey(authkey);
 		System.out.println(3);
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("email", memberVO.getEmail());
-		map.put("authKey", memberVO.getAuthKey());
-		System.out.println("맵" + map.get("email") + "인증키 " + map.get("authKey"));
+		map.put("authkey", memberVO.getAuthkey());
+		System.out.println("맵" + map.get("email") + "인증키 " + map.get("authkey"));
 		
 		//DB에 authKey업데이트
-		memberService.updateAuthKey(map);
+		memberService.updateAuthkey(map);
 		return "member/email_check";
 		
 	}
@@ -145,7 +146,7 @@ public class MemberController {
 	    //email, authKey 가 일치할경우 authStatus 업데이트
 		System.out.println("연결된 email :" + map.get("email"));
 	    memberService.updateAuthStatus(map);
-	    
+	    System.out.println("연결된 email2 :" + map.get("email"));
 	    mav.addObject("display", "/member/loginForm.jsp");
 	    mav.setViewName("/member/loginForm");
 	    return mav;
@@ -159,13 +160,7 @@ public class MemberController {
 		return "member/member_list";
 	}
 
-//	@RequestMapping("/memberinfo.me")
-//	public String selectMember(MemberVO memberVO, Model model) throws Exception {
-//		MemberVO vo = memberService.selectMember(memberVO);
-//		model.addAttribute("memberVO", vo);
-//
-//		return "member/member_info";
-//	}
+
 
 	@RequestMapping("/memberdelete.me")
 	public String deleteMember(MemberVO memberVO, Model model) throws Exception {

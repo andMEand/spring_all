@@ -13,7 +13,9 @@ public interface MemberMapper {
 //	public MemberVO selectMember(MemberVO memberVO);
 	public int userCheck (MemberVO memberVO);
 	public int deleteMember(MemberVO memberVO);
-	public void updateAuthKey(Map<String,String> map);
+	
+	public int joinMember(MemberVO memberVO);
+	public void updateAuthkey(Map<String,String> map);
 	public void updateAuthStatus(Map<String,Integer> map);
 	
 	public int k_joinMember (MemberVO mvo);

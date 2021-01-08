@@ -9,12 +9,12 @@
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
   <script>
-  	$('.h_sc').click(function(){
+  	$('.h_search').click(function(){
   		
   	});
   	$('#keyword').keypress(function(event){
   		if(event.which == 13){
-  			$('.h_sc').click();
+  			$('.h_search').click();
   			return false;
   		}
   	});
@@ -34,7 +34,7 @@
                     	<form action="home_search.me" method="post" name="home_search">
                     		<input type="text" id="keyword" name="keyword" value="" onkeypress="searchList()">
                     		
-                    		<button type="submit" class="h_sc"><i class="fas fa-search fa-lg"></i></button>
+                    		<button type="submit" class="h_search"><i class="fas fa-search fa-lg"></i></button>
                     	</form>
                       </span> 
                         <a href="loginform.me">Login</a>
