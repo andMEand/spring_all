@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ page session="false"%>
 
 <!doctype html>
 <html>
@@ -155,7 +154,8 @@ table {
 
 			<tr>
 				<td width="110">이용지역</td>
-				<td width="400"><select name="local">
+				<td width="400">
+				<select name="local">
 						<option value="">지역선택
 						<option value="서울">서울
 						<option value="경기">경기
@@ -176,7 +176,8 @@ table {
 						<option value="충북">충북
 				</select></td>
 			</tr>
-			<input type="hidden" name="authKey"value="">
+			<input type="hidden" name="grade"value="일반">
+			<input type="hidden" name="authkey"value="">
 			<input type="hidden" name="status"value="">
 			약관동의
 			<td colspan="2" align="center" width="500">

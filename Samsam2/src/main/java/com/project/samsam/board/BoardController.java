@@ -2,6 +2,7 @@ package com.project.samsam.board;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,20 +22,51 @@ public class BoardController {
 	
 	@RequestMapping("/home_search.me")
 	public String getSearchlist(@RequestParam(value="keyword", required= true, defaultValue="")String keyword, Model model){
+			//커뮤니티
+			List<BoardVO> c_list = boardService.getSearch_commu_List(keyword);
 		try {
-        List<BoardVO> searchList = boardService.getSearchList(keyword);
-        model.addAttribute("searchList", searchList);
-        System.out.println("searchList" + searchList.get(0));
-
+			if(c_list != null) {
+				model.addAttribute("community",c_list); 
+			}
+			else{
+				System.out.println("community");
+			}
 		}
 		catch(Exception e) {
-			System.out.println("검색 에러(컨) : " + e.getMessage());
+			System.out.println("검색 에러(커뮤니티) : " + e.getMessage());
 		}
-        return "board/ho_search_list";    //게시판 페이지로 이동
+		//분양
+		List<BoardVO> a_list = boardService.getSearch_adopt_List(keyword);
+		try {
+			if(a_list != null) {
+				model.addAttribute("adopt_list",a_list); 
+			}
+			else{
+				System.out.println("adopt_list");
+			}
+		}
+		catch(Exception e) {
+			System.out.println("검색 에러(분양) : " + e.getMessage());
+		}
+		//책임분양
+		List<BoardVO> f_list = boardService.getSearch_free_List(keyword);
+		try {
+			if(f_list != null) {
+				model.addAttribute("free_doc",f_list); 
+			}
+			else{
+				System.out.println("free_doc");
+			}
+		}
+		catch(Exception e) {
+			System.out.println("검색 에러(책임분양) : " + e.getMessage());
+		}
+		
+           return "board/ho_search_list";
         
 	}
 	
-	@RequestMapping("/Sboarddetail.bo")
+	@RequestMapping("/s_board_detail.bo")
 	public String getSDetail(@RequestParam(value ="b_no", required = true) int b_no, Model model) {
 		try {
 		BoardVO bvo = boardService.getSDetail(b_no);
@@ -46,9 +78,11 @@ public class BoardController {
 		}
 		return "board/ho_search_view";
 	}
-	//홈페이지 검색 끝
+	//홈페이지 원본 글이동   >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>a href 이동을 위한 메소드 수정필요
 	
 ////////////////////////////	
+	//관리자 페이지 컨트롤러
+	
 	@RequestMapping("/adminboard.do")
 	public String adminboard() throws Exception {
 		return "admin/admin_board";
@@ -89,17 +123,18 @@ public class BoardController {
 		}
 	//어드민 게시글관리 신고리스트 함수 
 	////////////////////
-	//어드민 게시글 view Modal 함수
+	//어드민 게시글 view  함수
 	
-	@RequestMapping(value="/board_detail.do",
+	@RequestMapping(value="/admin_b_detail.do",
 			produces="application/json;charset=utf-8")
 	@ResponseBody
-	public HashMap<Object,Object> map (@RequestBody ADModalVO mvo) throws Exception{
-		System.out.println(" map");
-		HashMap<Object,Object> map = new HashMap<Object, Object>(); 
+	public Map<String,Object> map (@RequestBody ADModalVO mvo) throws Exception{
+		System.out.println("컨트롤러 board_detail.do");
+		Map<String,Object> map = new HashMap<String, Object>(); 
 		System.out.println("카테고리 : "+ mvo.getCategory());
 		MemberVO vo = boardService.adModalView_m(mvo);
 		if(vo != null) {
+			System.out.println("vo.grade : " +vo.getGrade());
 			map.put("MemberVO", vo);
 		}
 		else {
@@ -107,7 +142,15 @@ public class BoardController {
 		}
 		ABoardVOto bvo = boardService.adModalView_b(mvo);
 		if(bvo != null) {
-			map.put("ABoardVOto", bvo);
+			String category=mvo.getCategory();
+			if(category.equals("community")) {
+				bvo.setCategory("커뮤니티");
+				map.put("ABoardVOto", bvo);
+			}
+			else{
+				bvo.setCategory("분양게시판");
+				map.put("ABoardVOto", bvo);
+			}
 		}
 		else {
 			System.out.println("modal ABoardVOto null");
@@ -120,9 +163,9 @@ public class BoardController {
 		else {
 			System.out.println("modal cList null");
 		}
-		CommentVO ccount = boardService.adModalView_ccount(mvo);
-		if(ccount != null) {
-			map.put("CommentVO", ccount);
+		CommentVO co_count = boardService.adModalView_ccount(mvo);
+		if(co_count != null) {
+			map.put("CommentVO", co_count);
 		}
 		else {
 			System.out.println("modal ccount null");
@@ -143,6 +186,7 @@ public class BoardController {
 			System.out.println("modal wcount null");
 		}
 		
+		System.out.println(map);
 		return map;
 	}
 	

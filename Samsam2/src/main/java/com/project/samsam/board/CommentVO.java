@@ -8,6 +8,10 @@ public class CommentVO {
 	private String co_content;
 	private String co_date;
 	private int co_secret;
+	
+	private int co_count;
+	
+	
 	public int getCo_no() {
 		return co_no;
 	}
@@ -49,6 +53,12 @@ public class CommentVO {
 	}
 	public void setCo_secret(int co_secret) {
 		this.co_secret = co_secret;
+	}
+	public int getCo_count() {
+		return co_count;
+	}
+	public void setCo_count(int co_count) {
+		this.co_count = co_count;
 	}
 
 }

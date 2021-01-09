@@ -17,8 +17,8 @@
 		out.println("</script>");
 	s
 	*/
-
-	ArrayList<ABoardVOto> list = (ArrayList<ABoardVOto>) request.getAttribute("list");
+	HashMap<Object, Object> map = (HashMap<Object, Object>)request.getAttribute("map");
+	
 
 	//	클래스 변수이름 = (클래스)request.getAttribute("모델로 저장한 이름");
 	//	int b_no = 변수이름.getB_no();
@@ -39,8 +39,8 @@
         <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
 	
 <!-- 모달 플러그인 -->
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
 
 <!-- 검색 달력 함수-->
 <script type="text/javascript">
@@ -97,7 +97,8 @@
 									}
 
 								});
-
+						 $('#startDate').datepicker('setDate', '-7D'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, -1M:한달후, -1Y:일년후)
+						    $('#endDate').datepicker('setDate', 'today'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, -1M:한달후, -1Y:일년후)
 						//date picker 끝
 				
 						
@@ -138,7 +139,6 @@
 																	output += '<td><a href="">'+ item.subject+ '</a></td>';
 																	output += '<td>'+ item.nick+ '</td>';
 																	output += '<td>'+ item.c_date+ '</td>';
-																	output += '<td>'+ item.readcount+ '</td>';
 																	output += '<td>'+ item.readcount+ '</td>';
 																	output += '<td><button id="modal_open_btn" onclick="board_detail(this)" value="상세보기" number="'+ item.num +'" category ="' + item.category + '">상세보기</button></td>';
 																	output += '</tr>';
@@ -207,70 +207,53 @@
 				"number" : $(obj).attr('number'),
 				"category" : $(obj).attr('category')
 		}
-		console.log(setData);
+		
 
 		$.ajax({
-			url: '/samsam/board_detail.do',
+			url: '/samsam/admin_b_detail.do',
 			type : 'POST',
 			data : JSON.stringify(setData),
 			dataType :'json',
 			contentType : 'application/json;charset=utf-8',
 			success : function(map) {
 				console.log("map : " + map)
-				$('#modal').empty();
+				
+				$('input').val("");
 
-				$('#email').val(map.MemberVO.email);		//회원정보
+				$('#email').val(map.MemberVO.email);		   //회원정보
 				$('#nick').val(map.MemberVO.nick);
-			//	$('#phone').val(map.MemberVO.phone);
 				$('#local').val(map.MemberVO.local);
 				$('#grade').val(map.MemberVO.grade);
+				//
 				
-				$('#num').val(map.BoardVOto.num); 
-				$('#category').val(map.BoardVOto.num); 
-				$('#c_date').val(map.BoardVOto.c_date); 
-				$('#readcount').val(map.BoardVOto.readcount); 
-				$('#subject').val(map.BoardVOto.subject); 
-				$('#c_content').val(map.BoardVOto.c_content); 
-				    											 //게시글
-				
-				$('#co_content').val(map.CommentVO.co_content);
-				$('#co_no').val(map.CommentVO.co_no); 			//댓글
-			//	$('#co_doc_no').val(map.MemberVO.co_doc_no);
-				$('#co_nick').val(map.CommentVO.co_nick);
-				$('#co_date').val(map.CommentVO.co_date);
-				$('#co_secret').val(map.CommentVO.co_secret);
-				$('#ccount').val(map.CommentVO.ccount);
-					
-				$('#wcount').val(map.WarningVO.wcount);		//신고 해당글에 대한 신고횟수
-				$('#w_no').val(map.WarningVO.w_no);
-				$('#w_nick').val(map.WarningVO.w_nick);		//회원정보의 닉네임
-				$('#w_date').val(map.WarningVO.w_date);
-				$('#w_reason').val(map.WarningVO.w_reason);
-				$('#w_a_reason').val(map.WarningVO.w_a_reason);
-				$('#w_status').val(map.WarningVO.w_status);
-				
-				if(map.wList != null){
+				$('#num').val(map.ABoardVOto.num); 
+				$('#category').val(map.ABoardVOto.category); 
+				$('#c_date').val(map.ABoardVOto.c_date); 
+				$('#readcount').val(map.ABoardVOto.readcount); 
+				$('#subject').val(map.ABoardVOto.subject);
+				$('#c_content').val(map.ABoardVOto.c_content);  //게시글
+				console.log($('#grade').val());
+
+//				$('#w_count').val(map.WarningVO.wcount);		   
+				//
+				if(map.wList != null){					//신고리스트
 					$.each(map.wList, function(index,item){
-						if(map.wList.w_reason = null){
-							$('.w-table').html($('.w-table').html()+'<div class="result-table-row"><div class-table-cell">'+item.w_email +'</div><div class="result-table-cell">'+ item.w_reason+'</div><div class="result-table-cell">' + item.w-date +'</div>')
-						}
-						else{
-							$('.w-table').html($('.w-table').html()+'<div class="result-table-row"><div class-table-cell">'+item.w_email +'</div><div class="result-table-cell">'+ item.w_a_reason+'</div><div class="result-table-cell">' + item.w-date +'</div>')
-						}
-						
-						})
-					}else{
+							$('.w-table').html($('.w-table').html()+'<div class="result-table-row"><div class-table-cell">'+item.w_email +'</div><div class="result-table-cell">'+ item.w_reason+'</div><div class="result-table-cell">' + item.w_date +'</div>')
+							console.log("w-table : "+ $('.w-table').html)
+						});
+				}else{
 						$('.w-table').html($('.w-table').html()+'<div class="result-table-row"><div class="result-table-cell">신고글이 없습니다</div></div>')	
-					}
-					
-					
+				}
 				if(map.cList != null){                  //댓글리스트
 					$.each(map.cList, function(index, item){
-						$('.c-table').html($('.c-table').html()+'<div class="result-table-row"><div class="result-table-cell">'+ item.co_content+'</div><div class="result-table-cell">'+ item.co_nick+'</div><div class="result-table-cell">' + item.co_date+'</div>')
-					}); //map.Commentlist each
+						$('.c-table').html($('.c-table').html()+'<div class="result-table-row"><div class="result-table-cell">'+ item.co_content+'</div><div class="result-table-cell"><span>'+ item.co_nick +'</span><span>'+ item.co_date +'</span></div><hr width="300px"color="gray" noshade />')
+					}); 
 					}else{
 						$('.c-table').html($('.c-table').html()+'<div class="result-table-row"><div class="result-table-cell">작성댓글이 없습니다</div></div>')	
 					}
+					
+				
+				
 				$('#detail_form').modal('show');
 			},//success
 			error : function() {
@@ -366,84 +349,55 @@
 		</article>
 		<footer>푸터</footer>
 	</div>
-	<!-- 모달 베이스 -->
-	<div id="root">
-   
-    <button type="button" id="modal_opne_btn">모달 창 열기</button>
-       
-</div>
-
-<div id="modal">
-   
-    <div class="modal_content">
-        <h2>모달 창</h2>
-       
-        <p>모달 창 입니다.</p>
-       
-        <button type="button" id="modal_close_btn">모달 창 닫기</button>
-       
-    </div>
-   
-    <div class="modal_layer"></div>
-
 	
+	
+	 
 	<!-- 모달 내용 -->
 	<form id="detail_form" class="modal">
 	<div class="admin_b_view">
-	<h3>page detail</h3>
-	<div class=" modal_view side">
-	<div class="admin_nav">
-	<label>아이디</label><input type="text" id = "email" readonly>
-	<label>닉네임</label><input type="text" id = "nick" readonly>
-	<label>지역</label><input type="text" id = "local" readonly>
-	<label>회원분류</label><input type="text" id = "grade" readonly>
-	<br/>
-	<label>글번호</label><input type="text" id = "num" readonly>
-	<label>카테고리</label><input type="text" id = "category" readonly>
-	<label>작성일</label><input type="text" id = "c_date" readonly>
-	<label>조회수</label><input type="text" id = "reacount" readonly>
-	<label>제목</label><input type="text" id = "subject" readonly>
-	<label>내 용</label><input type="text" id = "c_content" readonly>
-	<br/>
-	<label>댓글</label><input type="text" id = "co_content" readonly>
-	<label>댓글번호</label><input type="text" id = "co_no" readonly>
-	<label>닉네임</label><input type="text" id = "co_nick" readonly>
-	<label>작성일</label><input type="text" id = "co_date" readonly>
-	<label>비밀글</label><input type="text" id = "co_secret" readonly>
-	<br/>
-	<label>신고횟수</label><input type="text" id = "wcount" readonly>
-	<label>신고번호</label><input type="text" id = "w_no" readonly>
-	<label>신고자</label><input type="text" id = "w_nick" readonly>
-	<label>신고일</label><input type="text" id = "w_date" readonly>
-	<label>사유</label><input type="text" id = "w_reason" readonly>
-	<label>기타사유</label><input type="text" id = "w_a_reason" readonly>
-	<label>신고처리</label><input type="text" id = "w_status" readonly>
-	
-	</div> 
+		<h3>상세보기</h3>
+		<div class="modal_view side">
+			<div class="admin_nav">
+				<label>아이디</label><input type="text" id ="email" readonly>
+				<label>닉네임</label><input type="text" id ="nick" readonly>
+				<label>지역</label><input type="text" id ="local" readonly>
+				<label>회원분류</label><input type="text" id ="grade" readonly>
+				<br/>
+				<label>글번호</label><input type="text" id ="num" readonly>
+				<label>카테고리</label><input type="text" id ="category" readonly>
+				<label>작성일</label><input type="text" id ="c_date" readonly>
+				<label>조회수</label><input type="text" id ="readcount" readonly>
+				<label>제목</label><input type="text" id ="subject" readonly>
+				<label>내 용</label><input type="text" id ="c_content" readonly>
+				
+		
+		</div> 
+	</div>
 	<!--admin_nav  -->
 
 	<div class ="commentlist">
 		<h3> comment</h3>
 		<div class="c-table">
-	
+		</div>
 	</div> 
 	<!-- commentlist -->
 		
-	<div class=" modal_view side">
-	<div class ="warninglist">
-		<h3>신고목록</h3>
-		<div class="w-table">
-		
-		</div>
+		<!-- 사이드 -->
+	<div class="modal_view side">
+		<div class ="warninglist">
+			<h3>warning</h3>
+			<div class="w-table">
+			
+			</div>
+		</div>	
 	</div>
 	<!-- warninglist -->
 	
-	</div>
-	</div>
-	</div>
-	</form>
 	
-</div>
+	</div>
+
+	</form>
+
 <!-- #modal 끝 -->
 	
 </body>

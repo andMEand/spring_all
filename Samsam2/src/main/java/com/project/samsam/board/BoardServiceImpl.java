@@ -1,6 +1,7 @@
 package com.project.samsam.board;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -18,24 +19,46 @@ public class BoardServiceImpl implements BoardService {
 	private SqlSession sqlSession;
 
 	@Override
-	public List<BoardVO> getSearchList(String keyword) {
-		BoardMapper boardMapper =sqlSession.getMapper(BoardMapper.class);
-		List<BoardVO> searchList = new ArrayList<BoardVO>();
-		try {
-//			System.out.println(vo2.getB_subject());
-
-		 searchList = boardMapper.getSearchList(keyword);
-		 System.out.println("searchList ="+searchList.size());
-		for(BoardVO vo : searchList) {
-			System.out.println("검색 결과 " + vo.getSubject());
-		}
-		}
-		catch(Exception e) {
-			System.out.println("검색 에러(서) : " + e.getMessage());
-		}
-		return searchList;
+	public List<BoardVO> getSearch_commu_List(String keyword) {
+		BoardMapper boardMapper = sqlSession.getMapper(BoardMapper.class);
+		List<BoardVO> c_list = boardMapper.getSearch_commu_List(keyword);
+		return c_list;
+		
 	}
-	//홈페이지 검색리스트 끝
+	@Override
+	  public List<BoardVO> getSearch_adopt_List(String keyword) {
+		BoardMapper boardMapper = sqlSession.getMapper(BoardMapper.class);
+		List<BoardVO> a_list = boardMapper.getSearch_adopt_List(keyword);
+		return a_list;
+		  
+	  }
+	@Override
+	  public List<BoardVO> getSearch_free_List(String keyword) {
+		BoardMapper boardMapper = sqlSession.getMapper(BoardMapper.class);
+		List<BoardVO> f_list = boardMapper.getSearch_free_List(keyword);
+		return f_list;
+		
+	  }
+	  
+	  
+//	public List<BoardVO> getSearchList(String keyword) {
+//		BoardMapper boardMapper =sqlSession.getMapper(BoardMapper.class);
+//		List<BoardVO> searchList = new ArrayList<BoardVO>();
+//		try {
+////			System.out.println(vo2.getB_subject());
+//
+//		 searchList = boardMapper.getSearchList(keyword);
+//		 System.out.println("searchList ="+searchList.size());
+//		for(BoardVO vo : searchList) {
+//			System.out.println("검색 결과 " + vo.getSubject());
+//		}
+//		}
+//		catch(Exception e) {
+//			System.out.println("검색 에러(서) : " + e.getMessage());
+//		}
+//		return searchList;
+//	}
+//	//홈페이지 검색리스트 끝
 
 	@Override
 	public BoardVO getSDetail(int num) {
@@ -67,7 +90,7 @@ public class BoardServiceImpl implements BoardService {
 		AdminBoardMapper adminMapper =sqlSession.getMapper(AdminBoardMapper.class);
 		List<ABoardVOto> Wlist =adminMapper.find_w_List(abvo);
 		for(ABoardVOto vo :Wlist) {
-			System.out.println("서비스임플"+vo.getW_doc_no());
+			System.out.println("서비스임플"+vo);
 		}
 		return Wlist;
     }
@@ -87,24 +110,24 @@ public class BoardServiceImpl implements BoardService {
      
      public List<CommentVO> adModalView_c (ADModalVO movo){
     	 AdminBoardMapper adminMapper = sqlSession.getMapper(AdminBoardMapper.class);
-    	 List<CommentVO> cList =(List<CommentVO>) adminMapper.ad_view_b(movo);
+    	 List<CommentVO> cList =(List<CommentVO>) adminMapper.ad_view_cList(movo);
     	 return  cList;
      }
      public CommentVO adModalView_ccount(ADModalVO movo){
     	 AdminBoardMapper adminMapper = sqlSession.getMapper(AdminBoardMapper.class);
-    	 CommentVO ccount = adminMapper.ad_view_ccount(movo);
- 		return  ccount;
+    	 CommentVO co_count = adminMapper.ad_view_ccount(movo);
+ 		return  co_count;
      }
      
      public List<WarningVO> adModalView_w (ADModalVO movo){
     	 AdminBoardMapper adminMapper = sqlSession.getMapper(AdminBoardMapper.class);
-    	 List<WarningVO> wList =(List<WarningVO>) adminMapper.ad_view_w(movo);
+    	 List<WarningVO> wList =(List<WarningVO>) adminMapper.ad_view_wList(movo);
  		return  wList;
      }
      public WarningVO adModalView_wcount(ADModalVO movo){
     	 AdminBoardMapper adminMapper = sqlSession.getMapper(AdminBoardMapper.class);
-    	 WarningVO wcount = adminMapper.ad_view_wcount(movo);
- 		return  wcount;
+    	 WarningVO w_count = adminMapper.ad_view_wcount(movo);
+ 		return  w_count;
      }
 	  //어드민 게시글 뷰 Modal
 

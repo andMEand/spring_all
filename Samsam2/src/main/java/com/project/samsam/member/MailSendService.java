@@ -38,7 +38,7 @@ public class MailSendService {
     //인증메일 보내기
     public String sendAuthMail(String email) {
         //6자리 난수 인증번호 생성
-        String authKey = getKey(6);
+        String authkey = getKey(6);
 
         //인증메일 보내기
         try {
@@ -49,10 +49,10 @@ public class MailSendService {
             .append("<a href='http://localhost:8080/samsam/signUpConfirm.me?email=")
             .append(email)
             .append("&authKey=")
-            .append(authKey)
+            .append(authkey)
             .append("' target='_blenk'>이메일 인증 확인</a>")
             .toString());
-            sendMail.setFrom("081749@gmail.com", "삼삼하개admin");
+            sendMail.setFrom("myalien7thin@gmail.com", "admin");
             sendMail.setTo(email);
             sendMail.send();
         } catch (MessagingException e) {
@@ -61,7 +61,7 @@ public class MailSendService {
             e.printStackTrace();
         }
 
-          return authKey;
+          return authkey;
     }
 }
 

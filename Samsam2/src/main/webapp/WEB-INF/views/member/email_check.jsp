@@ -15,7 +15,7 @@
 	<div class="check_pz">
 	<h3>이메일인증 완료 후 로그인 가능합니다</h3>
 	<h5>이메일로 발송된 '인증메일'확인부탁드립니다</h5>
-	<input type="button" value="홈으로" src="home.me">
+	<input type="button" value="로그인" src="loginform.me">
 	</div>
 
 </div>
