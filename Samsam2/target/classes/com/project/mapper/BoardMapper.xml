@@ -7,6 +7,7 @@
 		<select id="getSearch_free_List" parameterType="String" resultType="BoardVO">
 		select fdoc_no as num ,nick,subject,c_date,readcount
 		from free_doc where subject like '%'||#{keyword}||'%' or c_content like '%'||#{keyword}||'%'
+		order by c_date desc
 		
 		</select>
 	
@@ -18,7 +19,8 @@
 		
 		<select id="getSearch_adopt_List" parameterType="String" resultType="BoardVO">	
 		select num,nick,subject,c_date,readcount
-		from adopt_list where subject like '%'||#{keyword}||'%' or c_content like '%'||#{keyword}||'%'
+		from adopt_list where subject like '%' ||#{keyword}|| '%' or c_content like '%' ||#{keyword}|| '%'
+		order by c_date desc
 		</select>
 		
 	

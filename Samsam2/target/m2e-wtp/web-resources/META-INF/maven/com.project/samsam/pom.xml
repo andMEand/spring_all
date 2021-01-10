@@ -193,12 +193,29 @@
 		</dependency>
 		<!-- 이메일 인증 관련정보 추가 끝 -->	
 		
+		<!-- 네이버 이메일인증 테스트 설정파일 -->
 		<!-- naver -->
 		<dependency>
 			<groupId>com.github.scribejava</groupId>
 			<artifactId>scribejava-core</artifactId>
 			<version>2.8.1</version>
-		</dependency>	
+		</dependency>
+ 
+		<!-- 제이슨 파싱 -->
+		<dependency>
+		    <groupId>com.googlecode.json-simple</groupId>
+		    <artifactId>json-simple</artifactId>
+		    <version>1.1.1</version>
+		</dependency>
+		
+		<!-- jstl -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+			<version>1.2</version>
+		</dependency>
+		
+		<!-- 네이버 이메일인증 테스트 설정파일 끝 -->
 		       
 	</dependencies>
     <build>

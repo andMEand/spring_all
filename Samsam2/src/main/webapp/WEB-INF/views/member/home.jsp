@@ -1,5 +1,10 @@
 <%@ page language = "java" contentType = "text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
+<%
+String email =(String) session.getAttribute("email");
+%>
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -19,6 +24,7 @@
   		}
   	});
   		
+  
   </script>
   <title>나의 반려친구, 삼삼하개</title>
 </head>
@@ -32,13 +38,31 @@
                     <div class="header-menu">
                     <span id="home_search">
                     	<form action="home_search.me" method="post" name="home_search">
-                    		<input type="text" id="keyword" name="keyword" value="" onkeypress="searchList()">
+                    		<input type="text" id="keyword" name="keyword" value="" onkeypress="searchList()"/>
                     		
                     		<button type="submit" class="h_search"><i class="fas fa-search fa-lg"></i></button>
                     	</form>
                       </span> 
-                        <a href="loginform.me">Login</a>
-                        <a href="joinform.me">Join</a>
+                     
+                      	<%
+                      	if(email == null){
+                      	%>
+					<span>
+    				<a href="loginform.me" id="login">Login</a>
+    				 <a href="joinform.me" id="signin">Join</a>
+    				</span>
+    				<%
+                      	}else{
+    				%>
+    				<span>
+    				<a href="loginform.me" id="logout">logout</a>
+    				 <a href="mapage.me" id="mypage"><i class="fas fa-user-circle"></i></a>
+    				</span>
+    				<%
+    				}
+    				%>
+                  
+                       
                     </div>
                     <div class="header-tit">
                         <h1>삼삼하개</h1><br>
