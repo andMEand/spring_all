@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <%
-String email =(String) session.getAttribute("email");
+String email =(String)session.getAttribute("email");
 %>
 
 <!DOCTYPE html>

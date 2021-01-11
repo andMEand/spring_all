@@ -29,10 +29,9 @@
 	<select id="userCheck" parameterType="MemberVO" resultType="int">
 	SELECT count(*) FROM sMEMBER WHERE EMAIL = #{email} AND PW = #{pw} AND STATUS = 1
 	</select>
-	
-	<delete id="deleteMember" parameterType="MemberVO">
-		DELETE FROM smember WHERE email=#{email}
-	</delete>
+	<select id="idCheck" parameterType="String" resultType="MemberVO">
+	SELECT * FROM sMEMBER WHERE EMAIL = #{emailch}
+	</select>
 	
 	<update id="updateAuthkey" parameterType="HashMap">
 		update smember set authkey =#{authkey} where email=#{email}

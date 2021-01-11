@@ -14,9 +14,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -28,10 +30,7 @@ public class MemberController {
 	private MemberServiceImpl memberService;
 	@Autowired
 	private MailSendService mss;
-	@Autowired
-	private void setNaverLiginBO(NaverLoginBO naverBO) {
-		this.naverBO=naverBO;
-	}
+	
 
 	
 	@RequestMapping("/home.me")
@@ -45,33 +44,13 @@ public class MemberController {
 		return "member/loginForm";
 	}
 	
-	//Ä«Ä«¿À·Î±×ÀÎ
+	//Ä«Ä«ï¿½ï¿½ï¿½Î±ï¿½ï¿½ï¿½
 	@RequestMapping(value = "/kkoLogin.me")
 	public String kko_Join(MemberVO mvo, Model model, RedirectAttributes redi_attr) {
-		System.out.println("ÀÌ¸ŞÀÏ: " + mvo.getEmail() + "´Ğ³×ÀÓ : " + mvo.getNick());
+		System.out.println("ì´ë©”ì¼: " + mvo.getEmail() + "ë‹‰ë„¤ì„ : " + mvo.getNick());
 		
 		if(memberService.selectMember(mvo.getEmail()) == null) {
-			mvo.setGrade("Ä«Ä«¿À");
-			model.addAttribute("MemberVO", mvo);
-			return "member/k_joinForm";
-		}
-		else {
-			redi_attr.addAttribute("email", mvo.getEmail());
-			return "redirect:/login.me";
-			}
-	}
-	//³×ÀÌ¹ö Äİ¹é
-		@RequestMapping(value = "/callback.me")
-		public String nid_callback(MemberVO mvo, Model model, RedirectAttributes redi_attr) {
-			return "member/callBack";
-		}
-	//³×ÀÌ¹ö
-	@RequestMapping(value = "/nidLogin.me")
-	public String nid_Join(MemberVO mvo, Model model, RedirectAttributes redi_attr) {
-		System.out.println("³×ÀÌ¹öÀÌ¸ŞÀÏ: " + mvo.getEmail() + "´Ğ³×ÀÓ : " + mvo.getNick());
-		
-		if(memberService.selectMember(mvo.getEmail()) == null) {
-			mvo.setGrade("³×ÀÌ¹ö");
+			mvo.setGrade("ì¹´ì¹´ì˜¤");
 			model.addAttribute("MemberVO", mvo);
 			return "member/k_joinForm";
 		}
@@ -81,13 +60,46 @@ public class MemberController {
 			}
 	}
 	
-	//¼Ò¼È°èÁ¤ È¸¿ø°¡ÀÔ
+	
+	//ë„¤ì´ë²„ ì½œë°±
+		@RequestMapping(value = "/callback.me")
+		public String nid_callback(MemberVO mvo, Model model, RedirectAttributes redi_attr) {
+			MemberVO vo = memberService.selectMember(mvo.getEmail());
+			System.out.println("vo.getGrade : " + vo.getGrade() + "mvo.email : " + mvo.getEmail());
+			if(vo != null && !(vo.getGrade().equals("ë„¤ì´ë²„"))){
+				return "member/loginForm";
+			}
+			return "member/callBack";
+		}
+		//ë„¤ì´ë²„
+	@RequestMapping(value = "/nidLogin.me")
+	public String nid_Join(MemberVO mvo, Model model, RedirectAttributes redi_attr) {
+		System.out.println("ë„¤ì´ë²„ì´ë©”ì¼: " + mvo.getEmail() + "ë‹‰ë„¤ì„ : " + mvo.getNick());
+		
+		MemberVO vo = memberService.selectMember(mvo.getEmail());
+		if(vo != null && !(vo.getGrade().equals("ë„¤ì´ë²„"))){
+			return "member/loginForm";
+		}
+		if(memberService.selectMember(mvo.getEmail()) == null) {
+			mvo.setGrade("ë„¤ì´ë²„");
+			model.addAttribute("MemberVO", mvo);
+			return "member/k_joinForm";
+		} 
+		else {
+				redi_attr.addAttribute("email", mvo.getEmail());
+				System.out.println("nidLogin else");
+				return "redirect:/login.me";
+			}
+			
+	}
+	
+	//ì†Œì…œê³„ì • íšŒì›ê°€ì…
 	@RequestMapping(value = "/kkoJoin.me")
 	public String kko_joinProcess(MemberVO mvo) {
-		if(mvo.getGrade().equals("Ä«Ä«¿À")) {
-			System.out.println("Ä«Ä«¿ÀÈ¸¿ø°¡ÀÔ" + mvo.getGrade());
-		}else if(mvo.getGrade().equals("³×ÀÌ¹ö")) {
-			System.out.println("³×ÀÌ¹öÈ¸¿ø°¡ÀÔ" + mvo.getGrade());
+		if(mvo.getGrade().equals("ì¹´ì¹´ì˜¤")) {
+			System.out.println("ì¹´ì¹´ì˜¤íšŒì›ê°€ì…" + mvo.getGrade());
+		}else if(mvo.getGrade().equals("ë„¤ì´ë²„")) {
+			System.out.println("ë„¤ì´ë²„íšŒì›ê°€ì…" + mvo.getGrade());
 		}
 		int res = memberService.k_joinMember(mvo);
 		if(res == 1) {
@@ -101,54 +113,54 @@ public class MemberController {
 	
 	@RequestMapping(value = "/login.me")
 	public String userCheck(@RequestParam("email") String email, MemberVO vo, HttpSession session) throws Exception {
-		System.out.println("·Î±×ÀÎ ÀÌ¸ŞÀÏ "+vo.getEmail());
-		System.out.println("·Î±×ÀÎ ºñ¹Ğ¹øÈ£ "+vo.getPw());
+		System.out.println("ë¡œê·¸ì¸ ì´ë©”ì¼ "+vo.getEmail());
+		System.out.println("ë¡œê·¸ì¸ ë¹„ë°€ë²ˆí˜¸ "+vo.getPw());
 		
-		//¾îµå¹Î
+		//ì–´ë“œë¯¼
 		if(vo.getEmail().equals("admin")) {
 			session.setAttribute("id", vo.getEmail());
 			session.setAttribute("email", vo.getEmail());
 			
-			return "redirect:/home.me";  //¾îµå¹Î ÆäÀÌÁö·Î º¯°æ ÇÊ¿ä
+			return "redirect:/home.me";  //ì–´ë“œë¯¼ í˜ì´ì§€ë¡œ ë³€ê²½ í•„ìš”
 		}
-		//Ä«Ä«¿À
+		//ì¹´ì¹´ì˜¤
 		MemberVO res = memberService.selectMember(vo.getEmail());
-		if(res.getGrade().equals("Ä«Ä«¿À")) {
+		if(res.getGrade().equals("ì¹´ì¹´ì˜¤")) {
 			session.setAttribute("email", res.getEmail());
 			Biz_memberVO bo = memberService.selectBizMember(vo.getEmail());
 			if(bo != null) {
 				if(bo.getStatus() == 0) {
-					return "redirect:/cominfo_main.do";//»ç¾÷ÀÚ ¸¶ÀÌÆäÀÌÁö·Î º¯°æ ÇÊ¿ä
+					return "redirect:/cominfo_main.do";//ì‚¬ì—…ì ë§ˆì´í˜ì´ì§€ë¡œ ë³€ê²½ í•„ìš”
 				}
 			}
-			return "redirect:/home.me";//¸¶ÀÌÆäÀÌÁö·Î º¯°æ ÇÊ¿ä
+			return "redirect:/home.me";//ë§ˆì´í˜ì´ì§€ë¡œ ë³€ê²½ í•„ìš”
 		}
-		//³×ÀÌ¹ö
-		if(res.getGrade().equals("³×ÀÌ¹ö")) {
+		//ë„¤ì´ë²„
+		if(res.getGrade().equals("ë„¤ì´ë²„")) {
 			session.setAttribute("email", res.getEmail());
 			Biz_memberVO bo = memberService.selectBizMember(vo.getEmail());
 			if(bo != null) {
 				if(bo.getStatus() == 0) {
-					return "redirect:/cominfo_main.do";//»ç¾÷ÀÚ ¸¶ÀÌÆäÀÌÁö·Î º¯°æ ÇÊ¿ä
+					return "redirect:/cominfo_main.do";//ì‚¬ì—…ì ë§ˆì´í˜ì´ì§€ë¡œ ë³€ê²½ í•„ìš”
 				}
 			}
-			return "redirect:/home.me";//¸¶ÀÌÆäÀÌÁö·Î º¯°æ ÇÊ¿ä
+			return "redirect:/home.me";//ë§ˆì´í˜ì´ì§€ë¡œ ë³€ê²½ í•„ìš”
 		}
-		//ÀÏ¹İ
+		//ì¼ë°˜	
 		if(res.getPw().equals(vo.getPw())) {
 			
 			session.setAttribute("id", res.getEmail());
 			session.setAttribute("email", res.getEmail());
 			System.out.println("session id :" +session.getAttribute("id"));
 			System.out.println("session email :" +session.getAttribute("email"));
-			//»ç¾÷ÀÚÈ¸¿øÀÎÁö È®ÀÎ
+			//ì‚¬ì—…ìíšŒì›ì¸ì§€ í™•ì¸
 			Biz_memberVO bo = memberService.selectBizMember(vo.getEmail());
 			if(bo != null) {
 				if(bo.getStatus() == 0) {
-					return "redirect:/cominfo_main.do"; //»ç¾÷ÀÚ ¸¶ÀÌÆäÀÌÁö·Î º¯°æ ÇÊ¿ä
+					return "redirect:/cominfo_main.do";  //ì‚¬ì—…ì ë§ˆì´í˜ì´ì§€ë¡œ ë³€ê²½ í•„ìš”
 				}
 			}
-			return "redirect:/home.me";  //¸¶ÀÌÆäÀÌÁö·Î º¯°æ ÇÊ¿ä
+			return "redirect:/home.me";  //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¿ï¿½
 		}else {
 			return "redirect:/loginform.me";
 		}
@@ -168,19 +180,19 @@ public class MemberController {
 	@RequestMapping("/signUp.me")
 	public String signUp(@ModelAttribute MemberVO memberVO) {
 		System.out.println(memberVO.getNick());
-		 // DB¿¡ ±âº»Á¤º¸ insert
+		 // DBì— ê¸°ë³¸ì •ë³´ insert
 		int res= memberService.joinMember(memberVO);
-		System.out.println("ÀÎ¼­Æ®¿Ï·á"+res);
-		//ÀÓÀÇÀÇ authKey»ı¼º & ÀÌ¸ŞÀÏ ¹ß¼Û
+		System.out.println("ì¸ì„œíŠ¸ì™„ë£Œ"+res);
+		//ì„ì˜ì˜ authKeyìƒì„± & ì´ë©”ì¼ ë°œì†¡
 		String authkey = mss.sendAuthMail(memberVO.getEmail());
 		memberVO.setAuthkey(authkey);
 		System.out.println(3);
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("email", memberVO.getEmail());
 		map.put("authkey", memberVO.getAuthkey());
-		System.out.println("¸Ê" + map.get("email") + "ÀÎÁõÅ° " + map.get("authkey"));
+		System.out.println("ë§µ" + map.get("email") + "ì¸ì¦í‚¤  " + map.get("authkey"));
 		
-		//DB¿¡ authKey¾÷µ¥ÀÌÆ®
+		//DBì— authKeyì—…ë°ì´íŠ¸
 		memberService.updateAuthkey(map);
 		return "member/email_check";
 		
@@ -188,79 +200,19 @@ public class MemberController {
 	
 	 @GetMapping("/signUpConfirm.me")
 	 public ModelAndView signUpConfirm(@RequestParam HashMap<String, Integer> map, ModelAndView mav){
-	    //email, authKey °¡ ÀÏÄ¡ÇÒ°æ¿ì authStatus ¾÷µ¥ÀÌÆ®
-		System.out.println("¿¬°áµÈ email :" + map.get("email"));
+		//email, authKey ê°€ ì¼ì¹˜í• ê²½ìš° authStatus ì—…ë°ì´íŠ¸
+		System.out.println("ì—°ê²°ëœ  email :" + map.get("email"));
 	    memberService.updateAuthStatus(map);
-	    System.out.println("¿¬°áµÈ email2 :" + map.get("email"));
+	    System.out.println("ì—°ê²°ëœ  email2 :" + map.get("email"));
 	    mav.addObject("display", "/member/loginForm.jsp");
 	    mav.setViewName("/member/loginForm");
 	    return mav;
 	}
-///////////////////////////////////
-//³×ÀÌ¹ö ·Î±×ÀÎ ÄÁÆ®·Ñ·¯ ½ÃÀÛ
-	 private NaverLoginBO naverBO;
-	 private String apiResult =null;
-	 
-	   //·Î±×ÀÎ Ã¹ È­¸é ¿äÃ» ¸Ş¼Òµå
-	    @RequestMapping(value = "/naver", method = { RequestMethod.GET, RequestMethod.POST })
-	    public String naver_login(Model model, HttpSession session) {
-	        
-	        /* ³×ÀÌ¹ö¾ÆÀÌµğ·Î ÀÎÁõ URLÀ» »ı¼ºÇÏ±â À§ÇÏ¿© naverLoginBOÅ¬·¡½ºÀÇ getAuthorizationUrl¸Ş¼Òµå È£Ãâ */
-	        String naverAuthUrl = naverBO.getAuthorizationUrl(session);
-	        
-	        //https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=sE***************&
-	        //redirect_uri=http%3A%2F%2F211.63.89.90%3A8090%2Flogin_project%2Fcallback&state=e68c269c-5ba9-4c31-85da-54c16c658125
-	        System.out.println("³×ÀÌ¹ö:" + naverAuthUrl);
-	        
-	        //³×ÀÌ¹ö 
-	        model.addAttribute("url", naverAuthUrl);
-	 
-	        /* »ı¼ºÇÑ ÀÎÁõ URLÀ» View·Î Àü´Ş */
-	        return "login";
-	    }
-	 
-	  //³×ÀÌ¹ö ·Î±×ÀÎ ¼º°ø½Ã callbackÈ£Ãâ ¸Ş¼Òµå
-		@RequestMapping(value = "/callback", method = { RequestMethod.GET, RequestMethod.POST })
-		public String callback(Model model, @RequestParam String code, @RequestParam String state, HttpSession session) throws IOException, ParseException {
-			
-			System.out.println("¿©±â´Â callback");
-			OAuth2AccessToken oauthToken;
-	        oauthToken = naverBO.getAccessToken(session, code, state);
-	 
-	        //1. ·Î±×ÀÎ »ç¿ëÀÚ Á¤º¸¸¦ ÀĞ¾î¿Â´Ù.
-			apiResult = naverBO.getUserProfile(oauthToken);  //StringÇü½ÄÀÇ jsonµ¥ÀÌÅÍ
-			
-			/** apiResult json ±¸Á¶
-			{"resultcode":"00",
-			 "message":"success",
-			 "response":{"id":"33666449","nickname":"shinn****","age":"20-29","gender":"M","email":"sh@naver.com","name":"\uc2e0\ubc94\ud638"}}
-			**/
-			
-			//2. StringÇü½ÄÀÎ apiResult¸¦ jsonÇüÅÂ·Î ¹Ù²Ş
-			JSONParser parser = new JSONParser();
-			Object obj = parser.parse(apiResult);
-			JSONObject jsonObj = (JSONObject) obj;
-			
-			//3. µ¥ÀÌÅÍ ÆÄ½Ì 
-			//Top·¹º§ ´Ü°è _response ÆÄ½Ì
-			JSONObject response_obj = (JSONObject)jsonObj.get("response");
-			//responseÀÇ nickname°ª ÆÄ½Ì
-			String nickname = (String)response_obj.get("nickname");
-	 
-			System.out.println(nickname);
-			
-			//4.ÆÄ½Ì ´Ğ³×ÀÓ ¼¼¼ÇÀ¸·Î ÀúÀå
-			session.setAttribute("sessionId",nickname); //¼¼¼Ç »ı¼º
-			
-			model.addAttribute("result", apiResult);
-		     
-			return "login";
-		}
-		
-		//·Î±×¾Æ¿ô
+
+		//ë¡œê·¸ì•„ì›ƒ
 		@RequestMapping(value = "/logout", method = { RequestMethod.GET, RequestMethod.POST })
 		public String logout(HttpSession session)throws IOException {
-				System.out.println("¿©±â´Â logout");
+				System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½ logout");
 				session.invalidate();
 	 
 		        

@@ -12,6 +12,7 @@ public interface MemberMapper {
 	public int  JinsertMember(MemberVO memberVO);
 //	public MemberVO selectMember(MemberVO memberVO);
 	public int userCheck (MemberVO memberVO);
+	public MemberVO idCheck (String emailch);
 	public int deleteMember(MemberVO memberVO);
 	
 	public int joinMember(MemberVO memberVO);

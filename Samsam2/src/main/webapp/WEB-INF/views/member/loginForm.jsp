@@ -87,9 +87,9 @@ document.addEventListener("DOMContentLoaded", function(){
 			
 				$('.n_email').val(naverLogin.user.getEmail());
 		  		$('.n_name').val(naverLogin.user.getNickName());
-		  		console.log("네이버 이메일: " + $('.n_email').val() + "네이버 닉네임 : " + $('.n_name').val() )
+		  		console.log("네이버 이메일form: " + $('.n_email').val() + "네이버 닉네임 : " + $('.n_name').val() )
 		  		
-		  		$('#nidData').submit();
+		  	
 		} else {
 			console.log("AccessToken이 올바르지 않습니다.");
 		}

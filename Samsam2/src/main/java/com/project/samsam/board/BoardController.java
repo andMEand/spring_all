@@ -14,15 +14,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.samsam.member.MemberVO;
 
+
 @Controller
 public class BoardController {
 
 	@Autowired
-	private BoardService boardService; // BoardServiceºó°´Ã¼°¡ ¸¸µé¾îÁ®ÀÖ¾î¾ß ÇÑ´Ù
+	private BoardService boardService; // BoardServiceë¹ˆê°ì²´ê°€ ë§Œë“¤ì–´ì ¸ìˆì–´ì•¼ í•œë‹¤
 	
 	@RequestMapping("/home_search.me")
 	public String getSearchlist(@RequestParam(value="keyword", required= true, defaultValue="")String keyword, Model model){
-			//Ä¿¹Â´ÏÆ¼
+			//ì»¤ë®¤ë‹ˆí‹°
 			List<BoardVO> c_list = boardService.getSearch_commu_List(keyword);
 		try {
 			if(c_list != null) {
@@ -33,9 +34,9 @@ public class BoardController {
 			}
 		}
 		catch(Exception e) {
-			System.out.println("°Ë»ö ¿¡·¯(Ä¿¹Â´ÏÆ¼) : " + e.getMessage());
+			System.out.println("ê²€ìƒ‰ ì—ëŸ¬(ì»¤ë®¤ë‹ˆí‹°) : " + e.getMessage());
 		}
-		//ºĞ¾ç
+		//ë¶„ì–‘
 		List<BoardVO> a_list = boardService.getSearch_adopt_List(keyword);
 		try {
 			if(a_list != null) {
@@ -46,9 +47,9 @@ public class BoardController {
 			}
 		}
 		catch(Exception e) {
-			System.out.println("°Ë»ö ¿¡·¯(ºĞ¾ç) : " + e.getMessage());
+			System.out.println("ê²€ìƒ‰ ì—ëŸ¬(ë¶„ì–‘) : " + e.getMessage());
 		}
-		//Ã¥ÀÓºĞ¾ç
+		//ì±…ì„ë¶„ì–‘
 		List<BoardVO> f_list = boardService.getSearch_free_List(keyword);
 		try {
 			if(f_list != null) {
@@ -59,7 +60,7 @@ public class BoardController {
 			}
 		}
 		catch(Exception e) {
-			System.out.println("°Ë»ö ¿¡·¯(Ã¥ÀÓºĞ¾ç) : " + e.getMessage());
+			System.out.println("ê²€ìƒ‰ ì—ëŸ¬(ì±…ì„ë¶„ì–‘) : " + e.getMessage());
 		}
 		
            return "board/ho_search_list";
@@ -72,16 +73,16 @@ public class BoardController {
 		BoardVO bvo = boardService.getSDetail(b_no);
 
 		model.addAttribute("bvo", bvo);
-		System.out.println("±Ûº¸±â"+bvo);
+		System.out.println("ê¸€ë³´ê¸°"+bvo);
 		}catch(Exception e) {
 			e.getMessage();
 		}
 		return "board/ho_search_view";
 	}
-	//È¨ÆäÀÌÁö ¿øº» ±ÛÀÌµ¿   >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>a href ÀÌµ¿À» À§ÇÑ ¸Ş¼Òµå ¼öÁ¤ÇÊ¿ä
+	//í™ˆí˜ì´ì§€ ì›ë³¸ ê¸€ì´ë™   >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>a href ì´ë™ì„ ìœ„í•œ ë©”ì†Œë“œ ìˆ˜ì •í•„ìš”
 	
 ////////////////////////////	
-	//°ü¸®ÀÚ ÆäÀÌÁö ÄÁÆ®·Ñ·¯
+	//ê´€ë¦¬ì í˜ì´ì§€ ì»¨íŠ¸ë¡¤ëŸ¬
 	
 	@RequestMapping("/adminboard.do")
 	public String adminboard() throws Exception {
@@ -104,7 +105,7 @@ public class BoardController {
 		System.out.println(2);
 		return list;
 		}
-	//¾îµå¹Î °Ô½Ã±Û°ü¸® ÀÏ¹İ¸®½ºÆ® ÇÔ¼ö
+	//ì–´ë“œë¯¼ ê²Œì‹œê¸€ê´€ë¦¬ ì¼ë°˜ë¦¬ìŠ¤íŠ¸ í•¨ìˆ˜
 	
 	@RequestMapping(value="/boardWFind.do",
 			produces= "application/json;charset=utf-8")
@@ -121,17 +122,17 @@ public class BoardController {
 		System.out.println(2);
 		return list;
 		}
-	//¾îµå¹Î °Ô½Ã±Û°ü¸® ½Å°í¸®½ºÆ® ÇÔ¼ö 
+	//ì–´ë“œë¯¼ ê²Œì‹œê¸€ê´€ë¦¬ ì‹ ê³ ë¦¬ìŠ¤íŠ¸ í•¨ìˆ˜ 
 	////////////////////
-	//¾îµå¹Î °Ô½Ã±Û view  ÇÔ¼ö
+	//ì–´ë“œë¯¼ ê²Œì‹œê¸€ view  í•¨ìˆ˜
 	
 	@RequestMapping(value="/admin_b_detail.do",
 			produces="application/json;charset=utf-8")
 	@ResponseBody
 	public Map<String,Object> map (@RequestBody ADModalVO mvo) throws Exception{
-		System.out.println("ÄÁÆ®·Ñ·¯ board_detail.do");
+		System.out.println("ì»¨íŠ¸ë¡¤ëŸ¬ board_detail.do");
 		Map<String,Object> map = new HashMap<String, Object>(); 
-		System.out.println("Ä«Å×°í¸® : "+ mvo.getCategory());
+		System.out.println("ì¹´í…Œê³ ë¦¬ : "+ mvo.getCategory());
 		MemberVO vo = boardService.adModalView_m(mvo);
 		if(vo != null) {
 			System.out.println("vo.grade : " +vo.getGrade());
@@ -144,11 +145,11 @@ public class BoardController {
 		if(bvo != null) {
 			String category=mvo.getCategory();
 			if(category.equals("community")) {
-				bvo.setCategory("Ä¿¹Â´ÏÆ¼");
+				bvo.setCategory("ì»¤ë®¤ë‹ˆí‹°");
 				map.put("ABoardVOto", bvo);
 			}
 			else{
-				bvo.setCategory("ºĞ¾ç°Ô½ÃÆÇ");
+				bvo.setCategory("ë¶„ì–‘ê²Œì‹œíŒ");
 				map.put("ABoardVOto", bvo);
 			}
 		}
@@ -190,7 +191,7 @@ public class BoardController {
 		return map;
 	}
 	
-	
+	//ì–´ë“œë¯¼ ê²Œì‹œê¸€ view  í•¨ìˆ˜ ë
 	
 
 }

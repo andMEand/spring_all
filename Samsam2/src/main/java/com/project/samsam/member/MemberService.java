@@ -5,16 +5,16 @@ import java.util.Map;
 
 public interface MemberService {
 	public int userCheck(MemberVO memberVO);
+	public MemberVO idCheck(String emailch);
 	public ArrayList<MemberVO> getMemberlist();
-//	public MemberVO selectMember(MemberVO memberVO);
 	public int deleteMember(MemberVO memberVO);
 	
-	//»çÀÔÁ¤º¸ ÀÎ¼­Æ®
+	//ì¸ì„œíŠ¸ ë©¤ë²„
 	public int joinMember(MemberVO memberVO);
-	//ÀÏ¹İÈ¸¿ø°¡ÀÔ ÀÎÁõÅ° ÇÔ¼ö
+	//ì¼ë°˜ íšŒì›ê°€ì… ì´ë©”ì¼ ë§í¬ ì¸ì¦
 	public void updateAuthkey(Map<String, String> map);
 	public void updateAuthStatus (Map<String, Integer> map);
-	//Ä«Ä«¿À È¸¿ø°¡ÀÔ
+	//Ä«Ä«ï¿½ï¿½ È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	public int k_joinMember (MemberVO mvo);
 	public MemberVO selectMember (String email);
 	public Biz_memberVO selectBizMember (String biz_email);

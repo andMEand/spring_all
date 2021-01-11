@@ -7,10 +7,10 @@ public class MemberVO {
 	String nick;
 	int phone;
 	String local;
-	String grade;  //ÀÏ¹İ/ »ç¾÷ÀÚ ±¸ºĞ
-	String authkey;  //ÀÎÁõÅ°
-	String status;	//ÀÎÁõ»óÅÂ
-	String signdate;  //°¡ÀÔÀÏ
+	String grade;  //ï¿½Ï¹ï¿½/ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	String authkey;  
+	String status;	
+	String signdate; 
 	
 	
 	public String getEmail() {

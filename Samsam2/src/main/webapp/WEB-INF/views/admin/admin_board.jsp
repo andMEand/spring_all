@@ -2,6 +2,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page import="java.util.*"%>
 <%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="com.project.samsam.member.MemberVO"%>
+<%@ page import="com.project.samsam.board.ABoardVOto"%>
+<%@ page import="com.project.samsam.board.ABoardVO"%>
 
 <%
 String email = (String) session.getAttribute("email");
@@ -38,8 +41,8 @@ HashMap<Object, Object> map = (HashMap<Object, Object>)request.getAttribute("map
 <!-- 제이쿼리 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
 
-<script src="resources/js/admin_sidebar.js"></script>
 <link href="resources/css/modal.css" rel="stylesheet" /> 
+<script src="resources/js/admin_sidebar.js"></script>
 
 <!-- 검색 달력 설정-->
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css"/>
