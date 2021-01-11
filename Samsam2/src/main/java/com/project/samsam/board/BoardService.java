@@ -13,11 +13,11 @@ public interface BoardService {
 	  
 	  
 	  public BoardVO getSDetail(int num);
-	  //È¨ÆäÀÌÁö ¸ŞÀÎ °Ë»ö ÇÔ¼ö
+	  //í™ˆí˜ì´ì§€ ë©”ì¸ ê²€ìƒ‰ í•¨ìˆ˜
 	  
       public List<ABoardVOto> findList(ABoardVO abvo);
       public List<ABoardVOto> find_w_List(ABoardVO abvo);
-      //¾îµå¹Î °Ô½Ã±Û°ü¸® °Ë»ö ÇÔ¼ö
+      //ì–´ë“œë¯¼ ê²Œì‹œê¸€ê´€ë¦¬ ê²€ìƒ‰ í•¨ìˆ˜
       
       
       
@@ -29,7 +29,7 @@ public interface BoardService {
       
       public List<WarningVO> adModalView_w (ADModalVO membervo);
       public WarningVO adModalView_wcount (ADModalVO membervo);
-	  //¾îµå¹Î °Ô½Ã±Û ºä Modal
+	  //ì–´ë“œë¯¼ ê²Œì‹œê¸€ ë·° Modal
       
 	  
 }

@@ -15,7 +15,7 @@ import com.project.samsam.member.MemberVO;
 @Service("boardService")
 public class BoardServiceImpl implements BoardService {
 
-	@Autowired // Myb atis(ibatis) ¶óÀÌºê·¯¸®°¡ Á¦°øÇÏ´Â Å¬·¡½º
+	@Autowired // Myb atis(ibatis) ï¿½ï¿½ï¿½Ìºê·¯ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½
 	private SqlSession sqlSession;
 
 	@Override
@@ -40,25 +40,6 @@ public class BoardServiceImpl implements BoardService {
 		
 	  }
 	  
-	  
-//	public List<BoardVO> getSearchList(String keyword) {
-//		BoardMapper boardMapper =sqlSession.getMapper(BoardMapper.class);
-//		List<BoardVO> searchList = new ArrayList<BoardVO>();
-//		try {
-////			System.out.println(vo2.getB_subject());
-//
-//		 searchList = boardMapper.getSearchList(keyword);
-//		 System.out.println("searchList ="+searchList.size());
-//		for(BoardVO vo : searchList) {
-//			System.out.println("°Ë»ö °á°ú " + vo.getSubject());
-//		}
-//		}
-//		catch(Exception e) {
-//			System.out.println("°Ë»ö ¿¡·¯(¼­) : " + e.getMessage());
-//		}
-//		return searchList;
-//	}
-//	//È¨ÆäÀÌÁö °Ë»ö¸®½ºÆ® ³¡
 
 	@Override
 	public BoardVO getSDetail(int num) {
@@ -66,8 +47,8 @@ public class BoardServiceImpl implements BoardService {
 		BoardVO board = boardMapper.getSDetail(num);
 		return board;
 	}
-	// È¨ÆäÀÌÁö °Ë»ö ºä ³¡
-	//getSDetail ¼öÁ¤ÇÒ ÇÊ¿äÀÖÀ½ : ÇØ´ç ¿øº»±Û·Î ÀÌµ¿
+	// í™ˆí˜ì´ì§€ ê²€ìƒ‰ ë·° ë
+		//getSDetail ìˆ˜ì •í•  í•„ìš”ìˆìŒ : í•´ë‹¹ ì›ë³¸ê¸€ë¡œ ì´ë™
 	
 	
 	
@@ -81,7 +62,7 @@ public class BoardServiceImpl implements BoardService {
 		for(ABoardVOto vo :list) {
 			vo.setCategory(abvo.getKategorie());
 			newlist.add(vo);
-			System.out.println("¼­ºñ½ºÀÓÇÃ"+vo.getNick() + "Ä«Å×°í¸® : " + vo.getCategory());
+			System.out.println("ì„œë¹„ìŠ¤ì„í”Œ"+vo.getNick() + "ì¹´í…Œê³ ë¦¬ : " + vo.getCategory());
 		}
 		return newlist;
 	}
@@ -90,11 +71,11 @@ public class BoardServiceImpl implements BoardService {
 		AdminBoardMapper adminMapper =sqlSession.getMapper(AdminBoardMapper.class);
 		List<ABoardVOto> Wlist =adminMapper.find_w_List(abvo);
 		for(ABoardVOto vo :Wlist) {
-			System.out.println("¼­ºñ½ºÀÓÇÃ"+vo);
+			System.out.println("ì„œë¹„ìŠ¤ì„í”Œ"+vo);
 		}
 		return Wlist;
     }
-	//¾îµå¹Î °Ô½Ã±Û °ü¸® 
+	//ì–´ë“œë¯¼ ê²Œì‹œê¸€ ê´€ë¦¬ 
 	
 	public MemberVO adModalView_m (ADModalVO movo){
 		AdminBoardMapper adminMapper = sqlSession.getMapper(AdminBoardMapper.class);
@@ -129,7 +110,7 @@ public class BoardServiceImpl implements BoardService {
     	 WarningVO w_count = adminMapper.ad_view_wcount(movo);
  		return  w_count;
      }
-	  //¾îµå¹Î °Ô½Ã±Û ºä Modal
+	  //ì–´ë“œë¯¼ ê²Œì‹œê¸€ ë·° Modal
 
 
 }

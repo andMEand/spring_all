@@ -7,14 +7,12 @@
 <head>
 <meta charset="UTF-8">
 <title>회원관리 시스템 로그인 페이지</title>
-	<link href="resources/css/login_form.css"rel="stylesheet">
+	<link href="resources/css/login_form2.css"rel="stylesheet">
 	<script src="https://code.jquery.com/jquery-3.1.0.js"></script>
 	<script src="resources/js/login_form.js"></script>
 	<script type="text/javascript" src="https://developers.kakao.com/sdk/js/kakao.min.js"></script> <!-- 카카오톡 자바스크립트 라이브러리 -->
 	<script type="text/javascript" src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.0.js" charset="utf-8"></script> <!-- 네이버 js 라이브러리 -->
 	
-
-
 
 	<script type="text/javascript">
 		document.addEventListener("DOMContentLoaded", function(){
@@ -62,10 +60,10 @@
 <!-- 네이버 로그인 -->
 <script type="text/javascript">
 document.addEventListener("DOMContentLoaded", function(){
-	  	
+
 	  var naverLogin = new naver.LoginWithNaverId(
 		{
-			clientId: "CI1fbGJvMApsFrTnT9xZ",
+			clientId: "x3Tys5ssECV0IWRL3l7E",
 			callbackUrl: "http://localhost:8080/samsam/callback.me",
 			isPopup: false, /* 팝업을 통한 연동처리 여부 */
 			callbackHandle: false,
@@ -111,7 +109,7 @@ document.addEventListener("DOMContentLoaded", function(){
 </div>
 <form name="loginform" action = "login.me" method="post" class="loginform" >
 <div class="group">
-	<input type="email"name="email"><span class="highlight"></span><span class="bar"></span>
+	<input type="text"name="email"><span class="highlight"></span><span class="bar"></span>
     <label for="email" class="label-email"><span class="content-email">Email</span></label>
 </div>
 <div class="group">

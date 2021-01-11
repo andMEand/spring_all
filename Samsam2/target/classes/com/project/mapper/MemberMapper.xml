@@ -30,7 +30,7 @@
 	SELECT count(*) FROM sMEMBER WHERE EMAIL = #{email} AND PW = #{pw} AND STATUS = 1
 	</select>
 	<select id="idCheck" parameterType="String" resultType="MemberVO">
-	SELECT * FROM sMEMBER WHERE EMAIL = #{emailch}
+	SELECT * FROM sMEMBER WHERE EMAIL = #{email}
 	</select>
 	
 	<update id="updateAuthkey" parameterType="HashMap">

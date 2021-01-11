@@ -13,7 +13,7 @@ public interface AdminBoardMapper {
 		
 	public List<ABoardVOto> findList(ABoardVO abvo);
 	public List<ABoardVOto> find_w_List(ABoardVO abvo);
-	//¾îµå¹Î °Ô½Ã±Û °Ë»ö
+	//ì–´ë“œë¯¼ ê²Œì‹œê¸€ ê²€ìƒ‰
 	
 	public MemberVO ad_view_m (	ADModalVO mvo);
     public ABoardVOto ad_view_b (ADModalVO mvo);
@@ -21,7 +21,7 @@ public interface AdminBoardMapper {
     public CommentVO ad_view_ccount (ADModalVO mvo);
     public List<WarningVO> ad_view_wList (ADModalVO mvo);
     public WarningVO ad_view_wcount (ADModalVO mvo);
-	  //¾îµå¹Î °Ô½Ã±Û ºä Modal
+	  //ì–´ë“œë¯¼ ê²Œì‹œê¸€ ë·° Modal
 	
 
 }

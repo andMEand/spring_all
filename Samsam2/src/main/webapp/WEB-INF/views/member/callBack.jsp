@@ -13,7 +13,7 @@
    <script>
       var naverLogin = new naver.LoginWithNaverId(
          {
-            clientId: "CI1fbGJvMApsFrTnT9xZ",
+            clientId: "x3Tys5ssECV0IWRL3l7E",
             callbackUrl: "http://localhost:8080/samsam/callback.me",
             isPopup: false,
             callbackHandle: true
@@ -24,48 +24,12 @@
      
       window.addEventListener('load', function () {
          naverLogin.getLoginStatus(function (status) {
-        
-
 
             if (status) {
-               var email = naverLogin.user.getEmail();
+               var email = naverLogin.user.getEmail()
                var nickname = naverLogin.user.getNickName();
-               
-               $ajax({
-          			url: 'samsam/idcheck.me',
-          			type: 'POST',
-          			data: JSON.stringify(emailch),
-          			contentType : 'application/json;charset=utf-8',
-          	        dataType : 'json',
-          	        success: function(mvo){
-          	        	
-          	              if(mvo == null){
-          	            	 $('#nidData').submit();
-        	                }
-          	           
-          	              else{
-          	                if(mvo.getGrade ==null || mvo.getGrade().equals("카카오")){
-          	                	 alert("이미 가입된 계정이 있습니다");
-           	                    location.href="loginform.me";
-          	                }
-          	                else{
-          	                	  location.href="login.me";
-          	             	 }
-          	            
-          	            },//success
-          	            
-          	         error : function(error) {
-          	            alert("통신실패"+ error);
-          	          	}//error
-          	          });
-               
-               if( email == undefined || email == null) {
-                  alert("이메일은 필수정보입니다. 정보제공을 동의해주세요.");
-                  naverLogin.reprompt();
-                  return;
-               }
-               
-               
+               console.log(email)
+                             
                $('.n_email').val(email);
 		  	   $('.n_name').val(nickname);
 		  		console.log("네이버 이메일: " + $('.n_email').val() + "네이버 닉네임 : " + $('.n_name').val() )

@@ -6,23 +6,17 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import com.github.scribejava.core.model.OAuth2AccessToken;
 
 @Controller
 public class MemberController {
@@ -44,11 +38,14 @@ public class MemberController {
 		return "member/loginForm";
 	}
 	
-	//īī���α���
 	@RequestMapping(value = "/kkoLogin.me")
 	public String kko_Join(MemberVO mvo, Model model, RedirectAttributes redi_attr) {
 		System.out.println("이메일: " + mvo.getEmail() + "닉네임 : " + mvo.getNick());
 		
+		MemberVO vo = memberService.selectMember(mvo.getEmail());
+		if(vo != null && !(vo.getGrade().equals("카카오"))){
+			return "member/loginForm";
+		}
 		if(memberService.selectMember(mvo.getEmail()) == null) {
 			mvo.setGrade("카카오");
 			model.addAttribute("MemberVO", mvo);
@@ -64,13 +61,10 @@ public class MemberController {
 	//네이버 콜백
 		@RequestMapping(value = "/callback.me")
 		public String nid_callback(MemberVO mvo, Model model, RedirectAttributes redi_attr) {
-			MemberVO vo = memberService.selectMember(mvo.getEmail());
-			System.out.println("vo.getGrade : " + vo.getGrade() + "mvo.email : " + mvo.getEmail());
-			if(vo != null && !(vo.getGrade().equals("네이버"))){
-				return "member/loginForm";
-			}
+			
 			return "member/callBack";
 		}
+		
 		//네이버
 	@RequestMapping(value = "/nidLogin.me")
 	public String nid_Join(MemberVO mvo, Model model, RedirectAttributes redi_attr) {
@@ -86,10 +80,10 @@ public class MemberController {
 			return "member/k_joinForm";
 		} 
 		else {
-				redi_attr.addAttribute("email", mvo.getEmail());
-				System.out.println("nidLogin else");
-				return "redirect:/login.me";
-			}
+			redi_attr.addAttribute("email", mvo.getEmail());
+			System.out.println("nidLogin else");
+			return "redirect:/login.me";
+		}
 			
 	}
 	

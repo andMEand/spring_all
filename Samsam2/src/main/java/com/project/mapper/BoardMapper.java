@@ -1,4 +1,4 @@
-package com.project.mapper;
+	package com.project.mapper;
 
 import java.util.List;
 
@@ -11,6 +11,5 @@ public interface BoardMapper {
 	public List<BoardVO> getSearch_free_List(String keyword);
 	
 	public BoardVO getSDetail (int num);
-	//홈페이지 검색 함수
 	
 }

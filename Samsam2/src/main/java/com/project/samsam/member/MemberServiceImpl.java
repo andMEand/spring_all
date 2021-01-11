@@ -18,14 +18,14 @@ public class MemberServiceImpl implements MemberService {
 		MemberMapper memberMapper = sqlSession.getMapper(MemberMapper.class);
 		int res =memberMapper.k_joinMember(mvo);
 		return res;
-		//Ä«Ä«¿À È¸¿ø°¡ÀÔ
+		//ì¹´ì¹´ì˜¤ íšŒì›ê°€ì…
 	}
 	@Override
 	public int joinMember(MemberVO memberVO) {
 		MemberMapper memberMapper =sqlSession.getMapper(MemberMapper.class);
 		int res = memberMapper.joinMember(memberVO);
 		return res;
-	} //È¸¿ø°¡ÀÔ
+	} //íšŒì›ê°€ì…
 	
 	@Override
 	public MemberVO selectMember (String email) {
