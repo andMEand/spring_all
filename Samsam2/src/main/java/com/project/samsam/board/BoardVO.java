@@ -8,6 +8,7 @@ public class BoardVO {
 	private String c_content;
 	private String nick;
 	private Date c_date;
+	private int readcount;
 	public int getNum() {
 		return num;
 	}
@@ -37,6 +38,12 @@ public class BoardVO {
 	}
 	public void setC_date(Date c_date) {
 		this.c_date = c_date;
+	}
+	public int getReadcount() {
+		return readcount;
+	}
+	public void setReadcount(int readcount) {
+		this.readcount = readcount;
 	}
 	
 

@@ -1,50 +1,58 @@
-<%@ page language="java" contentType="text/html; charset=utf-8"
-	pageEncoding="utf-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ page language = "java" contentType = "text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page import="java.util.*"%>
-<%@ page import="java.text.SimpleDateFormat"%>
-<%@ page import="com.project.samsam.board.*"%>
+<%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="com.project.samsam.member.MemberVO"%>
 <%@ page import="com.project.samsam.board.ABoardVOto"%>
 <%@ page import="com.project.samsam.board.ABoardVO"%>
+
 <%
-	String email = (String) session.getAttribute("email");
+String email = (String) session.getAttribute("email");
 
-	/*
-	if (session.getAttribute("email") == null){
-		out.println("<script>");
-		out.println("location.href='loginForm.me'");
-		out.println("</script>");
-	s
-	*/
-	HashMap<Object, Object> map = (HashMap<Object, Object>)request.getAttribute("map");
-	
+/*
+if (session.getAttribute("email") == null){
+	out.println("<script>");
+	out.println("location.href='loginForm.me'");
+	out.println("</script>");
+s
+*/
+HashMap<Object, Object> map = (HashMap<Object, Object>)request.getAttribute("map");
 
-	//	클래스 변수이름 = (클래스)request.getAttribute("모델로 저장한 이름");
-	//	int b_no = 변수이름.getB_no();
+
+//	클래스 변수이름 = (클래스)request.getAttribute("모델로 저장한 이름");
+//	int b_no = 변수이름.getB_no();
+
+	//email.toUpperCase();
 %>
 <!DOCTYPE html>
-<html lang="ko">
+<html>
 <head>
-<meta charset="UTF-8">
-<title>admin board page</title>
+<meta charset="utf-8">
+<title>admin_board</title>
 
+<!-- 폰트 -->
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300&display=swap" rel="stylesheet">
+<!-- 어드민페이지 -->
+<link href="resources/css/admin_sidebar.css" rel="stylesheet">
+<!-- 아이콘 -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
+<!-- 제이쿼리 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+
+<link href="resources/css/modal.css" rel="stylesheet" /> 
+<script src="resources/js/admin_sidebar.js"></script>
 
 <!-- 검색 달력 설정-->
-<link href="resources/css/adminstyle.css" rel="stylesheet" />
-<link href="resources/css/modal.css" rel="stylesheet" /> 
-
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css"/>
-        <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
-        <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
-	
+<script src="http://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
 <!-- 모달 플러그인 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
 
 <!-- 검색 달력 함수-->
 <script type="text/javascript">
-	$(document).ready(function() {
 		$.datepicker.setDefaults($.datepicker.regional['ko']);
 						$("#startDate").datepicker({
 									changeMonth : true,
@@ -186,11 +194,9 @@
 
 										});
 
-					});
+				
 	//홈페이지 Datepicker & 리스트 에이젝스 함수 끝
-
-			
-	function checkOnlyOne(element) {
+function checkOnlyOne(element) {
 		  
 		  const checkboxes = document.getElementsByName("kind");
 		  
@@ -262,38 +268,46 @@
 		})//ajax
 	}//boardDetail
 
-</script>
+</script>	
+
 </head>
 <body>
-	<div id="wrap">
-		<header>
-			<div id="header">
-				<div class="container">
-					<div class="con_banner">배너</div>
-					<div class="con_account">관리자 계정</div>
-				</div>
+<div class ="body_content">
 
-			</div>
-		</header>
-		<aside>
-			<div id="side_nav">
-				<div class="container">
-					<div class="con_nav">
-						<ul>
-							<li class="nav"><a href="">게시글관리</a></li>
-							<li class="nav"><a href="">회원관리</a></li>
-							<li class="nav"><a href="">이용권관리</a></li>
-							<li class="nav"><a href="">책임분양</a></li>
-						</ul>
-					</div>
-				</div>
-			</div>
-		</aside>
+<header id = "header">
+	<div class="d-flex flex-column">
+		<div class ="profile">
+			<img src = "resources/img/ssong.PNG" alt class = "img-circle">
+			<h1 class = "text-light">
+				<a href = "#" class = "onMember">  <%= email.toUpperCase()%> </a>
+			</h1>
+		</div>
+		<div class ="admin_inout">
+			<button type="button" class ="grade">ADMIN</button>
+			<button type="button" class ="grade" onclick="location.href='loginForm.me'">LOGOUT</button>
+		</div>
+						
+		<ul>
+			<li>
+				<a href = "#" class = "nav-menu"><i class= "far fa-clipboard menu"></i><span class="a-menu"> 게시물관리</span></a>
+			</li>
+			<li>
+				<a href="admin_main.me" class = "nav-menu"><i class = "fas fa-users menu"></i><span class="a-menu"> 회원관리</span></a>
+			</li>
+			<li>
+				<a href="admin_pay.me" class = "nav-menu"><i class = "fas fa-ticket-alt menu"></i><span class="a-menu"> 이용권관리</span></a>
+			</li>
+			<li>
+				<a href="#" class = "nav-menu"><i class = "fas fa-dog menu"></i><span class="a-menu"> 책임분양</span></a>
+			</li>
+		</ul>
+</div>
+</header>
 
-		<section>
-			<div id="section">
-				<!--  -->
-				<div class="container">
+<div class = "main_content">
+<!-- 메인컨텐트 -->
+<div class="container">
+
 					<div class="search_bar">
 						<form method="post" id="find_form">
 							<div class="search_area1">
@@ -334,25 +348,59 @@
 
 					</div>
 				</div>
-			</div>
-		</section>
-		<article>
-			<div id="article">
-				<div class="container">
-					<div class="con_art">
-						<div class="art_item">달력</div>
-						<div class="art_item">투두 리스트</div>
-						<div class="art_item">visitor</div>
-					</div>
-				</div>
-			</div>
-		</article>
-		<footer>푸터</footer>
-	</div>
-	
-	
-	 
-	<!-- 모달 내용 -->
+
+</div><!-- 메인컨텐트 끝 -->
+<!-- right-sidebar -->
+<div class="right-container">
+<!-- 달력 --> 
+<widget class="no-drag">
+  <table id="calendar">
+    <thead>
+      <tr height="35px">
+        <td><label onclick="prev()" style="color: #ccc;"><</label></td>
+        <td colspan="5" id="monthTable"></td>
+        <td><label onclick="next()" style="color: #ccc;">></label></td>
+      </tr>
+      <tr id="dateHead">
+        <td>S</td>
+        <td>M</td>
+        <td>T</td>
+        <td>W</td>
+        <td>T</td>
+        <td>F</td>
+        <td>S</td>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+  <script>
+    makeArray();
+  </script>
+</widget>
+<!-- 투두리스트 -->
+	<!-- 입력 -->
+	<div class = "todolist">
+      <input type="text" placeholder="Add A Task" class ="txt"> 
+    <!-- to do list -->
+      <div class="notdone">
+        <h3>To Do List</h3>
+      </div>
+	<!-- done list -->      
+      <div class="done">
+        <h3>Done</h3>
+      </div>
+     </div>
+
+<!-- pageup button -->
+<div class ="back-to-top">
+<a href="#" class ="back-to-top" style="display: inline;">
+	<i class = "fas fa-angle-up"></i>
+</a>
+</div>
+</div><!-- right-sidebar -->
+</div><!-- 바디컨텐트 -->
+
+<!-- 모달 내용 -->
 	<form id="detail_form" class="modal">
 	<div class="admin_b_view">
 		<h3>상세보기</h3>
@@ -399,6 +447,5 @@
 	</form>
 
 <!-- #modal 끝 -->
-	
 </body>
 </html>

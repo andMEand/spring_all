@@ -6,11 +6,9 @@
 <%@ page import="com.project.samsam.board.*" %>
 <%@ page import="com.project.samsam.board.BoardVO"%>
 <%
-	List<BoardVO> searchList =(List<BoardVO>)request.getAttribute("searchList");
 	List<BoardVO> free_doc =(List<BoardVO>)request.getAttribute("free_doc");
 	List<BoardVO> community =(List<BoardVO>)request.getAttribute("community");
 	List<BoardVO> adopt_list =(List<BoardVO>)request.getAttribute("adopt_list");
-
  %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -28,12 +26,10 @@
 <title>나의 반려친구, 삼삼하개</title>
  
  <script>
+ 
  $(document).ready(function(){
  var start =5;
  $(".free_adopt").slice(5).hide();
- $(".community").slice(5).hide(); 
- $(".adopt_list").slice(5).hide();
- 
  $("#check1").click(function(e){
 	 e.preventDefault();
 	 start +=5;
@@ -44,10 +40,10 @@
 	 };
 		 
  });
- 
+ $(".community").slice(5).hide();
  $("#check2").click(function(e){
 	 e.preventDefault();
-	 start +=5;
+	 start += 5;
 	 $(".community").slice(0, start).show();
 	 
 	 if($(".community").length <= start){
@@ -55,7 +51,7 @@
 	 };
 		 
  });
- 
+ $(".adopt_list").slice(5).hide();
  $("#check3").click(function(e){
 	 e.preventDefault();
 	 start +=5;
@@ -66,6 +62,7 @@
 	 };
 		 
  });
+ 
  }); 
  
 
@@ -83,7 +80,7 @@ magin : auto o;
 }
   .body_content{
   	margin : 0;
-  	height:100vh;
+  	height:100%;
     display : flex;
 	justify-content: center;
   }
@@ -179,7 +176,7 @@ input {
 
 .error1, .error2, .error3{
 font-size: 0.9em;
-color : red;
+color : GRAY;
 padding-left: 0px;
 text-align : left;
 }
@@ -258,7 +255,7 @@ text-align : left;
 	                    		for(BoardVO f_list: free_doc){
 	                    	
 	                    	%>
-	                    	<tr class="free_board">
+	                    	<tr class="free_adopt">
 	                    		<td><%=f_list.getNum()%></td>
 	                    		<td> <%=f_list.getSubject()%></td>
 	                    		<td> <%=f_list.getNick() %></td>
@@ -288,7 +285,7 @@ text-align : left;
                     	if(community !=null){
                     		for(BoardVO c_list: community){
                     	%>
-                    	<tr class="community_board">
+                    	<tr class="community">
                     		<td><%=c_list.getNum()%></td>
                     		<td> <%=c_list.getSubject()%></td>
                     		<td> <%=c_list.getNick() %></td>
@@ -317,7 +314,7 @@ text-align : left;
                     	
                     	%>
                     	
-                    	<tr class="adopt_board">
+                    	<tr class="adopt_list">
                     		<td><%=a_list.getNum()%></td>
                     		<td> <%=a_list.getSubject()%></td>
                     		<td> <%=a_list.getNick() %></td>
@@ -332,7 +329,7 @@ text-align : left;
                     	<input type="button" id="check3" value="더보기"><br>
                     	 <div class="error3"></div>
                     </div>
-                
+                </form>
             </div>
         </div>
         <!-- //cont -->

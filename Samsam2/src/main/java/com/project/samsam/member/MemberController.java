@@ -1,20 +1,28 @@
 package com.project.samsam.member;
 
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.github.scribejava.core.model.OAuth2AccessToken;
 
 @Controller
 public class MemberController {
@@ -22,6 +30,7 @@ public class MemberController {
 	private MemberServiceImpl memberService;
 	@Autowired
 	private MailSendService mss;
+	
 
 	
 	@RequestMapping("/home.me")
@@ -35,13 +44,13 @@ public class MemberController {
 		return "member/loginForm";
 	}
 	
-	//Ä«Ä«¿À·Î±×ÀÎ
+	//Ä«Ä«ï¿½ï¿½ï¿½Î±ï¿½ï¿½ï¿½
 	@RequestMapping(value = "/kkoLogin.me")
 	public String kko_Join(MemberVO mvo, Model model, RedirectAttributes redi_attr) {
-		System.out.println("ÀÌ¸ŞÀÏ: " + mvo.getEmail() + "´Ğ³×ÀÓ : " + mvo.getNick());
+		System.out.println("ì´ë©”ì¼: " + mvo.getEmail() + "ë‹‰ë„¤ì„ : " + mvo.getNick());
 		
 		if(memberService.selectMember(mvo.getEmail()) == null) {
-			mvo.setGrade("Ä«Ä«¿À");
+			mvo.setGrade("ì¹´ì¹´ì˜¤");
 			model.addAttribute("MemberVO", mvo);
 			return "member/k_joinForm";
 		}
@@ -51,10 +60,47 @@ public class MemberController {
 			}
 	}
 	
-	//Ä«Ä«¿À°èÁ¤ È¸¿ø°¡ÀÔ
+	
+	//ë„¤ì´ë²„ ì½œë°±
+		@RequestMapping(value = "/callback.me")
+		public String nid_callback(MemberVO mvo, Model model, RedirectAttributes redi_attr) {
+			MemberVO vo = memberService.selectMember(mvo.getEmail());
+			System.out.println("vo.getGrade : " + vo.getGrade() + "mvo.email : " + mvo.getEmail());
+			if(vo != null && !(vo.getGrade().equals("ë„¤ì´ë²„"))){
+				return "member/loginForm";
+			}
+			return "member/callBack";
+		}
+		//ë„¤ì´ë²„
+	@RequestMapping(value = "/nidLogin.me")
+	public String nid_Join(MemberVO mvo, Model model, RedirectAttributes redi_attr) {
+		System.out.println("ë„¤ì´ë²„ì´ë©”ì¼: " + mvo.getEmail() + "ë‹‰ë„¤ì„ : " + mvo.getNick());
+		
+		MemberVO vo = memberService.selectMember(mvo.getEmail());
+		if(vo != null && !(vo.getGrade().equals("ë„¤ì´ë²„"))){
+			return "member/loginForm";
+		}
+		if(memberService.selectMember(mvo.getEmail()) == null) {
+			mvo.setGrade("ë„¤ì´ë²„");
+			model.addAttribute("MemberVO", mvo);
+			return "member/k_joinForm";
+		} 
+		else {
+				redi_attr.addAttribute("email", mvo.getEmail());
+				System.out.println("nidLogin else");
+				return "redirect:/login.me";
+			}
+			
+	}
+	
+	//ì†Œì…œê³„ì • íšŒì›ê°€ì…
 	@RequestMapping(value = "/kkoJoin.me")
 	public String kko_joinProcess(MemberVO mvo) {
-		System.out.println("Ä«Ä«¿ÀÈ¸¿ø°¡ÀÔ" + mvo.getGrade());
+		if(mvo.getGrade().equals("ì¹´ì¹´ì˜¤")) {
+			System.out.println("ì¹´ì¹´ì˜¤íšŒì›ê°€ì…" + mvo.getGrade());
+		}else if(mvo.getGrade().equals("ë„¤ì´ë²„")) {
+			System.out.println("ë„¤ì´ë²„íšŒì›ê°€ì…" + mvo.getGrade());
+		}
 		int res = memberService.k_joinMember(mvo);
 		if(res == 1) {
 			return "member/loginForm";
@@ -63,49 +109,60 @@ public class MemberController {
 			return "member/k_joinform";
 		}
 	}
+
 	
 	@RequestMapping(value = "/login.me")
 	public String userCheck(@RequestParam("email") String email, MemberVO vo, HttpSession session) throws Exception {
-		System.out.println("·Î±×ÀÎ ÀÌ¸ŞÀÏ "+vo.getEmail());
-		System.out.println("·Î±×ÀÎ ºñ¹Ğ¹øÈ£ "+vo.getPw());
+		System.out.println("ë¡œê·¸ì¸ ì´ë©”ì¼ "+vo.getEmail());
+		System.out.println("ë¡œê·¸ì¸ ë¹„ë°€ë²ˆí˜¸ "+vo.getPw());
 		
-		//¾îµå¹Î
+		//ì–´ë“œë¯¼
 		if(vo.getEmail().equals("admin")) {
 			session.setAttribute("id", vo.getEmail());
 			session.setAttribute("email", vo.getEmail());
 			
-			return "redirect:/home.me";  //¾îµå¹Î ÆäÀÌÁö·Î º¯°æ ÇÊ¿ä
+			return "redirect:/home.me";  //ì–´ë“œë¯¼ í˜ì´ì§€ë¡œ ë³€ê²½ í•„ìš”
 		}
-		//Ä«Ä«¿À
+		//ì¹´ì¹´ì˜¤
 		MemberVO res = memberService.selectMember(vo.getEmail());
-		if(res.getGrade().equals("Ä«Ä«¿À")) {
+		if(res.getGrade().equals("ì¹´ì¹´ì˜¤")) {
 			session.setAttribute("email", res.getEmail());
 			Biz_memberVO bo = memberService.selectBizMember(vo.getEmail());
 			if(bo != null) {
 				if(bo.getStatus() == 0) {
-					return "redirect:/cominfo_main.do";//»ç¾÷ÀÚ ¸¶ÀÌÆäÀÌÁö·Î º¯°æ ÇÊ¿ä
+					return "redirect:/cominfo_main.do";//ì‚¬ì—…ì ë§ˆì´í˜ì´ì§€ë¡œ ë³€ê²½ í•„ìš”
 				}
 			}
-			return "redirect:/home.me";//¸¶ÀÌÆäÀÌÁö·Î º¯°æ ÇÊ¿ä
+			return "redirect:/home.me";//ë§ˆì´í˜ì´ì§€ë¡œ ë³€ê²½ í•„ìš”
 		}
-		
+		//ë„¤ì´ë²„
+		if(res.getGrade().equals("ë„¤ì´ë²„")) {
+			session.setAttribute("email", res.getEmail());
+			Biz_memberVO bo = memberService.selectBizMember(vo.getEmail());
+			if(bo != null) {
+				if(bo.getStatus() == 0) {
+					return "redirect:/cominfo_main.do";//ì‚¬ì—…ì ë§ˆì´í˜ì´ì§€ë¡œ ë³€ê²½ í•„ìš”
+				}
+			}
+			return "redirect:/home.me";//ë§ˆì´í˜ì´ì§€ë¡œ ë³€ê²½ í•„ìš”
+		}
+		//ì¼ë°˜	
 		if(res.getPw().equals(vo.getPw())) {
 			
 			session.setAttribute("id", res.getEmail());
 			session.setAttribute("email", res.getEmail());
 			System.out.println("session id :" +session.getAttribute("id"));
 			System.out.println("session email :" +session.getAttribute("email"));
-			
-			//»ç¾÷ÀÚÈ¸¿øÀÎÁö È®ÀÎ
+			//ì‚¬ì—…ìíšŒì›ì¸ì§€ í™•ì¸
 			Biz_memberVO bo = memberService.selectBizMember(vo.getEmail());
 			if(bo != null) {
 				if(bo.getStatus() == 0) {
-					return "redirect:/cominfo_main.do"; //»ç¾÷ÀÚ ¸¶ÀÌÆäÀÌÁö·Î º¯°æ ÇÊ¿ä
+					return "redirect:/cominfo_main.do";  //ì‚¬ì—…ì ë§ˆì´í˜ì´ì§€ë¡œ ë³€ê²½ í•„ìš”
 				}
 			}
-			return "redirect:/home.me";  //¸¶ÀÌÆäÀÌÁö·Î º¯°æ ÇÊ¿ä
+			return "redirect:/home.me";  //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¿ï¿½
 		}else {
-			return "redirect:/loginForm.me";
+			return "redirect:/loginform.me";
 		}
 	}
 	
@@ -123,19 +180,19 @@ public class MemberController {
 	@RequestMapping("/signUp.me")
 	public String signUp(@ModelAttribute MemberVO memberVO) {
 		System.out.println(memberVO.getNick());
-		 // DB¿¡ ±âº»Á¤º¸ insert
+		 // DBì— ê¸°ë³¸ì •ë³´ insert
 		int res= memberService.joinMember(memberVO);
-		System.out.println("ÀÎ¼­Æ®¿Ï·á"+res);
-		//ÀÓÀÇÀÇ authKey»ı¼º & ÀÌ¸ŞÀÏ ¹ß¼Û
+		System.out.println("ì¸ì„œíŠ¸ì™„ë£Œ"+res);
+		//ì„ì˜ì˜ authKeyìƒì„± & ì´ë©”ì¼ ë°œì†¡
 		String authkey = mss.sendAuthMail(memberVO.getEmail());
 		memberVO.setAuthkey(authkey);
 		System.out.println(3);
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("email", memberVO.getEmail());
 		map.put("authkey", memberVO.getAuthkey());
-		System.out.println("¸Ê" + map.get("email") + "ÀÎÁõÅ° " + map.get("authkey"));
+		System.out.println("ë§µ" + map.get("email") + "ì¸ì¦í‚¤  " + map.get("authkey"));
 		
-		//DB¿¡ authKey¾÷µ¥ÀÌÆ®
+		//DBì— authKeyì—…ë°ì´íŠ¸
 		memberService.updateAuthkey(map);
 		return "member/email_check";
 		
@@ -143,29 +200,23 @@ public class MemberController {
 	
 	 @GetMapping("/signUpConfirm.me")
 	 public ModelAndView signUpConfirm(@RequestParam HashMap<String, Integer> map, ModelAndView mav){
-	    //email, authKey °¡ ÀÏÄ¡ÇÒ°æ¿ì authStatus ¾÷µ¥ÀÌÆ®
-		System.out.println("¿¬°áµÈ email :" + map.get("email"));
+		//email, authKey ê°€ ì¼ì¹˜í• ê²½ìš° authStatus ì—…ë°ì´íŠ¸
+		System.out.println("ì—°ê²°ëœ  email :" + map.get("email"));
 	    memberService.updateAuthStatus(map);
-	    System.out.println("¿¬°áµÈ email2 :" + map.get("email"));
+	    System.out.println("ì—°ê²°ëœ  email2 :" + map.get("email"));
 	    mav.addObject("display", "/member/loginForm.jsp");
 	    mav.setViewName("/member/loginForm");
 	    return mav;
 	}
 
-	@RequestMapping("/memberlist.me")
-	public String getMemberlist(Model model) throws Exception {
-		ArrayList<MemberVO> member_list = memberService.getMemberlist();
-		model.addAttribute("member_list", member_list);
-
-		return "member/member_list";
-	}
-
-
-
-	@RequestMapping("/memberdelete.me")
-	public String deleteMember(MemberVO memberVO, Model model) throws Exception {
-		memberService.deleteMember(memberVO);
-
-		return "redirect:/memberlist.me";
-	}
+		//ë¡œê·¸ì•„ì›ƒ
+		@RequestMapping(value = "/logout", method = { RequestMethod.GET, RequestMethod.POST })
+		public String logout(HttpSession session)throws IOException {
+				System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½ logout");
+				session.invalidate();
+	 
+		        
+				return "redirect:/home.me";
+			}
+	
 }

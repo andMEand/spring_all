@@ -10,6 +10,8 @@
 <meta charset="utf-8" />
 <head profile="http://www.w3.org/2005/10/profile">
 <script src="https://code.jquery.com/jquery-3.1.0.js"></script>
+	<script src="resources/js/login_form.js"></script>
+
 <script type="text/javascript">
 
 $(document).ready(function(){
@@ -99,63 +101,283 @@ function isSame(){
     }
   </script>
 <style>
-table {
-	border: 1 solid black;
+* { box-sizing:border-box; }
+a{
+	text-decoration: none;
+}
+body {
+	font-family: Helvetica;
+	background: #fcfcfc;
+  -webkit-font-smoothing: antialiased;
+}
+.login-header {
+	margin-top: 200px;
+}
+hgroup { 
+	
+	text-align:center;
+	
+}
+
+h1, h3 { font-weight: 300; }
+
+h1 { color: #636363; }
+
+h3 { color: #4a89dc; }
+
+form {
+	width: 500px;
+	margin:1em auto;
+	padding: 3em 2em 2em 2em;
+	background: #fcfcfc;
+	border-radius: 5px;
+}
+form .kkoData {
+	display: none;
+}
+.group { 
+	position: relative; 
+	margin-bottom: 45px; 
+}
+
+input {
+	font-size: 18px;
+	padding: 10px 10px 10px 5px;
+	-webkit-appearance: none;
+	display: block;
+	background: #fcfcfc;
+	color: #636363;
+	width: 100%;
+	border: none;
+	border-radius: 0;
+	border-bottom: 1px solid #757575;
+}
+
+input:focus { outline: none; }
+
+
+/* Label */
+
+label {
+	color: #999; 
+	font-size: 15px;
+	font-weight: normal;
+	position: absolute;
+	pointer-events: none;
+	left: 5px;
+	top: 10px;
+	transition: all 0.2s ease;
+}
+
+
+/* active */
+
+input:focus ~ label, input.used ~ label {
+	top: -20px;
+  transform: scale(.75); left: -2px;
+	/* font-size: 14px; */
+	color: #4a89dc;
+}
+
+
+/* Underline */
+
+.bar {
+	position: relative;
+	display: block;
+	width: 100%;
+}
+
+.bar:before, .bar:after {
+	content: '';
+	height: 2px; 
+	width: 0;
+	bottom: -1px; 
+	position: absolute;
+	background: #4a89dc; 
+	transition: all 0.2s ease;
+}
+
+.bar:before { left: 50%; }
+
+.bar:after { right: 50%; }
+
+
+/* active */
+
+input:focus ~ .bar:before, input:focus ~ .bar:after { width: 50%; }
+
+
+/* Highlight */
+
+.highlight {
+	position: absolute;
+	height: 60%; 
+	width: 100px; 
+	top: 25%; 
+	left: 0;
+	pointer-events: none;
+	opacity: 0.5;
+}
+
+
+/* active */
+
+input:focus ~ .highlight {
+	animation: inputHighlighter 0.3s ease;
+}
+
+
+/* Animations */
+
+@keyframes inputHighlighter {
+	from { background: #4a89dc; }
+	to 	{ width: 0; background: transparent; }
+}
+
+
+/* Button */
+
+.button {
+  position: relative;
+  display: inline-block;
+  padding: 12px 24px;
+  margin: .3em 0 1em 0;
+  width: 100%;
+  vertical-align: middle;
+  color: #fff;
+  font-size: 16px;
+  line-height: 20px;
+  -webkit-font-smoothing: antialiased;
+  text-align: center;
+  letter-spacing: 1px;
+  background: transparent;
+  border: 0;
+  border-bottom: 2px solid #3160B6;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  border-radius: 5px;
+}
+.button:focus { outline: 0; }
+
+
+/* Button modifiers */
+
+.buttonBlue {
+  background: #4a89dc;
+  text-shadow: 1px 1px 0 rgba(39, 110, 204, .5);
+}
+
+.buttonBlue:hover { background: #357bd8; }
+
+
+/* Ripples container */
+
+.ripples {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: transparent;
+}
+
+
+/* Ripples circle */
+
+.ripplesCircle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.ripples.is-active .ripplesCircle {
+  animation: ripples .4s ease-in;
+}
+
+
+/* Ripples animation */
+
+@keyframes ripples {
+  0% { opacity: 0; }
+
+  25% { opacity: 1; }
+
+  100% {
+    width: 200%;
+    padding-bottom: 200%;
+    opacity: 0;
+  }
+}
+
+.sns_login {
+	display:flex;
+	justify-content: space-evenly;
+	flex-direction:column;
+	margin-top:10px;
+	height : 150px;
+}
+
+#naver_id_login{
+	margin : 0 auto;
+}
+img{
+	width: 222px;
+	height: 48px;
+}
+#kkoData, #nidData {
+	background: #fcfcfc;
+}
+.login-item {
+	display:flex;
+	justify-content: space-between;
 }
 </style>
 <title>회원가입</title>
 </head>
 
 <body>
-	<form name="input_form" action="signUp.me" method="post"
-		onsubmit="return check_input();">
-		<div align="center">
-			<h1>회원가입</h1>
-		</div>
 
-		<table align="center" border="1 solid black">
-		<tr>
-			<td></td>
-			<td><input type="hidden" name="grade"value="일반"></td>
-		</tr>
-			<tr>
-				<td width="110">이메일</td>
-				<td width="400"><input type="text" name="email" size="25">
-			</tr>
+<div class="join-header">
+<hgroup>
+  <h1>SIGN UP</h1>
+  <h3>smasmahagae</h3>
+</hgroup>
+</div>
 
-			<tr>
-				<td width="110">이름</td>
-				<td width="400"><input type="text" name="name" size="30"
-					placeholder="이름을 입력하세요"></td>
-			</tr>
-			<tr>
-				<td width="110">닉네임</td>
-				<td width="400"><input type="text" name="nick" size="30"
-					placeholder="닉네임을 입력하세요"></td>
-			</tr>
-			<tr>
-				<td width="110">비밀번호</td>
-				<td width="400"><input type="password" id="pw" name="pw"
-					size="30" onchange="isSame();" style="ime-mode: inactive"
-					placeholder="최소6~최대16글자 이내 설정"></td>
-			</tr>
-			<tr>
-				<td width="110">비밀번호 확인</td>
-				<td width="400"><input type="password" id="pw2" name="pw2"
-					size="30" onchange="isSame();" style="ime-mode: inactive"
-					placeholder="최소6~최대16글자 이내 설정"> &nbsp;&nbsp;<span id="same"></span>
-				</td>
-			</tr>
+<form name="input_form" action = "signUp.me" method="post" class="joinform" onsubmit="return check_input();" >
 
-			<tr>
-				<td>휴대폰 번호</td>
-				<td><input type="text" class="tel_size" name="phone" maxlength="11"></td>
-			</tr>
+<div class="group">
+	<input type="text"name="email"><span class="highlight"></span><span class="bar"></span>
+    <label for="email" class="label-email"><span class="content-email">Email</span></label>
+</div>
+<div class="group">
+	<input type="text"name="name"><span class="highlight"></span><span class="bar"></span>
+    <label for="name" class="label-email"><span class="content-email">이름</span></label>
+</div>
+<div class="group">
+	<input type="password" name="pw"><span class="highlight"></span><span class="bar"></span>
+    <label>password</label>
+</div>
+<div class="group">
+	<input type="password" name="pw2"><span class="highlight"></span><span class="bar"></span>
+    <label>password 확인</label>
+</div>
+<div class="group">
+	<input type="number" name="phone"><span class="highlight"></span><span class="bar"></span>
+    <label>휴대폰 번호</label>
+</div>
+<div class="group">
 
-			<tr>
-				<td width="110">이용지역</td>
-				<td width="400">
-				<select name="local">
+	 <span><h5>이용지역</h5></span>
+	 <select  name="local" class="local">
 						<option value="">지역선택
 						<option value="서울">서울
 						<option value="경기">경기
@@ -174,21 +396,30 @@ table {
 						<option value="제주">제주
 						<option value="충남">충남
 						<option value="충북">충북
-				</select></td>
-			</tr>
+	</select><span class="bar">
+	
+   
+</div>
+
+<div class="group">
+			<div class="checkbox">
+            <label>
+              <input type="checkbox"> 이용약관 동의 <a href="#">Terms and Conditions</a>
+            </label>
+          </div>
+</div>		
+<button type="button" class="button buttonBlue" value=" 회원가입" onclick="check_input();" >회원가입
+    <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
+  </button>
+ <div class="join-item">			
+			<span>	<a href="home.me">홈으로</a> </span>
+</div>
+<div class="etc">
 			<input type="hidden" name="grade"value="일반">
 			<input type="hidden" name="authkey"value="">
 			<input type="hidden" name="status"value="">
-			약관동의
-			<td colspan="2" align="center" width="500">
-			<input type="button"value=" 회원가입" onclick="check_input();">
-				<input type="reset"
-				value=" 다시작성"> 
-				<input type="button" value="홈으로"
-				src="home.me"> 
+		</div>
 			
-
-		</table>
 
 	</form>
 
@@ -196,3 +427,6 @@ table {
 </body>
 
 </html>
+ 
+ 
+
