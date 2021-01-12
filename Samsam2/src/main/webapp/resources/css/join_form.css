@@ -59,7 +59,11 @@ form {
 }
 
 .group  input:focus { outline: none; }
-
+.same_check{
+	margin-top : 10px;
+	margin-left : 10px;
+	font-size : 12px;
+}
 
 /* Label */
 

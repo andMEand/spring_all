@@ -33,11 +33,15 @@ $(document).ready(function(){
 
 			success : function(checkres) {
 				if(checkres == 1){  //이메일 중복
-					$("#labelemail").html("dd");
+					$("#labelemail").html("d");
+					$(".same_check").text("중복된 이메일입니다. 다시 확인하세요.")
+					$(".same_check").css("color", "red")
 				$("#email").empty();
 				$("#email").on(focus);
 					return false;
 				}
+				$(".same_check").text("사용가능한 이메일입니다.")
+				$(".same_check").css("color", "blue")
 			},//success
 			error : function(){
 				alert("통신실패");
@@ -168,8 +172,8 @@ function isSame(){
   <div class="id">
 	<input type="text"name="email" id="email"><span class="highlight"></span>
     <label for="email" class="label-email"id="labelemail"><span class="content-email">Email</span></label>
-  <button type="button" class="idbtn" id="emailbtn" >중복확인</button>
   </div>
+  <div class ="same_check"></div>
 </div>
 <div class="group">
 	<input type="text"name="name" ><span class="highlight"></span><span class="bar"></span>
@@ -181,6 +185,7 @@ function isSame(){
     <label for="nick" class="label-email"><span class="content-email">닉네임</span></label>
       <button type="button" class="nickbtn" onclick="nickCheck();">중복확인</button>
 </div>
+   <div class ="same_check"></div>
   </div>
 <div class="group">
 	<input type="password" name="pw"><span class="highlight"></span><span class="bar"></span>
