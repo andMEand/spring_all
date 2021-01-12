@@ -12,7 +12,6 @@ public interface MemberMapper {
 	public int  JinsertMember(MemberVO memberVO);
 //	public MemberVO selectMember(MemberVO memberVO);
 	public int userCheck (MemberVO memberVO);
-	public MemberVO idCheck (String emailch);
 	public int deleteMember(MemberVO memberVO);
 	
 	public int joinMember(MemberVO memberVO);
@@ -22,5 +21,6 @@ public interface MemberMapper {
 	public int k_joinMember (MemberVO mvo);
 	public MemberVO selectMember (String email);
 	public Biz_memberVO selectBizMember (String biz_email);
-	
+	//추가 회원가입 이메일 체크
+	public int idCheck (String check);
 }

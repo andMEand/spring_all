@@ -29,9 +29,8 @@
 	<select id="userCheck" parameterType="MemberVO" resultType="int">
 	SELECT count(*) FROM sMEMBER WHERE EMAIL = #{email} AND PW = #{pw} AND STATUS = 1
 	</select>
-	<select id="idCheck" parameterType="String" resultType="MemberVO">
-	SELECT * FROM sMEMBER WHERE EMAIL = #{email}
-	</select>
+
+	
 	
 	<update id="updateAuthkey" parameterType="HashMap">
 		update smember set authkey =#{authkey} where email=#{email}
@@ -60,4 +59,10 @@
 <select id="selectBizMember" parameterType="String" resultType="Biz_memberVO">
 	select * from biz_member where biz_email = #{biz_email}
 </select>
+
+
+<!-- 회원가입 이메일 체크 -->
+<select id="idCheck" parameterType="String" resultType="int">
+	SELECT count(*) FROM smember WHERE email=#{check}
+	</select>
 </mapper>

@@ -6,11 +6,13 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -36,6 +38,18 @@ public class MemberController {
 	public String login_Form() {
 
 		return "member/loginForm";
+	}
+	
+	@RequestMapping(value="/idcheckajax.do",
+			produces="application/json;charset=utf-8")
+	@ResponseBody
+	public  Map<String,Object> idcheck(@RequestBody JSONObject obj) throws Exception{
+		System.out.println(obj.get("check"));
+		String check = (String)obj.get("check");
+		Map<String,Object> map = new HashMap<String, Object>(); 
+		int checkres = memberService.idCheck(check);
+		map.put("checkres",checkres);
+		return map;
 	}
 	
 	@RequestMapping(value = "/kkoLogin.me")

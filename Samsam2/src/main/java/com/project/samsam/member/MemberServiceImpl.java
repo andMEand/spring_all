@@ -49,13 +49,6 @@ public class MemberServiceImpl implements MemberService {
 		int res = memberMapper.userCheck(memberVO);
 		return res;
 	}
-	@Override
-	public MemberVO idCheck(String emailch) {
-		MemberMapper memberMapper =sqlSession.getMapper(MemberMapper.class);
-		MemberVO membercheck = memberMapper.idCheck(emailch);
-		return membercheck;
-
-	}
 
 	@Override
 	public ArrayList<MemberVO> getMemberlist() {
@@ -94,4 +87,10 @@ public class MemberServiceImpl implements MemberService {
 		memberMapper.updateAuthStatus(map);
 	}
 
+	@Override
+	public int idCheck(String check) {
+		MemberMapper memberMapper =sqlSession.getMapper(MemberMapper.class);
+		int checkid = memberMapper.idCheck(check);
+		return checkid;
+	}
 }
