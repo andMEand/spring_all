@@ -43,13 +43,13 @@ public class MemberController {
 	@RequestMapping(value="/idcheckajax.do",
 			produces="application/json;charset=utf-8")
 	@ResponseBody
-	public  Map<String,Object> idcheck(@RequestBody JSONObject obj) throws Exception{
-		System.out.println(obj.get("check"));
-		String check = (String)obj.get("check");
+	public int idcheck(@RequestParam (value="check",required = false)String check) throws Exception{
+		System.out.println("ss"+check);
 		Map<String,Object> map = new HashMap<String, Object>(); 
 		int checkres = memberService.idCheck(check);
-		map.put("checkres",checkres);
-		return map;
+		System.out.println("checkres=" + checkres);
+		return checkres;
+		
 	}
 	
 	@RequestMapping(value = "/kkoLogin.me")

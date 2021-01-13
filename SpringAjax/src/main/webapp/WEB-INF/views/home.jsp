@@ -128,7 +128,7 @@ $(document).ready(function(){  //로딩이 끝나면 함수 호출 /온로드와
 			contentType: 'application/x-www-form-urlencoded;charset=utf-8',
 			dataType:'json', 
 			success:function(retVal){
-				if(retVal.res == "OK"){//데이터 성공일 때 이벤트 작성
+				if(retVal.res == "no"){//데이터 성공일 때 이벤트 작성
 					selectData();
 				}
 				else{

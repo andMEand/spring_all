@@ -17,7 +17,7 @@
 
 
 $(document).ready(function(){
-	$('#emailbtn').on("click", function(){
+	$('#email').keyup( function(){
 		
 		var check = {
 				"check" : $('#email').val(),
@@ -32,22 +32,25 @@ $(document).ready(function(){
 			dataType : 'json',
 
 			success : function(checkres) {
+				//$(".check_email").empty();
+				console.log(checkres)
 				if(checkres == 1){  //이메일 중복
-					$("#labelemail").html("d");
-					$(".same_check").text("중복된 이메일입니다. 다시 확인하세요.")
-					$(".same_check").css("color", "red")
-				$("#email").empty();
-				$("#email").on(focus);
-					return false;
+					alert("AAAAA");
+					//$(".check_email").text("중복된 이메일입니다. 다시 확인하세요.");
+					//$("#email").on(focus);
+				
 				}
-				$(".same_check").text("사용가능한 이메일입니다.")
-				$(".same_check").css("color", "blue")
+				else{
+					alert("BBBBB");
+				//$(".check_email").text("사용가능한 이메일입니다.");
+				//$(".check_email").css("color", "blue");
+				}
 			},//success
 			error : function(){
 				alert("통신실패");
 			}
 		});//ajax
-	})
+	});
 	//
     $('.tel_size').keyup(function () {
       var charLimit = $(this).attr("maxlength");
@@ -73,11 +76,14 @@ function isSame(){
   console.log("pw:"+$('#pw').val()+ "pw2:"+$('#pw2').val())
   if($('#pw').val() !=''&& $('#pw2').val()!=''){
   if($('#pw').val() == $('#pw2').val()){
+	  $(".check_email").text("사용가능한 이메일입니다.")
+  $('#pass').text('사용가능한 이메일입니다.')
   $('#pass').text('비밀번호가 일치합니다.');
   $('#pass').css("color","blue");
   }
   else{
   $('#pass').text('비밀번호가  일치하지 않습니다');
+  $(".check_email").text("사용가능한 이메일입니다.")
   $('#pass').css("color","red");
   }
   }
@@ -173,29 +179,37 @@ function isSame(){
 	<input type="text"name="email" id="email"><span class="highlight"></span>
     <label for="email" class="label-email"id="labelemail"><span class="content-email">Email</span></label>
   </div>
-  <div class ="same_check"></div>
+  <div class ="check_email"></div>
 </div>
+
 <div class="group">
 	<input type="text"name="name" ><span class="highlight"></span><span class="bar"></span>
     <label for="name" class="label-email"><span class="content-email">이름</span></label>
 </div>
 <div class="group">
       <div class="nick">
-	<input type="text"name="nick"><span class="highlight"></span>
-    <label for="nick" class="label-email"><span class="content-email">닉네임</span></label>
-      <button type="button" class="nickbtn" onclick="nickCheck();">중복확인</button>
-</div>
-   <div class ="same_check"></div>
+	<input type="text"name="nick"id="nick"><span class="highlight"></span>
+    <label for="nick" class="label-email"id="labelnick"><span class="content-email">닉네임</span></label>
+     
+		</div>
+   <div class ="check_nick"></div>
   </div>
+  
+  
 <div class="group">
+ <div class="nick">
 	<input type="password" name="pw"><span class="highlight"></span><span class="bar"></span>
-    <label class="pass">password</label>
+    <label for="pw"class="labelpw"><span class="content	-email">password</span></label>
+</div>
+<div class="pass"></div>
 </div>
 <div class="group">
+ <div class="nick">
 	<input type="password" name="pw2"><span class="highlight"></span><span class="bar"></span>
-    <label class="pass">password 확인</label>
+    <label>password 확인</label>
 </div>
-
+<div class="pass"></div>
+</div>
 <div class="group">
 	<input type="text" name="phone" id="phone"><span class="highlight"></span><span class="bar"></span>
     <label>휴대폰 번호</label>

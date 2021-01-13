@@ -91,6 +91,7 @@ public class MemberServiceImpl implements MemberService {
 	public int idCheck(String check) {
 		MemberMapper memberMapper =sqlSession.getMapper(MemberMapper.class);
 		int checkid = memberMapper.idCheck(check);
+		System.out.println("idcheck : " + checkid);
 		return checkid;
 	}
 }
